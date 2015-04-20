@@ -1,0 +1,11 @@
+2015-04-20 1.1.1
+	1.加入PaginationFactory接口以及一个基础实现
+	
+2014-06-21 1.1.0
+	1.迁移到cn.featherfly
+	
+2013-07-26 1.0.2
+	1.ServletUtils加入getParameters和getRequestURI方法
+
+2012-12-23 1.0.1
+	1.扩展名验证策略和文件类型验证策略调整输出文字
