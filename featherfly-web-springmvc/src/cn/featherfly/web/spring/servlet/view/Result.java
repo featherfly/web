@@ -12,7 +12,7 @@ package cn.featherfly.web.spring.servlet.view;
  */
 public class Result {
 
-	private String message = "操作成功";
+	private String message;
 	
 	private Integer status;
 	
