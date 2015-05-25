@@ -4,7 +4,7 @@ package cn.featherfly.web.pagination;
 import javax.servlet.http.HttpServletRequest;
 
 import cn.featherfly.common.lang.AssertIllegalArgument;
-import cn.featherfly.common.lang.StringUtils;
+import cn.featherfly.common.lang.NumberUtils;
 import cn.featherfly.common.structure.page.Pagination;
 import cn.featherfly.common.structure.page.SimplePagination;
 
@@ -24,7 +24,7 @@ public class RequestParameterPaginationFactory implements PaginationFactory{
 	public Pagination create(HttpServletRequest request) {
 		Object p = request.getParameter(pageNumberName);
 		
-		Integer pageNumber = StringUtils.parse(p + "", defaultPageNumber);
+		Integer pageNumber = NumberUtils.parse(p + "", defaultPageNumber);
 		
 		SimplePagination<Object> pagination = new SimplePagination<Object>();
 		
@@ -38,7 +38,7 @@ public class RequestParameterPaginationFactory implements PaginationFactory{
 	private Integer getPageSize(HttpServletRequest request) {
 		if (allowDaynmicPageSize) {
 			Object ps = request.getParameter(pageSizeName);
-			return StringUtils.parse(ps + "", defaultPageSize);
+			return NumberUtils.parse(ps + "", defaultPageSize);
 		}
 		return defaultPageSize;
 	}
