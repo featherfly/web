@@ -1,6 +1,9 @@
 
 package cn.featherfly.web.spring.servlet.view;
 
+import java.util.HashMap;
+import java.util.Map;
+
 
 
 /**
@@ -10,18 +13,22 @@ package cn.featherfly.web.spring.servlet.view;
  * 
  * @author 钟冀
  */
-public class Result {
+public class Result extends HashMap<String, Object>{	
 
-	private String message;
-	
-	private Integer status;
-	
+    private static final long serialVersionUID = 7545518859241057552L;
+    
+    /**
+     */
+    public Result() {
+        setData(new HashMap<String, Object>());
+    }
+    
 	/**
 	 * 返回message
 	 * @return message
 	 */
 	public String getMessage() {
-		return message;
+		return (String) get("message");
 	}
 
 	/**
@@ -29,7 +36,7 @@ public class Result {
 	 * @param message message
 	 */
 	public void setMessage(String message) {
-		this.message = message;
+	    put("message", message);
 	}
 
 	/**
@@ -37,7 +44,7 @@ public class Result {
 	 * @return status
 	 */
 	public Integer getStatus() {
-		return status;
+		return (Integer) get("status");
 	}
 
 	/**
@@ -45,6 +52,44 @@ public class Result {
 	 * @param status status
 	 */
 	public void setStatus(Integer status) {
-		this.status = status;
+	    put("status", status);
 	}
+
+    /**
+     * 返回data
+     * @return data
+     */
+    @SuppressWarnings("unchecked")
+    public Map<String, Object> getData() {
+        return (Map<String, Object>) get("data");
+    }
+
+    /**
+     * 设置data
+     * @param data data
+     */
+    public void setData(Map<String, Object> data) {
+        put("data", data);
+    }
+    
+    /**
+     * 返回data value
+     * @param name name
+     * @return data value
+     */
+    @SuppressWarnings("unchecked")
+    public <T> T getDataValue(String name) {
+        return (T) getData().get(name);
+    }
+    
+    /**
+     * 设置data value
+     * @param name name
+     * @param value value
+     */
+    public void setDataValue(String name, Object value) {
+        getData().put(name, value);
+    }
+	
+	
 }
