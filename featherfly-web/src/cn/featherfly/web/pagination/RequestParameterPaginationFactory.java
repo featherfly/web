@@ -3,6 +3,9 @@ package cn.featherfly.web.pagination;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import cn.featherfly.common.lang.AssertIllegalArgument;
 import cn.featherfly.common.lang.NumberUtils;
 import cn.featherfly.common.structure.page.Pagination;
@@ -16,6 +19,8 @@ import cn.featherfly.common.structure.page.SimplePagination;
  * @author 钟冀
  */
 public class RequestParameterPaginationFactory implements PaginationFactory{
+    
+    protected final Logger logger = LoggerFactory.getLogger(this.getClass());
 
 	/**
 	 * {@inheritDoc}
@@ -38,7 +43,11 @@ public class RequestParameterPaginationFactory implements PaginationFactory{
 	private Integer getPageSize(HttpServletRequest request) {
 		if (allowDaynmicPageSize) {
 			Object ps = request.getParameter(pageSizeName);
-			return NumberUtils.parse(ps + "", defaultPageSize);
+			Integer pageSize = NumberUtils.parse(ps + "", defaultPageSize);
+			if (pageSize > allowMaxPageSize) {
+			    logger.debug("pageSize({}) > allowMaxPageSize({}), set pageSize = allowMaxPageSize");
+			    pageSize = allowMaxPageSize;
+			}
 		}
 		return defaultPageSize;
 	}
@@ -73,6 +82,9 @@ public class RequestParameterPaginationFactory implements PaginationFactory{
 	
 	// 默认显示分页页数的个数
 	private Integer defaultPageNumberSize = 10;
+	
+	// 允许的每页显示最大数
+	private Integer allowMaxPageSize = 10;
 	
 	// 默认显示的页
 	private Integer defaultPageNumber = 1;
@@ -177,4 +189,20 @@ public class RequestParameterPaginationFactory implements PaginationFactory{
 	public void setAllowDaynmicPageSize(boolean allowDaynmicPageSize) {
 		this.allowDaynmicPageSize = allowDaynmicPageSize;
 	}
+
+    /**
+     * 返回allowMaxPageSize
+     * @return allowMaxPageSize
+     */
+    public Integer getAllowMaxPageSize() {
+        return allowMaxPageSize;
+    }
+
+    /**
+     * 设置allowMaxPageSize
+     * @param allowMaxPageSize allowMaxPageSize
+     */
+    public void setAllowMaxPageSize(Integer allowMaxPageSize) {
+        this.allowMaxPageSize = allowMaxPageSize;
+    }
 }
