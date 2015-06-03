@@ -29,14 +29,16 @@ public class ResultJsonView extends ObjectJacksonJsonView{
 	/**
 	 * @param resultObject resultObject
 	 */
-	public <R extends Result> ResultJsonView(R resultObject) {
+	@SuppressWarnings("rawtypes")
+    public <R extends Result> ResultJsonView(R resultObject) {
 		this(resultObject, null);
 	}
 	/**
 	 * @param resultObject resultObject
 	 * @param message message
 	 */
-	public <R extends Result> ResultJsonView(R resultObject, String message) {
+	@SuppressWarnings("rawtypes")
+    public <R extends Result> ResultJsonView(R resultObject, String message) {
 		super(resultObject);
 		this.message = message;
 	}
