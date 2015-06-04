@@ -1,5 +1,9 @@
 package cn.featherfly.web.spring.servlet.view.json;
 
+import java.text.SimpleDateFormat;
+
+import cn.featherfly.common.lang.LangUtils;
+
 import com.fasterxml.jackson.core.JsonGenerator.Feature;
 import com.fasterxml.jackson.databind.MapperFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -32,6 +36,10 @@ public class ObjectMapperConfiguration {
      */
     public void configure(ObjectMapper mapper) {
         if (mapper == null) return;
+        
+        if (LangUtils.isNotEmpty(dateFormat)) {
+            mapper.setDateFormat(new SimpleDateFormat(dateFormat));
+        }    
         
         // SerializationFeature
         mapper.configure(SerializationFeature.WRITE_ENUMS_USING_INDEX, writeEnumsUseingIndex);
@@ -89,6 +97,8 @@ public class ObjectMapperConfiguration {
         mapper.configure(Feature.FLUSH_PASSED_TO_STREAM, flushPassedToStream);
         
     }
+    
+    private String dateFormat = "yyyy-mm-dd HH:mm:ss";
     
     
     // SerializationFeature
@@ -173,7 +183,7 @@ public class ObjectMapperConfiguration {
     private boolean quoteFieldNames = true;
     private boolean quoteNonNumericNumbers = true;
     private boolean flushPassedToStream = true;
-    
+        
     // JsonGenerator.Feature
 
     /**
@@ -963,5 +973,19 @@ public class ObjectMapperConfiguration {
      */
     public void setFlushPassedToStream(boolean flushPassedToStream) {
         this.flushPassedToStream = flushPassedToStream;
+    }
+    /**
+     * 返回dateFormat
+     * @return dateFormat
+     */
+    public String getDateFormat() {
+        return dateFormat;
+    }
+    /**
+     * 设置dateFormat
+     * @param dateFormat dateFormat
+     */
+    public void setDateFormat(String dateFormat) {
+        this.dateFormat = dateFormat;
     }
 }
