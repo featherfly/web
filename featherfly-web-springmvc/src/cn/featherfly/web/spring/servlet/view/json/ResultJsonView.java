@@ -58,9 +58,9 @@ public class ResultJsonView extends ObjectJacksonJsonView{
 		if (LangUtils.isNotEmpty(message)) {
 			result.setMessage(message);
 		}
-		if (LangUtils.isEmpty(result.getMessage())) {
-		    result.setMessage("调用成功");
-		}
+//		if (LangUtils.isEmpty(result.getMessage())) {
+//		    result.setMessage("调用成功");
+//		}
 		return result;
 	}
 	
