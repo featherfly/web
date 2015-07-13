@@ -47,8 +47,9 @@ public class RequestParameterPaginationFactory implements PaginationFactory{
 			if (pageSize > allowMaxPageSize) {
 			    logger.debug("pageSize({}) > allowMaxPageSize({}), set pageSize = allowMaxPageSize");
 			    pageSize = allowMaxPageSize;
+			    return pageSize;
 			}
-		}
+		} 
 		return defaultPageSize;
 	}
 	
