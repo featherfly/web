@@ -28,7 +28,7 @@ ext {
 	compileDependencies =[
 		'org.springframework:spring-web:4.1.6.RELEASE'
 		,'org.springframework:spring-webmvc:4.1.6.RELEASE'
-    	,'cn.featherfly:featherfly-web:1.1.1'
+    	,'cn.featherfly:featherfly-web:latest.integration'
 		]
 	publishRepo = ant.properties['user.home'] + "/.repository/ivy2/gradle_publish"
 }

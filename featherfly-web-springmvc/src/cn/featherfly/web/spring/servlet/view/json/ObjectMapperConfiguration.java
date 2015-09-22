@@ -6,6 +6,7 @@ import cn.featherfly.common.lang.LangUtils;
 
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.core.JsonGenerator.Feature;
+import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.MapperFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
@@ -98,6 +99,28 @@ public class ObjectMapperConfiguration {
         configure(mapper, Feature.QUOTE_FIELD_NAMES, quoteFieldNames);
         configure(mapper, Feature.QUOTE_NON_NUMERIC_NUMBERS, quoteNonNumericNumbers);
         configure(mapper, Feature.FLUSH_PASSED_TO_STREAM, flushPassedToStream);
+        
+        configure(mapper, DeserializationFeature.ACCEPT_EMPTY_ARRAY_AS_NULL_OBJECT, acceptEmptyArrayAsNullObject);
+        configure(mapper, DeserializationFeature.ACCEPT_EMPTY_STRING_AS_NULL_OBJECT, acceptEmptyStringAsNullObject);
+        configure(mapper, DeserializationFeature.ACCEPT_SINGLE_VALUE_AS_ARRAY, acceptSingleValueAsArray);
+        configure(mapper, DeserializationFeature.ADJUST_DATES_TO_CONTEXT_TIME_ZONE, adjustDatesToContextTimeZone);
+        configure(mapper, DeserializationFeature.EAGER_DESERIALIZER_FETCH, eagerDeserializerFetch);
+        configure(mapper, DeserializationFeature.FAIL_ON_IGNORED_PROPERTIES, failOnIgnoredProperties);
+        configure(mapper, DeserializationFeature.FAIL_ON_INVALID_SUBTYPE, failOnInvalidSubtype);
+        configure(mapper, DeserializationFeature.FAIL_ON_NULL_FOR_PRIMITIVES, failOnNullForPrimitives);
+        configure(mapper, DeserializationFeature.FAIL_ON_NUMBERS_FOR_ENUMS, failOnNumbersForEnums);
+        configure(mapper, DeserializationFeature.FAIL_ON_READING_DUP_TREE_KEY, failOnReadingDupTreeKey);
+        configure(mapper, DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, failOnUnknownProperties);
+        configure(mapper, DeserializationFeature.FAIL_ON_UNRESOLVED_OBJECT_IDS, failOnUnresolvedObjectIds);
+        configure(mapper, DeserializationFeature.READ_DATE_TIMESTAMPS_AS_NANOSECONDS, readDateTimestampsAsNanoseconds);
+        configure(mapper, DeserializationFeature.READ_ENUMS_USING_TO_STRING, readEnumsUsingToString);
+        configure(mapper, DeserializationFeature.READ_UNKNOWN_ENUM_VALUES_AS_NULL, readUnknownEnumValuesAsNull);
+        configure(mapper, DeserializationFeature.UNWRAP_ROOT_VALUE, unwrapRootValue);
+        configure(mapper, DeserializationFeature.UNWRAP_SINGLE_VALUE_ARRAYS, unwrapSingleValueArrays);
+        configure(mapper, DeserializationFeature.USE_BIG_DECIMAL_FOR_FLOATS, useBigDecimalForFloats);
+        configure(mapper, DeserializationFeature.USE_BIG_INTEGER_FOR_INTS, useBigIntegerForInts);
+        configure(mapper, DeserializationFeature.USE_JAVA_ARRAY_FOR_JSON_ARRAY, userJavaArrayForJsonArray);
+        configure(mapper, DeserializationFeature.WRAP_EXCEPTIONS, wrapExceptions);
     }
     
     private void configure(ObjectMapper mapper, SerializationFeature feature, Boolean state) {
@@ -107,6 +130,9 @@ public class ObjectMapperConfiguration {
         if (state != null) mapper.configure(feature, state);
     }
     private void configure(ObjectMapper mapper, Feature feature, Boolean state) {
+        if (state != null) mapper.configure(feature, state);
+    }
+    private void configure(ObjectMapper mapper, DeserializationFeature feature, Boolean state) {
         if (state != null) mapper.configure(feature, state);
     }
     
@@ -198,6 +224,32 @@ public class ObjectMapperConfiguration {
     private Boolean flushPassedToStream/* = true*/;
     
     // JsonGenerator.Feature
+    
+    // DeserializationFeature
+    
+    private Boolean acceptEmptyArrayAsNullObject;
+    private Boolean acceptEmptyStringAsNullObject;
+    private Boolean acceptSingleValueAsArray;
+    private Boolean adjustDatesToContextTimeZone;
+    private Boolean eagerDeserializerFetch;
+    private Boolean failOnIgnoredProperties;
+    private Boolean failOnInvalidSubtype;
+    private Boolean failOnNullForPrimitives;
+    private Boolean failOnNumbersForEnums;
+    private Boolean failOnReadingDupTreeKey;
+    private Boolean failOnUnknownProperties;
+    private Boolean failOnUnresolvedObjectIds;
+    private Boolean readDateTimestampsAsNanoseconds;
+    private Boolean readEnumsUsingToString;
+    private Boolean readUnknownEnumValuesAsNull;
+    private Boolean unwrapRootValue;
+    private Boolean unwrapSingleValueArrays;
+    private Boolean useBigDecimalForFloats;
+    private Boolean useBigIntegerForInts;
+    private Boolean userJavaArrayForJsonArray;
+    
+    //DeserializationFeature
+    
     
     /**
      * 返回dateFormat
@@ -919,5 +971,290 @@ public class ObjectMapperConfiguration {
      */
     public void setInclude(Include include) {
         this.include = include;
+    }
+    /**
+     * 返回acceptEmptyArrayAsNullObject
+     * @return acceptEmptyArrayAsNullObject
+     */
+    public Boolean getAcceptEmptyArrayAsNullObject() {
+        return acceptEmptyArrayAsNullObject;
+    }
+    /**
+     * 设置acceptEmptyArrayAsNullObject
+     * @param acceptEmptyArrayAsNullObject acceptEmptyArrayAsNullObject
+     */
+    public void setAcceptEmptyArrayAsNullObject(
+            Boolean acceptEmptyArrayAsNullObject) {
+        this.acceptEmptyArrayAsNullObject = acceptEmptyArrayAsNullObject;
+    }
+    /**
+     * 返回acceptEmptyStringAsNullObject
+     * @return acceptEmptyStringAsNullObject
+     */
+    public Boolean getAcceptEmptyStringAsNullObject() {
+        return acceptEmptyStringAsNullObject;
+    }
+    /**
+     * 设置acceptEmptyStringAsNullObject
+     * @param acceptEmptyStringAsNullObject acceptEmptyStringAsNullObject
+     */
+    public void setAcceptEmptyStringAsNullObject(
+            Boolean acceptEmptyStringAsNullObject) {
+        this.acceptEmptyStringAsNullObject = acceptEmptyStringAsNullObject;
+    }
+    /**
+     * 返回acceptSingleValueAsArray
+     * @return acceptSingleValueAsArray
+     */
+    public Boolean getAcceptSingleValueAsArray() {
+        return acceptSingleValueAsArray;
+    }
+    /**
+     * 设置acceptSingleValueAsArray
+     * @param acceptSingleValueAsArray acceptSingleValueAsArray
+     */
+    public void setAcceptSingleValueAsArray(Boolean acceptSingleValueAsArray) {
+        this.acceptSingleValueAsArray = acceptSingleValueAsArray;
+    }
+    /**
+     * 返回adjustDatesToContextTimeZone
+     * @return adjustDatesToContextTimeZone
+     */
+    public Boolean getAdjustDatesToContextTimeZone() {
+        return adjustDatesToContextTimeZone;
+    }
+    /**
+     * 设置adjustDatesToContextTimeZone
+     * @param adjustDatesToContextTimeZone adjustDatesToContextTimeZone
+     */
+    public void setAdjustDatesToContextTimeZone(
+            Boolean adjustDatesToContextTimeZone) {
+        this.adjustDatesToContextTimeZone = adjustDatesToContextTimeZone;
+    }
+    /**
+     * 返回eagerDeserializerFetch
+     * @return eagerDeserializerFetch
+     */
+    public Boolean getEagerDeserializerFetch() {
+        return eagerDeserializerFetch;
+    }
+    /**
+     * 设置eagerDeserializerFetch
+     * @param eagerDeserializerFetch eagerDeserializerFetch
+     */
+    public void setEagerDeserializerFetch(Boolean eagerDeserializerFetch) {
+        this.eagerDeserializerFetch = eagerDeserializerFetch;
+    }
+    /**
+     * 返回failOnIgnoredProperties
+     * @return failOnIgnoredProperties
+     */
+    public Boolean getFailOnIgnoredProperties() {
+        return failOnIgnoredProperties;
+    }
+    /**
+     * 设置failOnIgnoredProperties
+     * @param failOnIgnoredProperties failOnIgnoredProperties
+     */
+    public void setFailOnIgnoredProperties(Boolean failOnIgnoredProperties) {
+        this.failOnIgnoredProperties = failOnIgnoredProperties;
+    }
+    /**
+     * 返回failOnInvalidSubtype
+     * @return failOnInvalidSubtype
+     */
+    public Boolean getFailOnInvalidSubtype() {
+        return failOnInvalidSubtype;
+    }
+    /**
+     * 设置failOnInvalidSubtype
+     * @param failOnInvalidSubtype failOnInvalidSubtype
+     */
+    public void setFailOnInvalidSubtype(Boolean failOnInvalidSubtype) {
+        this.failOnInvalidSubtype = failOnInvalidSubtype;
+    }
+    /**
+     * 返回failOnNullForPrimitives
+     * @return failOnNullForPrimitives
+     */
+    public Boolean getFailOnNullForPrimitives() {
+        return failOnNullForPrimitives;
+    }
+    /**
+     * 设置failOnNullForPrimitives
+     * @param failOnNullForPrimitives failOnNullForPrimitives
+     */
+    public void setFailOnNullForPrimitives(Boolean failOnNullForPrimitives) {
+        this.failOnNullForPrimitives = failOnNullForPrimitives;
+    }
+    /**
+     * 返回failOnNumbersForEnums
+     * @return failOnNumbersForEnums
+     */
+    public Boolean getFailOnNumbersForEnums() {
+        return failOnNumbersForEnums;
+    }
+    /**
+     * 设置failOnNumbersForEnums
+     * @param failOnNumbersForEnums failOnNumbersForEnums
+     */
+    public void setFailOnNumbersForEnums(Boolean failOnNumbersForEnums) {
+        this.failOnNumbersForEnums = failOnNumbersForEnums;
+    }
+    /**
+     * 返回failOnReadingDupTreeKey
+     * @return failOnReadingDupTreeKey
+     */
+    public Boolean getFailOnReadingDupTreeKey() {
+        return failOnReadingDupTreeKey;
+    }
+    /**
+     * 设置failOnReadingDupTreeKey
+     * @param failOnReadingDupTreeKey failOnReadingDupTreeKey
+     */
+    public void setFailOnReadingDupTreeKey(Boolean failOnReadingDupTreeKey) {
+        this.failOnReadingDupTreeKey = failOnReadingDupTreeKey;
+    }
+    /**
+     * 返回failOnUnknownProperties
+     * @return failOnUnknownProperties
+     */
+    public Boolean getFailOnUnknownProperties() {
+        return failOnUnknownProperties;
+    }
+    /**
+     * 设置failOnUnknownProperties
+     * @param failOnUnknownProperties failOnUnknownProperties
+     */
+    public void setFailOnUnknownProperties(Boolean failOnUnknownProperties) {
+        this.failOnUnknownProperties = failOnUnknownProperties;
+    }
+    /**
+     * 返回failOnUnresolvedObjectIds
+     * @return failOnUnresolvedObjectIds
+     */
+    public Boolean getFailOnUnresolvedObjectIds() {
+        return failOnUnresolvedObjectIds;
+    }
+    /**
+     * 设置failOnUnresolvedObjectIds
+     * @param failOnUnresolvedObjectIds failOnUnresolvedObjectIds
+     */
+    public void setFailOnUnresolvedObjectIds(Boolean failOnUnresolvedObjectIds) {
+        this.failOnUnresolvedObjectIds = failOnUnresolvedObjectIds;
+    }
+    /**
+     * 返回readDateTimestampsAsNanoseconds
+     * @return readDateTimestampsAsNanoseconds
+     */
+    public Boolean getReadDateTimestampsAsNanoseconds() {
+        return readDateTimestampsAsNanoseconds;
+    }
+    /**
+     * 设置readDateTimestampsAsNanoseconds
+     * @param readDateTimestampsAsNanoseconds readDateTimestampsAsNanoseconds
+     */
+    public void setReadDateTimestampsAsNanoseconds(
+            Boolean readDateTimestampsAsNanoseconds) {
+        this.readDateTimestampsAsNanoseconds = readDateTimestampsAsNanoseconds;
+    }
+    /**
+     * 返回readEnumsUsingToString
+     * @return readEnumsUsingToString
+     */
+    public Boolean getReadEnumsUsingToString() {
+        return readEnumsUsingToString;
+    }
+    /**
+     * 设置readEnumsUsingToString
+     * @param readEnumsUsingToString readEnumsUsingToString
+     */
+    public void setReadEnumsUsingToString(Boolean readEnumsUsingToString) {
+        this.readEnumsUsingToString = readEnumsUsingToString;
+    }
+    /**
+     * 返回readUnknownEnumValuesAsNull
+     * @return readUnknownEnumValuesAsNull
+     */
+    public Boolean getReadUnknownEnumValuesAsNull() {
+        return readUnknownEnumValuesAsNull;
+    }
+    /**
+     * 设置readUnknownEnumValuesAsNull
+     * @param readUnknownEnumValuesAsNull readUnknownEnumValuesAsNull
+     */
+    public void setReadUnknownEnumValuesAsNull(
+            Boolean readUnknownEnumValuesAsNull) {
+        this.readUnknownEnumValuesAsNull = readUnknownEnumValuesAsNull;
+    }
+    /**
+     * 返回unwrapRootValue
+     * @return unwrapRootValue
+     */
+    public Boolean getUnwrapRootValue() {
+        return unwrapRootValue;
+    }
+    /**
+     * 设置unwrapRootValue
+     * @param unwrapRootValue unwrapRootValue
+     */
+    public void setUnwrapRootValue(Boolean unwrapRootValue) {
+        this.unwrapRootValue = unwrapRootValue;
+    }
+    /**
+     * 返回unwrapSingleValueArrays
+     * @return unwrapSingleValueArrays
+     */
+    public Boolean getUnwrapSingleValueArrays() {
+        return unwrapSingleValueArrays;
+    }
+    /**
+     * 设置unwrapSingleValueArrays
+     * @param unwrapSingleValueArrays unwrapSingleValueArrays
+     */
+    public void setUnwrapSingleValueArrays(Boolean unwrapSingleValueArrays) {
+        this.unwrapSingleValueArrays = unwrapSingleValueArrays;
+    }
+    /**
+     * 返回useBigDecimalForFloats
+     * @return useBigDecimalForFloats
+     */
+    public Boolean getUseBigDecimalForFloats() {
+        return useBigDecimalForFloats;
+    }
+    /**
+     * 设置useBigDecimalForFloats
+     * @param useBigDecimalForFloats useBigDecimalForFloats
+     */
+    public void setUseBigDecimalForFloats(Boolean useBigDecimalForFloats) {
+        this.useBigDecimalForFloats = useBigDecimalForFloats;
+    }
+    /**
+     * 返回useBigIntegerForInts
+     * @return useBigIntegerForInts
+     */
+    public Boolean getUseBigIntegerForInts() {
+        return useBigIntegerForInts;
+    }
+    /**
+     * 设置useBigIntegerForInts
+     * @param useBigIntegerForInts useBigIntegerForInts
+     */
+    public void setUseBigIntegerForInts(Boolean useBigIntegerForInts) {
+        this.useBigIntegerForInts = useBigIntegerForInts;
+    }
+    /**
+     * 返回userJavaArrayForJsonArray
+     * @return userJavaArrayForJsonArray
+     */
+    public Boolean getUserJavaArrayForJsonArray() {
+        return userJavaArrayForJsonArray;
+    }
+    /**
+     * 设置userJavaArrayForJsonArray
+     * @param userJavaArrayForJsonArray userJavaArrayForJsonArray
+     */
+    public void setUserJavaArrayForJsonArray(Boolean userJavaArrayForJsonArray) {
+        this.userJavaArrayForJsonArray = userJavaArrayForJsonArray;
     }
 }
