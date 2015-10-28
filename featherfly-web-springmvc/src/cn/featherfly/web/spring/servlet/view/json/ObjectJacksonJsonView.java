@@ -18,6 +18,9 @@ package cn.featherfly.web.spring.servlet.view.json;
 
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 import org.springframework.web.servlet.view.json.MappingJackson2JsonView;
 
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
@@ -72,8 +75,38 @@ public class ObjectJacksonJsonView extends MappingJackson2JsonView {
 	public void setResult(Object result) {
 		this.result = result;
 	}
+	
+	@Override
+    protected void prepareResponse(HttpServletRequest request, HttpServletResponse response) {
+        setResponseContentType(request, response);        
+        response.setCharacterEncoding(this.getEncoding().getJavaName());        
+        if (cacheExpires > 0) {
+            response.addHeader("Cache-Control", "max-age=" + cacheExpires);
+        } else {
+            response.addHeader("Pragma", "no-cache");
+            response.addHeader("Cache-Control", "no-cache, no-store, max-age=0");
+            response.addDateHeader("Expires", 1L);
+        }
+    }
 
 
 	private Object result;
+	
+	private int cacheExpires = -1;
 
+    /**
+     * 返回cacheExpires
+     * @return cacheExpires
+     */
+    public int getCacheExpires() {
+        return cacheExpires;
+    }
+
+    /**
+     * 设置cacheExpires
+     * @param cacheExpires cacheExpires
+     */
+    public void setCacheExpires(int cacheExpires) {
+        this.cacheExpires = cacheExpires;
+    }    
 }

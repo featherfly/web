@@ -16,6 +16,8 @@ public class Result<D> {
     private D data;
 
     private String message;
+    
+    private String code;
 
     private Integer status = 1;
     
@@ -71,4 +73,20 @@ public class Result<D> {
     public void setData(D data) {
         this.data = data;
     }
+
+    /**
+     * 返回code
+     * @return code
+     */
+    public String getCode() {
+        return code;
+    }
+
+    /**
+     * 设置code
+     * @param code code
+     */
+    public void setCode(String code) {
+        this.code = code;
+    }   
 }
