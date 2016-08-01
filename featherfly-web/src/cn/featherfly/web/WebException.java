@@ -3,7 +3,7 @@ package cn.featherfly.web;
 
 import java.util.Locale;
 
-import cn.featherfly.common.exception.StandardResourceBundleException;
+import cn.featherfly.common.exception.LocalizedException;
 
 /**
  * <p>
@@ -12,7 +12,7 @@ import cn.featherfly.common.exception.StandardResourceBundleException;
  * 
  * @author 钟冀
  */
-public class WebException extends StandardResourceBundleException{
+public class WebException extends LocalizedException{
 
 	private static final long serialVersionUID = -1361906263491038987L;
 

@@ -47,8 +47,8 @@ public class RequestParameterPaginationFactory implements PaginationFactory{
 			if (pageSize > allowMaxPageSize) {
 			    logger.debug("pageSize({}) > allowMaxPageSize({}), set pageSize = allowMaxPageSize");
 			    pageSize = allowMaxPageSize;
-			    return pageSize;
 			}
+			return pageSize;
 		} 
 		return defaultPageSize;
 	}
@@ -84,11 +84,11 @@ public class RequestParameterPaginationFactory implements PaginationFactory{
 	// 默认显示分页页数的个数
 	private Integer defaultPageNumberSize = 10;
 	
+	// 默认显示的页
+    private Integer defaultPageNumber = 1;
+	
 	// 允许的每页显示最大数
 	private Integer allowMaxPageSize = 10;
-	
-	// 默认显示的页
-	private Integer defaultPageNumber = 1;
 
 	/**
 	 * 返回pageSizeName
