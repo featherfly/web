@@ -28,7 +28,6 @@ import com.fasterxml.jackson.annotation.JsonInclude.Include;
 /**
  * <p>
  * ObjectJacksonJsonView
- * 类的说明放这里
  * </p>
  * 
  * @author 钟冀

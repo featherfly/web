@@ -16,8 +16,7 @@ import cn.featherfly.web.pagination.PaginationFactory;
 
 /**
  * <p>
- * T
- * 类的说明放这里
+ * 分页参数
  * </p>
  * 
  * @author 钟冀

@@ -25,11 +25,17 @@ sourceSets {
 }
 
 ext {
-	compileDependencies =[
-		'org.springframework:spring-web:4.2.5.RELEASE'
-		,'org.springframework:spring-webmvc:4.2.5.RELEASE'		
+	compileDependencies =[        
+		'org.springframework:spring-web:4.3.2.RELEASE'    
+        ,'org.springframework:spring-webmvc:4.3.2.RELEASE'
     	,'cn.featherfly:featherfly-web:1.1.4'
 //    	,'cn.featherfly:featherfly-web:latest.integration'
+        ,'net.sf.jxls:jxls-core:1.0.6'
+        ,'net.sf.jxls:jxls-reader:1.0.6'
+//    	,'org.jxls:jxls:2.3.0'
+//        ,'org.jxls:jxls-reader:2.0.2'
+//        ,'org.jxls:jxls-poi:1.0.11'
+        ,'org.apache.poi:poi-ooxml:3.14'
 		]
 	publishRepo = ant.properties['user.home'] + "/.repository/ivy2/gradle_publish"
 }
