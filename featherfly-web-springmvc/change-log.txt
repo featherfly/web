@@ -1,0 +1,5 @@
+FIXME 日志目前有问题，打印信息没有获取调用类，而是使用代理类
+
+2016-11-18
+0.3.1
+修复StringToDateConverterFactory没有设置默认值的问题

@@ -15,11 +15,15 @@ import cn.featherfly.common.lang.LangUtils;
 
 public final class StringToDateConverterFactory implements ConverterFactory<String, Date> {
     
-    private static final Logger LOG = LoggerFactory.getLogger(StringToDateConverterFactory.class); 
+    private static final Logger LOG = LoggerFactory.getLogger(StringToDateConverterFactory.class);
     
-    private String[] patterns = new String[] {"yyyy-MM-dd", "yyyy-MM-dd HH:mm:ss", "yyyy-MM-dd HH:mm"};
+    private String[] patterns = new String[] {"yyyy-MM-dd HH:mm:ss", "yyyy-MM-dd HH:mm", "yyyy-MM-dd HH", "yyyy-MM-dd"};
     
     private List<DateFormat> dateFormats = new ArrayList<DateFormat>();
+
+    public StringToDateConverterFactory() {
+        setPatterns(patterns);
+    }
 
     /**
      * {@inheritDoc}
