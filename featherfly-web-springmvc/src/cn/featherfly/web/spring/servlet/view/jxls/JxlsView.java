@@ -1,26 +1,24 @@
 
 package cn.featherfly.web.spring.servlet.view.jxls;
 
+import java.io.InputStream;
+import java.util.Map;
+
+import javax.servlet.ServletContext;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import org.apache.commons.io.IOUtils;
+import org.apache.poi.ss.usermodel.Workbook;
+import org.jxls.transform.Transformer;
+import org.jxls.util.TransformerFactory;
+import org.springframework.web.servlet.view.document.AbstractXlsxView;
+
 import cn.featherfly.common.exception.AssertStandardSys;
 import cn.featherfly.common.exception.StandardSysException;
 import cn.featherfly.common.lang.ClassLoaderUtils;
 import cn.featherfly.common.lang.StringUtils;
 import cn.featherfly.web.servlet.ServletUtils;
-import net.sf.jxls.parser.Cell;
-import net.sf.jxls.processor.CellProcessor;
-import net.sf.jxls.processor.RowProcessor;
-import net.sf.jxls.transformer.Row;
-import net.sf.jxls.transformer.XLSTransformer;
-import org.apache.commons.io.IOUtils;
-import org.apache.poi.ss.usermodel.CellStyle;
-import org.apache.poi.ss.usermodel.Workbook;
-import org.springframework.web.servlet.view.document.AbstractXlsxView;
-
-import javax.servlet.ServletContext;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import java.io.InputStream;
-import java.util.Map;
 
 /**
  * <p>
@@ -50,28 +48,26 @@ public class JxlsView extends AbstractXlsxView{
         InputStream in = null;
         try {
             in = getTemplate(path, name, request.getServletContext());
-            XLSTransformer transformer = new XLSTransformer();
-            if (autoHeight) {
-                transformer.registerCellProcessor(new CellProcessor() {
-                    @SuppressWarnings("rawtypes")
-                    @Override
-                    public void processCell(Cell cell, Map namedCells) {
-                        CellStyle cellStyle = cell.getPoiCell().getCellStyle();
-                        cellStyle.setWrapText(true);
-                    }
-                });
-                transformer.registerRowProcessor(new RowProcessor() {
-                    @SuppressWarnings("rawtypes")
-                    @Override
-                    public void processRow(Row row, Map namedCells) {
-                        short h = -1;
-                        row.getPoiRow().setHeight(h);
-                    }
-                });
-            }
-            workbook = transformer.transformXLS(in, model);
-            workbook.write(response.getOutputStream());
-            response.getOutputStream().flush();
+            Transformer transformer = TransformerFactory.createTransformer(in, response.getOutputStream());            
+//            if (autoHeight) {
+//                transformer.registerCellProcessor(new CellProcessor() {
+//                    @SuppressWarnings("rawtypes")
+//                    @Override
+//                    public void processCell(Cell cell, Map namedCells) {
+//                        CellStyle cellStyle = cell.getPoiCell().getCellStyle();
+//                        cellStyle.setWrapText(true);
+//                    }
+//                });
+//                transformer.registerRowProcessor(new RowProcessor() {
+//                    @SuppressWarnings("rawtypes")
+//                    @Override
+//                    public void processRow(Row row, Map namedCells) {
+//                        short h = -1;
+//                        row.getPoiRow().setHeight(h);
+//                    }
+//                });
+//            }
+            transformer.write();
         } catch (Exception e) {
             throw new StandardSysException(e);
         } finally {
