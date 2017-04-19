@@ -105,7 +105,7 @@ public abstract class AttachHttpMessageConverter extends AbstractGenericHttpMess
 
     protected String getFileName(HttpServletRequest request) {
         if (request == null) {
-            return System.currentTimeMillis() + "" + extNames[0];
+            return System.currentTimeMillis() + "." + extNames[0];
         }
 
         String fileName = null;
