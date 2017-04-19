@@ -4,13 +4,13 @@ apply from: './java_base.gradle'
 apply from: './maven_push.gradle'
 
 repositories {
-    mavenCentral()
-    maven {
-		url  "http://maven.aliyun.com/nexus/content/groups/public/"
-	}
 	maven {
 		url  ant.properties['user.home'] +  "/.m2/repository"
 	}
+    maven {
+		url  "http://maven.aliyun.com/nexus/content/groups/public/"
+	}
+    mavenCentral()
 }
 
 sourceSets {
@@ -29,11 +29,11 @@ dependencies {
         ,'org.springframework:spring-webmvc:4.3.7.RELEASE'
     	,'cn.featherfly:featherfly-web:1.1.4'
     	,'cn.featherfly:featherfly-conversion-jdk8:1.0.0'
-        ,'net.sf.jxls:jxls:2.4.0'
+    	,'cn.featherfly:featherfly-data-office:0.1.1'
+        ,'org.jxls:jxls:2.4.0'
         ,'org.jxls:jxls-poi:1.0.12'        
         )
-	compile group: 'io.swagger', name: 'swagger-annotations', version: '1.5.13'
-	
+
     testCompile (
     	'org.testng:testng:6.8.8'
     )

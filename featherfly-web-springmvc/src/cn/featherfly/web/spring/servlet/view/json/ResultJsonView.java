@@ -48,7 +48,8 @@ public class ResultJsonView extends ObjectJacksonJsonView{
 	 * @param model the model, as passed on to {@link #renderMergedOutputModel}
 	 * @return the value to be rendered -> resultObject
 	 */
-	@Override
+	@SuppressWarnings("rawtypes")
+    @Override
 	protected Object filterModel(Map<String, Object> model) {	
 		Result result = (Result) getResult();
 		if (result == null) {

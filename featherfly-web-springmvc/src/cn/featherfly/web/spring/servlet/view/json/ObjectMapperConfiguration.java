@@ -2,14 +2,14 @@ package cn.featherfly.web.spring.servlet.view.json;
 
 import java.text.SimpleDateFormat;
 
-import cn.featherfly.common.lang.LangUtils;
-
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.core.JsonGenerator.Feature;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.MapperFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
+
+import cn.featherfly.common.lang.LangUtils;
 
 /**
  * <p>
