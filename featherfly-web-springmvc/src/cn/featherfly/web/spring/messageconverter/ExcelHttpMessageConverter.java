@@ -52,13 +52,12 @@ public class ExcelHttpMessageConverter extends AttachHttpMessageConverter {
         Object data = getDataFromResult(result, request);
         if (data != null) {
             Collection<Object> datas;
-            if (result instanceof Collection) {
-                datas = (Collection<Object>) result;
+            if (data instanceof Collection) {
+                datas = (Collection<Object>) data;
             } else {
                 datas = new ArrayList<>();
-                datas.add(result);
+                datas.add(data);
             }
-            
             try (XSSFWorkbook workbook = new XSSFWorkbook()) {
                 @SuppressWarnings("rawtypes")
                 ExcelDataSource source = new ExcelDataSource(workbook, mapper);
