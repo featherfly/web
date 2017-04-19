@@ -52,7 +52,7 @@ public class ObjectJacksonJsonView extends MappingJackson2JsonView {
 	/**
 	 * return result
 	 * @param model the model, as passed on to {@link #renderMergedOutputModel}
-	 * @return the value to be rendered -> resultObject
+	 * @return the value to be rendered -&gt; resultObject
 	 */
 	@Override
 	protected Object filterModel(Map<String, Object> model) {
