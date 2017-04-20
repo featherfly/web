@@ -14,11 +14,11 @@ import org.springframework.core.convert.converter.ConverterFactory;
 import cn.featherfly.common.lang.LangUtils;
 
 public final class StringToDateConverterFactory implements ConverterFactory<String, Date> {
-    
+
     private static final Logger LOG = LoggerFactory.getLogger(StringToDateConverterFactory.class);
-    
+
     private String[] patterns = new String[] {"yyyy-MM-dd HH:mm:ss", "yyyy-MM-dd HH:mm", "yyyy-MM-dd HH", "yyyy-MM-dd"};
-    
+
     private List<DateFormat> dateFormats = new ArrayList<DateFormat>();
 
     public StringToDateConverterFactory() {
@@ -29,15 +29,14 @@ public final class StringToDateConverterFactory implements ConverterFactory<Stri
      * {@inheritDoc}
      */
     @Override
-    public <T extends Date> Converter<String, T> getConverter(
-            Class<T> targetType) {
+    public <T extends Date> Converter<String, T> getConverter(Class<T> targetType) {
         return new StringToDate<>(dateFormats);
     }
-    
+
     private class StringToDate<T extends Date> implements Converter<String, T> {
-        
+
         private List<DateFormat> dateFormats;
-        
+
         public StringToDate(List<DateFormat> dateFormats) {
             this.dateFormats = dateFormats;
         }
@@ -63,6 +62,7 @@ public final class StringToDateConverterFactory implements ConverterFactory<Stri
 
     /**
      * 返回patterns
+     * 
      * @return patterns
      */
     public String[] getPatterns() {
@@ -71,7 +71,9 @@ public final class StringToDateConverterFactory implements ConverterFactory<Stri
 
     /**
      * 设置patterns
-     * @param patterns patterns
+     * 
+     * @param patterns
+     *            patterns
      */
     public void setPatterns(String[] patterns) {
         this.patterns = patterns;

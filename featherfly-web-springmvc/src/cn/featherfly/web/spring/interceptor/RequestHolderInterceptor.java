@@ -7,26 +7,29 @@ import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
 
 public class RequestHolderInterceptor implements HandlerInterceptor {
-	
-	private static final ThreadLocal<HttpServletRequest> holder = new ThreadLocal<HttpServletRequest>();
-	
+
+    private static final ThreadLocal<HttpServletRequest> holder = new ThreadLocal<HttpServletRequest>();
+
     @Override
-    public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
-    	holder.set(request);
+    public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
+            throws Exception {
+        holder.set(request);
         return true;
     }
 
     @Override
-    public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler, ModelAndView modelAndView) throws Exception {
+    public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler,
+            ModelAndView modelAndView) throws Exception {
 
     }
 
     @Override
-    public void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex) throws Exception {
+    public void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex)
+            throws Exception {
 
     }
-    
+
     public static HttpServletRequest getHttpServletRequest() {
-        return holder.get(); 
+        return holder.get();
     }
 }

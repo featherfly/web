@@ -1,3 +1,8 @@
+2017-04-20
+0.3.4
+	1. AttachHttpMessageConverter加入URI路径找不到使用文件名（即最后的路径）再寻找逻辑
+	2. PaginationHandlerMethodArgumentResolver加入忽略分页类型
+	
 2017-04-18
 0.3.3
 	1. 修复ExcelHttpMessageConverter设置默认文件名出错的问题

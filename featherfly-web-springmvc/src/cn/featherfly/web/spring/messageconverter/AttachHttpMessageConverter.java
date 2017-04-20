@@ -45,7 +45,11 @@ public abstract class AttachHttpMessageConverter extends AbstractGenericHttpMess
     protected boolean allowResolverPath;
 
     protected String resolverPathKey = "resolverPath";
-
+    
+    protected boolean allowIgnorePagination;
+    
+    protected String ignorePaginationKey = "ignorePagination";
+    
     /**
      * {@inheritDoc}
      */
@@ -99,6 +103,11 @@ public abstract class AttachHttpMessageConverter extends AbstractGenericHttpMess
         }
         logger.debug("TemplatePath -> {}", templatePath);
         InputStream is = ClassLoaderUtils.getResourceAsStream(templatePath, this.getClass());
+        if (is == null) {
+            String fileName = StringUtils.substringAfterLast(templatePath, "/");
+            logger.debug("未找到路径{}对应的模板，使用{}再查找", templatePath, fileName);
+            is = ClassLoaderUtils.getResourceAsStream(fileName, this.getClass());
+        }
         AssertStandardSys.isNotNull(is, "未找到[" + templatePath + "]对应的模板");
         return is;
     }
@@ -307,4 +316,35 @@ public abstract class AttachHttpMessageConverter extends AbstractGenericHttpMess
         this.allowNameAsLastUri = allowNameAsLastUri;
     }
 
+    /**
+     * 返回allowIgnorePagination
+     * @return allowIgnorePagination
+     */
+    public boolean isAllowIgnorePagination() {
+        return allowIgnorePagination;
+    }
+
+    /**
+     * 设置allowIgnorePagination
+     * @param allowIgnorePagination allowIgnorePagination
+     */
+    public void setAllowIgnorePagination(boolean allowIgnorePagination) {
+        this.allowIgnorePagination = allowIgnorePagination;
+    }
+
+    /**
+     * 返回ignorePaginationKey
+     * @return ignorePaginationKey
+     */
+    public String getIgnorePaginationKey() {
+        return ignorePaginationKey;
+    }
+
+    /**
+     * 设置ignorePaginationKey
+     * @param ignorePaginationKey ignorePaginationKey
+     */
+    public void setIgnorePaginationKey(String ignorePaginationKey) {
+        this.ignorePaginationKey = ignorePaginationKey;
+    }
 }
