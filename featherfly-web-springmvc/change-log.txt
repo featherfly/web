@@ -1,3 +1,7 @@
+2017-04-27
+0.3.5
+	1. 加入HttpCacheInterceptor和HttpCache
+	
 2017-04-20
 0.3.4
 	1. AttachHttpMessageConverter加入URI路径找不到使用文件名（即最后的路径）再寻找逻辑
