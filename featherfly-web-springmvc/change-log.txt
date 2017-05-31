@@ -1,3 +1,7 @@
+2017-05-31
+0.3.6
+	1. PaginationHandlerMethodArgumentResolver加入setContentNegotiationManager
+	
 2017-04-27
 0.3.5
 	1. 加入HttpCacheInterceptor和HttpCache

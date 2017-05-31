@@ -114,4 +114,15 @@ public class PaginationHandlerMethodArgumentResolver implements HandlerMethodArg
         }
     }
 
+    /**
+     * 设置contentNegotiationManager
+     * @param contentNegotiationManager contentNegotiationManager
+     */
+    public void setContentNegotiationManager(ContentNegotiationManager contentNegotiationManager) {
+        this.contentNegotiationManager = contentNegotiationManager;
+    }
+    
+    
+
+    
 }
