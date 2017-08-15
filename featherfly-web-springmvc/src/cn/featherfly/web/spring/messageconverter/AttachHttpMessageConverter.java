@@ -18,6 +18,7 @@ import org.springframework.http.converter.HttpMessageNotReadableException;
 import cn.featherfly.common.bean.BeanUtils;
 import cn.featherfly.common.exception.AssertStandardSys;
 import cn.featherfly.common.lang.ClassLoaderUtils;
+import cn.featherfly.common.lang.LangUtils;
 import cn.featherfly.common.lang.StringUtils;
 import cn.featherfly.web.servlet.ServletUtils;
 
@@ -49,6 +50,8 @@ public abstract class AttachHttpMessageConverter extends AbstractGenericHttpMess
     protected boolean allowIgnorePagination;
     
     protected String ignorePaginationKey = "ignorePagination";
+    
+    protected String templatePathKey = "template";
     
     /**
      * {@inheritDoc}
@@ -96,7 +99,13 @@ public abstract class AttachHttpMessageConverter extends AbstractGenericHttpMess
      * @return 模板
      */
     protected InputStream getTemplate(HttpServletRequest request) {
-        String templatePath = ServletUtils.getRequestURI(request);
+        String templatePath = null;
+        if (LangUtils.isNotEmpty(templatePathKey)) {
+            templatePath = request.getParameter(templatePathKey);
+        }
+        if (LangUtils.isEmpty(templatePath)) {
+            templatePath = ServletUtils.getRequestURI(request);
+        }
         boolean match = matchExtName(templatePath);
         if (!match) {
             templatePath = templatePath + "." + extNames[0];
@@ -346,5 +355,21 @@ public abstract class AttachHttpMessageConverter extends AbstractGenericHttpMess
      */
     public void setIgnorePaginationKey(String ignorePaginationKey) {
         this.ignorePaginationKey = ignorePaginationKey;
+    }
+
+    /**
+     * 返回templatePathKey
+     * @return templatePathKey
+     */
+    public String getTemplatePathKey() {
+        return templatePathKey;
+    }
+
+    /**
+     * 设置templatePathKey
+     * @param templatePathKey templatePathKey
+     */
+    public void setTemplatePathKey(String templatePathKey) {
+        this.templatePathKey = templatePathKey;
     }
 }
