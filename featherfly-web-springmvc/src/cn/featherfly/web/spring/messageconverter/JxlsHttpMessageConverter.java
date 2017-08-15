@@ -35,7 +35,8 @@ public class JxlsHttpMessageConverter extends AttachHttpMessageConverter {
         super();
         extNames = new String[] { "xlsx", "xls" };
         setSupportedMediaTypes(
-                Arrays.asList(new MediaType("application", "excel"), new MediaType("application", "*+excel")));
+                Arrays.asList(new MediaType("application", "excel"), new MediaType("application", "*+excel")
+                        , new MediaType("application", "jxls")));
     }
 
     /**
