@@ -14,6 +14,7 @@ import org.springframework.http.HttpOutputMessage;
 import org.springframework.http.MediaType;
 import org.springframework.http.converter.HttpMessageNotWritableException;
 
+import cn.featherfly.common.lang.LangUtils;
 import cn.featherfly.web.spring.interceptor.RequestHolderInterceptor;
 
 /**
@@ -46,12 +47,16 @@ public class JxlsHttpMessageConverter extends AttachHttpMessageConverter {
         HttpServletRequest request = RequestHolderInterceptor.getHttpServletRequest();
         String fileName = getFileName(request);
         fileName = new String(fileName.getBytes(), "ISO-8859-1"); // 各浏览器基本都支持ISO编码
-        Object source = getDataFromResult(result, request);
         outputMessage.getHeaders().set("Content-Disposition", "attachment;filename=" + fileName);
         outputMessage.getHeaders().setContentType(getDefaultContentType());
-        InputStream is = getTemplate(request);
         Context context = new Context();
-        context.putVar(resolverPath, source);
+        if (LangUtils.isNotEmpty(resolverPath)) {
+            Object source = getDataFromResult(result, request);            
+            context.putVar(resolverPath, source);
+        } else {
+            context.putVar("result", result);
+        }
+        InputStream is = getTemplate(request);
         JxlsHelper.getInstance().processTemplate(is, outputMessage.getBody(), context);
         // Transformer transformer = TransformerFactory.createTransformer(is,
         // outputMessage.getBody());
