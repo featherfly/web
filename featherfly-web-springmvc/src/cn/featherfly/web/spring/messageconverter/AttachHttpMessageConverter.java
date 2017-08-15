@@ -53,6 +53,8 @@ public abstract class AttachHttpMessageConverter extends AbstractGenericHttpMess
     
     protected String templatePathKey = "template";
     
+    protected String templateBasePath = "";
+    
     /**
      * {@inheritDoc}
      */
@@ -105,6 +107,8 @@ public abstract class AttachHttpMessageConverter extends AbstractGenericHttpMess
         }
         if (LangUtils.isEmpty(templatePath)) {
             templatePath = ServletUtils.getRequestURI(request);
+        } else {
+            templatePath = templateBasePath + "/" + templatePath; 
         }
         boolean match = matchExtName(templatePath);
         if (!match) {
@@ -371,5 +375,21 @@ public abstract class AttachHttpMessageConverter extends AbstractGenericHttpMess
      */
     public void setTemplatePathKey(String templatePathKey) {
         this.templatePathKey = templatePathKey;
+    }
+
+    /**
+     * 返回templateBasePath
+     * @return templateBasePath
+     */
+    public String getTemplateBasePath() {
+        return templateBasePath;
+    }
+
+    /**
+     * 设置templateBasePath
+     * @param templateBasePath templateBasePath
+     */
+    public void setTemplateBasePath(String templateBasePath) {
+        this.templateBasePath = templateBasePath;
     }
 }
