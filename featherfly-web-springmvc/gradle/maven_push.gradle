@@ -27,53 +27,6 @@ def getRepositoryPassword() {
     return hasProperty('nexusPassword') ? nexusPassword : ""
 }
 
-afterEvaluate { project ->
-    uploadArchives {
-        repositories {
-            mavenDeployer {
-                beforeDeployment { MavenDeployment deployment -> signing.signPom(deployment) }
-                repository(url: sonatypeRepositoryUrl) {
-                    authentication(userName: getRepositoryUsername(), password: getRepositoryPassword())
-                }
-                pom.project {
-                    name project.name
-                    groupId groupId
-                    version version
-                    packaging POM_Packaging
-                    description POM_DESCRIPTION
-                    url POM_URL
-                    inceptionYear POM_INCEPTION_YEAR
-
-                    scm {
-                        url POM_SCM_URL
-                        connection POM_SCM_CONNECTION
-                        developerConnection POM_SCM_DEV_CONNECTION
-                    }
-
-                    licenses {
-                        license {
-                            name POM_LICENCE_NAME
-                            url POM_LICENCE_URL
-                            distribution POM_LICENCE_DIST
-                        }
-                    }
-
-                    developers {
-                        developer {
-                            id POM_DEVELOPER_ID
-                            name POM_DEVELOPER_NAME
-                        }
-                    }
-                }
-            }
-        }
-    }
-
-    signing {
-        required { isReleaseBuild() && gradle.taskGraph.hasTask("uploadArchives") }
-        sign configurations.archives
-    }
-
     task sourcesJar(type: Jar) {
         classifier = 'sources'
         from sourceSets.main.java.srcDirs
@@ -83,10 +36,60 @@ afterEvaluate { project ->
         classifier = 'javadoc'
         from javadoc.destinationDir
     }
+    
+    publishing {
+        publications {
+            mavenJava(MavenPublication) {
+                from components.java
+    
+                artifact sourcesJar
+                artifact javadocJar
+                groupId = group
+                artifactId = archivesBaseName
+                version = version
+                pom {
+                    name = archivesBaseName
+                    packaging = POM_Packaging
+                    description = POM_DESCRIPTION
+                    url = POM_URL
+                    inceptionYear = POM_INCEPTION_YEAR
 
-    artifacts {
-        archives jar
-        archives javadocJar
-        archives sourcesJar
+                    scm {
+                        url = POM_SCM_URL
+                        connection = POM_SCM_CONNECTION
+                        developerConnection = POM_SCM_DEV_CONNECTION
+                    }
+
+                    licenses {
+                        license {
+                            name = POM_LICENCE_NAME
+                            url = POM_LICENCE_URL
+                            distribution = POM_LICENCE_DIST
+                        }
+                    }
+
+                    developers {
+                        developer {
+                            id = POM_DEVELOPER_ID
+                            name = POM_DEVELOPER_NAME
+                        }
+                    }
+                }
+            }
+        }
+        repositories {
+            maven {
+                url sonatypeRepositoryUrl
+                credentials {
+                    username getRepositoryUsername()
+                    password getRepositoryPassword()
+                }
+            }
+        }
     }
-}
+
+    signing {
+        //required { isReleaseBuild() && gradle.taskGraph.hasTask("uploadArchives") }
+        //sign configurations.archives
+        sign publishing.publications.mavenJava
+    }
