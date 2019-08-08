@@ -18,6 +18,8 @@ ext {
 dependencies {
 	compile ('org.springframework:spring-web:5.1.8.RELEASE'    
         ,'org.springframework:spring-webmvc:5.1.8.RELEASE'
+        ,'org.springframework:spring-context-support:5.1.8.RELEASE'
+    	,'cn.featherfly:featherfly-common:1.7.3'
     	,'cn.featherfly:featherfly-web:1.2.0'
     	,'cn.featherfly:featherfly-conversion-jdk8:1.0.0'
     	,'cn.featherfly:featherfly-data-office:0.1.1'
