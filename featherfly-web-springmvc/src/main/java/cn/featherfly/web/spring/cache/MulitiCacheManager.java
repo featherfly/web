@@ -12,8 +12,13 @@ import org.springframework.cache.Cache;
 import org.springframework.cache.CacheManager;
 import org.springframework.cache.transaction.AbstractTransactionSupportingCacheManager;
 
-import cn.featherfly.common.exception.InitException;
-
+/**
+ * <p>
+ * MulitiCacheManager
+ * </p>
+ *
+ * @author zhongj
+ */
 public class MulitiCacheManager extends AbstractTransactionSupportingCacheManager {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(MulitiCacheManager.class);
@@ -52,7 +57,7 @@ public class MulitiCacheManager extends AbstractTransactionSupportingCacheManage
             for (String name : cacheManager.getCacheNames()) {
                 Cache cache = cacheManager.getCache(name);
                 if (cacheMap.containsKey(name)) {
-                    throw new InitException(String.format("muliti cache named %s, cachs[%s, %s]", name,
+                    throw new CacheException(String.format("muliti cache named %s, cachs[%s, %s]", name,
                             cacheMap.get(name).getClass().getName(), cache.getClass().getName()));
                 }
                 if (cache != null) {
