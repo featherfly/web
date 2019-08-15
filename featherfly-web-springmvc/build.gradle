@@ -13,7 +13,7 @@ dependencies {
     	,'cn.featherfly:featherfly-common:1.7.4'
     	,'cn.featherfly:featherfly-web:1.2.1'
     	,'cn.featherfly:featherfly-conversion-jdk8:1.0.0'
-    	,'cn.featherfly:featherfly-data-office:0.1.1'
+    	,'cn.featherfly:featherfly-data-office:0.1.2'
         //,'org.jxls:jxls:2.4.0'
         //,'org.jxls:jxls-poi:1.0.12'
         )
