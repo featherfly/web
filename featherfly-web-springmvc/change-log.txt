@@ -1,3 +1,8 @@
+2019-8-30
+0.4.7
+    1.ResponseBodyWrapHandler加入黑白名单
+    2.加入BindExceptionHandlerExceptionResolver,BindResultHandlerExceptionResolver,ExceptionHandlerExceptionResolver,MethodArgumentNotValidExceptionHandlerExceptionResolver
+    
 2019-8-27
 0.4.6
     1.升级依赖

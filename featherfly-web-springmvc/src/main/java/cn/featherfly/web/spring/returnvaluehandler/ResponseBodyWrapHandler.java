@@ -5,18 +5,22 @@ import org.springframework.web.context.request.NativeWebRequest;
 import org.springframework.web.method.support.HandlerMethodReturnValueHandler;
 import org.springframework.web.method.support.ModelAndViewContainer;
 
+import cn.featherfly.common.policy.AllowPolicy;
 import cn.featherfly.web.spring.servlet.view.Result;
 
 /**
  * ResponseBodyWrapHandler with Result
+ *
  * @author Zhong Ji
  */
-public class ResponseBodyWrapHandler implements HandlerMethodReturnValueHandler{
+public class ResponseBodyWrapHandler implements HandlerMethodReturnValueHandler {
 
     private final HandlerMethodReturnValueHandler delegate;
 
-    public ResponseBodyWrapHandler(HandlerMethodReturnValueHandler delegate){
-        this.delegate=delegate;
+    private AllowPolicy<Object> allowPolicy;
+
+    public ResponseBodyWrapHandler(HandlerMethodReturnValueHandler delegate) {
+        this.delegate = delegate;
     }
 
     @Override
@@ -25,12 +29,33 @@ public class ResponseBodyWrapHandler implements HandlerMethodReturnValueHandler{
     }
 
     @Override
-    public void handleReturnValue(Object returnValue, MethodParameter returnType,
-                                  ModelAndViewContainer mavContainer, NativeWebRequest webRequest)
-            throws Exception {
-        // TODO 这里以后要设置白黑名单
-        Result<Object> result = new Result<>();
-        result.setData(returnValue);
-        delegate.handleReturnValue(result, returnType, mavContainer, webRequest);
+    public void handleReturnValue(Object returnValue, MethodParameter returnType, ModelAndViewContainer mavContainer,
+            NativeWebRequest webRequest) throws Exception {
+        if (allowPolicy != null && !allowPolicy.isAllow(returnValue)) {
+            delegate.handleReturnValue(returnValue, returnType, mavContainer, webRequest);
+        } else {
+            Result<Object> result = new Result<>();
+            result.setData(returnValue);
+            delegate.handleReturnValue(result, returnType, mavContainer, webRequest);
+        }
     }
+
+    /**
+     * 返回allowPolicy
+     *
+     * @return allowPolicy
+     */
+    public AllowPolicy<Object> getAllowPolicy() {
+        return allowPolicy;
+    }
+
+    /**
+     * 设置allowPolicy
+     *
+     * @param allowPolicy allowPolicy
+     */
+    public void setAllowPolicy(AllowPolicy<Object> allowPolicy) {
+        this.allowPolicy = allowPolicy;
+    }
+
 }
