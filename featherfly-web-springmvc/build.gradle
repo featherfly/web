@@ -11,7 +11,7 @@ dependencies {
 	compile ('org.springframework:spring-web:' + sv    
         ,'org.springframework:spring-webmvc:' + sv
         ,'org.springframework:spring-context-support:' + sv
-    	,'cn.featherfly:featherfly-common:1.7.14'
+    	,'cn.featherfly.common:featherfly-common:1.7.14'
     	,'cn.featherfly:featherfly-web:1.2.3'
     	,'cn.featherfly:featherfly-conversion:1.3.4'
     	,'cn.featherfly:featherfly-data-office:0.1.3'
