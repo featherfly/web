@@ -4,29 +4,29 @@ apply from: './gradle/java_base.gradle'
 apply from: './gradle/maven_push.gradle'
 
 ext {
+    sv = '5.2.1.RELEASE'
 }
 
 dependencies {
-	compile ('org.springframework:spring-web:5.1.8.RELEASE'    
-        ,'org.springframework:spring-webmvc:5.1.8.RELEASE'
-        ,'org.springframework:spring-context-support:5.1.8.RELEASE'
-    	,'cn.featherfly:featherfly-common:1.7.8'
-    	,'cn.featherfly:featherfly-web:1.2.2'
-    	,'cn.featherfly:featherfly-conversion:1.3.1'
-    	,'cn.featherfly:featherfly-data-office:0.1.2'
+	compile ('org.springframework:spring-web:' + sv    
+        ,'org.springframework:spring-webmvc:' + sv
+        ,'org.springframework:spring-context-support:' + sv
+    	,'cn.featherfly:featherfly-common:1.7.14'
+    	,'cn.featherfly:featherfly-web:1.2.3'
+    	,'cn.featherfly:featherfly-conversion:1.3.4'
+    	,'cn.featherfly:featherfly-data-office:0.1.3'
         //,'org.jxls:jxls:2.4.0'
         //,'org.jxls:jxls-poi:1.0.12'
         )
-        
-    compile group: 'org.jxls', name: 'jxls', version: '2.6.0'
+    compile group: 'org.jxls', name: 'jxls', version: '2.7.2'
     compile group: 'org.jxls', name: 'jxls-poi', version: '1.2.0'
-    compile group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: '2.9.9.2'
+    //compile group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: '2.9.9.2'
     
 
     testCompile (
     	'org.testng:testng:6.8.8'
-    	,'org.springframework:spring-test:5.1.8.RELEASE'
-    	,'org.springframework:spring-tx:5.1.8.RELEASE'
+    	,'org.springframework:spring-test:' + sv
+    	,'org.springframework:spring-tx:' + sv
     	,'net.sf.ehcache:ehcache:2.10.6'
     )
 }
