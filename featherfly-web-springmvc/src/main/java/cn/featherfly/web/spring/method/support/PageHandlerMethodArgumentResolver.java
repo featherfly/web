@@ -17,8 +17,8 @@ import org.springframework.web.method.support.ModelAndViewContainer;
 import cn.featherfly.common.lang.AssertIllegalArgument;
 import cn.featherfly.common.lang.ClassUtils;
 import cn.featherfly.common.lang.LangUtils;
-import cn.featherfly.common.structure.page.Pagination;
-import cn.featherfly.web.pagination.PaginationFactory;
+import cn.featherfly.common.structure.page.Page;
+import cn.featherfly.web.pagination.PageFactory;
 
 /**
  * <p>
@@ -26,17 +26,15 @@ import cn.featherfly.web.pagination.PaginationFactory;
  * </p>
  *
  * @author 钟冀
- * @deprecated {@link PageHandlerMethodArgumentResolver}
  */
-@Deprecated
-public class PaginationHandlerMethodArgumentResolver implements HandlerMethodArgumentResolver {
+public class PageHandlerMethodArgumentResolver implements HandlerMethodArgumentResolver {
 
     /**
      * {@inheritDoc}
      */
     @Override
     public boolean supportsParameter(MethodParameter parameter) {
-        return ClassUtils.isParent(Pagination.class, parameter.getParameterType());
+        return ClassUtils.isParent(Page.class, parameter.getParameterType());
     }
 
     /**
@@ -45,12 +43,12 @@ public class PaginationHandlerMethodArgumentResolver implements HandlerMethodArg
     @Override
     public Object resolveArgument(MethodParameter parameter, ModelAndViewContainer mavContainer,
             NativeWebRequest webRequest, WebDataBinderFactory binderFactory) throws Exception {
-        AssertIllegalArgument.isNotNull(paginationFactory, "paginationFactory不能为空");
+        AssertIllegalArgument.isNotNull(pageFacotry, "pageFacotry不能为空");
         List<MediaType> mediaTypes = contentNegotiationManager.resolveMediaTypes(webRequest);
         if (ignore(mediaTypes)) {
             return null;
         } else {
-            return paginationFactory.create(webRequest.getNativeRequest(HttpServletRequest.class));
+            return pageFacotry.create(webRequest.getNativeRequest(HttpServletRequest.class));
         }
 
     }
@@ -76,28 +74,28 @@ public class PaginationHandlerMethodArgumentResolver implements HandlerMethodArg
         return false;
     }
 
-    private PaginationFactory paginationFactory;
+    private PageFactory pageFacotry;
 
     private ContentNegotiationManager contentNegotiationManager;
 
     private List<MediaType> ignoreMediaTypes = new ArrayList<>();
 
     /**
-     * 返回paginationFactory
+     * 返回pageFacotry
      *
-     * @return paginationFactory
+     * @return pageFacotry
      */
-    public PaginationFactory getPaginationFactory() {
-        return paginationFactory;
+    public PageFactory getPageFacotry() {
+        return pageFacotry;
     }
 
     /**
-     * 设置paginationFactory
+     * 设置pageFacotry
      *
-     * @param paginationFactory paginationFactory
+     * @param pageFacotry pageFacotry
      */
-    public void setPaginationFactory(PaginationFactory paginationFactory) {
-        this.paginationFactory = paginationFactory;
+    public void setPageFacotry(PageFactory pageFacotry) {
+        this.pageFacotry = pageFacotry;
     }
 
     /**
