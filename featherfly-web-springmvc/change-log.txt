@@ -1,4 +1,8 @@
 2020-5-20
+0.4.10
+    1.兼容性依赖升级
+    
+2020-5-20
 0.4.9
     1.加入PageHandlerMethodArgumentResolver
     2.升级依赖
