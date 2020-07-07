@@ -8,19 +8,17 @@ import org.slf4j.LoggerFactory;
 
 import cn.featherfly.common.lang.AssertIllegalArgument;
 import cn.featherfly.common.lang.NumberUtils;
-import cn.featherfly.common.structure.page.Pagination;
+import cn.featherfly.common.structure.page.Page;
 import cn.featherfly.common.structure.page.SimplePagination;
 
 /**
  * <p>
- * RequestParameterPaginationFactory
+ * RequestParameterPageFactory
  * </p>
  *
  * @author 钟冀
- * @deprecated {@link RequestParameterPageFactory}
  */
-@Deprecated
-public class RequestParameterPaginationFactory implements PaginationFactory {
+public class RequestParameterPageFactory implements PageFactory {
 
     protected final Logger logger = LoggerFactory.getLogger(this.getClass());
 
@@ -28,7 +26,7 @@ public class RequestParameterPaginationFactory implements PaginationFactory {
      * {@inheritDoc}
      */
     @Override
-    public Pagination create(HttpServletRequest request) {
+    public Page create(HttpServletRequest request) {
         Object p = request.getParameter(pageNumberName);
 
         Integer pageNumber = NumberUtils.parse(p + "", defaultPageNumber);

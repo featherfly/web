@@ -3,7 +3,7 @@ package cn.featherfly.web.pagination;
 
 import javax.servlet.http.HttpServletRequest;
 
-import cn.featherfly.common.structure.page.Pagination;
+import cn.featherfly.common.structure.page.Page;
 
 /**
  * <p>
@@ -11,10 +11,8 @@ import cn.featherfly.common.structure.page.Pagination;
  * </p>
  *
  * @author 钟冀
- * @deprecated {@link PageFactory}
  */
-@Deprecated
-public interface PaginationFactory {
+public interface PageFactory {
     /**
      * <p>
      * 创建分页对象
@@ -23,5 +21,5 @@ public interface PaginationFactory {
      * @param request HttpServletRequest
      * @return 分页对象
      */
-    Pagination create(HttpServletRequest request);
+    Page create(HttpServletRequest request);
 }

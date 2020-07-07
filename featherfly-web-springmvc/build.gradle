@@ -4,26 +4,30 @@ apply from: './gradle/java_base.gradle'
 apply from: './gradle/maven_push.gradle'
 
 ext {
+    sv = '5.2.7.RELEASE'
 }
 
 dependencies {
-	compile ('org.springframework:spring-web:5.2.7.RELEASE'    
-        ,'org.springframework:spring-webmvc:5.2.7.RELEASE'
-        ,'org.springframework:spring-context-support:5.2.7.RELEASE'
+	api ('org.springframework:spring-web:' + sv    
+        ,'org.springframework:spring-webmvc:' + sv
+        ,'org.springframework:spring-context-support:' + sv
     	,'cn.featherfly.common:common-model-api:0.1.0'
     	,'cn.featherfly.common:common-core:1.8.10'
-    	,'cn.featherfly:featherfly-web:1.2.2'
+    	,'cn.featherfly:featherfly-web:1.2.4'
     	,'cn.featherfly:featherfly-conversion:1.4.0'
-    	,'cn.featherfly:featherfly-data-office:0.1.2'
+    	,'cn.featherfly:featherfly-data-office:0.1.4'
         )
         
-    compile group: 'org.jxls', name: 'jxls', version: '2.8.1'
-    compile group: 'org.jxls', name: 'jxls-poi', version: '2.8.1'
-    compile group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: '2.11.1'
+    api group: 'org.jxls', name: 'jxls', version: '2.8.1'
+    api group: 'org.jxls', name: 'jxls-poi', version: '2.8.1'
+    api group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: '2.11.1'
     
-
-    testImplementation group: 'org.testng', name: 'testng', version: '7.1.0'
+	testImplementation (
+    	'org.testng:testng:7.1.0'
+        ,'org.slf4j:slf4j-log4j12:1.7.30'
+    	,'org.springframework:spring-test:' + sv
+    	,'org.springframework:spring-tx:' + sv
+    	,'net.sf.ehcache:ehcache:2.10.6'
+    )
     testImplementation group: 'com.google.inject', name: 'guice', version: '4.2.3'
-    testImplementation 'org.slf4j:slf4j-log4j12:1.7.30'
-    testImplementation 'log4j:log4j:1.2.17'
 }

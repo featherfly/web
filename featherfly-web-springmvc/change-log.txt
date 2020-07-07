@@ -1,6 +1,25 @@
 2020-7-7
-0.4.7
+0.4.11
     1.ResponseBodyWrapFactoryBean支持spring boot
+
+2020-5-20
+0.4.10
+    1.兼容性依赖升级
+    
+2020-5-20
+0.4.9
+    1.加入PageHandlerMethodArgumentResolver
+    2.升级依赖
+    3.删除无用的测试代码
+    
+2019-12-03
+0.4.8
+    1.升级依赖
+
+2019-8-30
+0.4.7
+    1.ResponseBodyWrapHandler加入黑白名单
+    2.加入BindExceptionHandlerExceptionResolver,BindResultHandlerExceptionResolver,ExceptionHandlerExceptionResolver,MethodArgumentNotValidExceptionHandlerExceptionResolver
     
 2019-8-27
 0.4.6
