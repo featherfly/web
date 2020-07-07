@@ -6,16 +6,14 @@ ext {
 }
 
 dependencies {
-	api ('org.springframework:spring-web:' + sv    
-        ,'org.springframework:spring-webmvc:' + sv
-        ,'org.springframework:spring-context-support:' + sv
-    	,'cn.featherfly.common:common-model-api:0.1.0'
-    	,'cn.featherfly.common:common-core:1.8.10'
-    	,'cn.featherfly:featherfly-web:1.2.4'
-    	,'cn.featherfly:featherfly-conversion:1.4.0'
-    	,'cn.featherfly:featherfly-data-office:0.1.4'
-        )
-        
+	api 'org.springframework:spring-web:' + sv    
+    api 'org.springframework:spring-webmvc:' + sv
+    api 'org.springframework:spring-context-support:' + sv
+    api 'cn.featherfly.common:common-model-api:0.1.0'
+    api 'cn.featherfly.common:common-core:1.8.10'
+    api 'cn.featherfly:featherfly-web:1.2.4'
+    api 'cn.featherfly:featherfly-conversion:1.4.0'
+    api 'cn.featherfly:featherfly-data-office:0.1.4'        
     api group: 'org.jxls', name: 'jxls', version: '2.8.1'
     api group: 'org.jxls', name: 'jxls-poi', version: '2.8.1'
     api group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: '2.11.1'
