@@ -33,9 +33,9 @@ public class RequestParameterPageFactory implements PageFactory {
 
         SimplePagination pagination = new SimplePagination();
 
-        pagination.setPageNumber(pageNumber);
+        pagination.setNumber(pageNumber);
 
-        pagination.setPageSize(getPageSize(request));
+        pagination.setSize(getPageSize(request));
 
         return pagination;
     }
