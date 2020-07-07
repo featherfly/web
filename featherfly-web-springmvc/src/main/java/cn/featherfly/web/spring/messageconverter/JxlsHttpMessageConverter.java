@@ -14,7 +14,7 @@ import org.springframework.http.HttpOutputMessage;
 import org.springframework.http.MediaType;
 import org.springframework.http.converter.HttpMessageNotWritableException;
 
-import cn.featherfly.common.lang.LangUtils;
+import cn.featherfly.common.lang.Lang;
 import cn.featherfly.web.spring.interceptor.RequestHolderInterceptor;
 
 /**
@@ -51,7 +51,7 @@ public class JxlsHttpMessageConverter extends AttachHttpMessageConverter {
         outputMessage.getHeaders().set("Content-Disposition", "attachment;filename=" + fileName);
         outputMessage.getHeaders().setContentType(getDefaultContentType());
         Context context = new Context();
-        if (LangUtils.isNotEmpty(resolverPath)) {
+        if (Lang.isNotEmpty(resolverPath)) {
             Object source = getDataFromResult(result, request);            
             context.putVar(resolverPath, source);
         } else {

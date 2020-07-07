@@ -24,11 +24,12 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.web.servlet.view.AbstractView;
 
 import cn.featherfly.common.io.file.FileWrapper;
-import cn.featherfly.common.lang.LangUtils;
-import cn.featherfly.common.lang.StringUtils;
+import cn.featherfly.common.lang.Lang;
+import cn.featherfly.common.lang.Strings;
 import cn.featherfly.web.WebException;
 
 /**
@@ -78,7 +79,7 @@ public class ResourceView extends AbstractView {
         if (StringUtils.isBlank(getContentType())) {
             setContentType("application/octet-stream;charset=" + encodeCharset);
         }
-        if (StringUtils.isNotBlank(fileName)) {
+        if (Strings.isNotBlank(fileName)) {
             name = fileName;
         }
         if (StringUtils.isBlank(name)) {
@@ -149,7 +150,7 @@ public class ResourceView extends AbstractView {
      * @throws UnsupportedEncodingException
      */
     protected String getEncodeName(String name) throws UnsupportedEncodingException {
-        if (LangUtils.isEmpty(decodeCharset)) {
+        if (Lang.isEmpty(decodeCharset)) {
             return new String(name.getBytes(), encodeCharset);
         } else {
             return new String(name.getBytes(decodeCharset), encodeCharset);

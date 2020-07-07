@@ -1,3 +1,7 @@
+2020-7-7
+0.4.7
+    1.ResponseBodyWrapFactoryBean支持spring boot
+    
 2019-8-27
 0.4.6
     1.升级依赖

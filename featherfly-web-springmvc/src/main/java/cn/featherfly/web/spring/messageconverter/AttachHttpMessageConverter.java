@@ -8,6 +8,7 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpInputMessage;
@@ -17,8 +18,8 @@ import org.springframework.http.converter.HttpMessageNotReadableException;
 
 import cn.featherfly.common.bean.BeanUtils;
 import cn.featherfly.common.lang.ClassLoaderUtils;
-import cn.featherfly.common.lang.LangUtils;
-import cn.featherfly.common.lang.StringUtils;
+import cn.featherfly.common.lang.Lang;
+import cn.featherfly.common.lang.Strings;
 import cn.featherfly.web.WebException;
 import cn.featherfly.web.servlet.ServletUtils;
 
@@ -100,10 +101,10 @@ public abstract class AttachHttpMessageConverter extends AbstractGenericHttpMess
      */
     protected InputStream getTemplate(HttpServletRequest request) {
         String templatePath = null;
-        if (LangUtils.isNotEmpty(templatePathKey)) {
+        if (Lang.isNotEmpty(templatePathKey)) {
             templatePath = request.getParameter(templatePathKey);
         }
-        if (LangUtils.isEmpty(templatePath)) {
+        if (Lang.isEmpty(templatePath)) {
             templatePath = ServletUtils.getRequestURI(request);
         } else {
             templatePath = templateBasePath + "/" + templatePath;
@@ -119,7 +120,7 @@ public abstract class AttachHttpMessageConverter extends AbstractGenericHttpMess
             logger.debug("未找到路径{}对应的模板，使用{}再查找", templatePath, fileName);
             is = ClassLoaderUtils.getResourceAsStream(fileName, this.getClass());
         }
-        if (LangUtils.isEmpty(is)) {
+        if (Lang.isEmpty(is)) {
             throw new WebException("未找到[" + templatePath + "]对应的模板");
         }
         return is;
@@ -165,7 +166,7 @@ public abstract class AttachHttpMessageConverter extends AbstractGenericHttpMess
     protected Object getDataFromResult(Object result, HttpServletRequest request) {
         String rp = getResolverPath(request);
         if (result != null) {
-            if (StringUtils.isNotBlank(rp)) {
+            if (Strings.isNotBlank(rp)) {
                 return BeanUtils.getProperty(result, rp);
             } else {
                 return result;
@@ -322,7 +323,7 @@ public abstract class AttachHttpMessageConverter extends AbstractGenericHttpMess
 
     /**
      * 返回allowIgnorePagination
-     * 
+     *
      * @return allowIgnorePagination
      */
     public boolean isAllowIgnorePagination() {
@@ -331,7 +332,7 @@ public abstract class AttachHttpMessageConverter extends AbstractGenericHttpMess
 
     /**
      * 设置allowIgnorePagination
-     * 
+     *
      * @param allowIgnorePagination allowIgnorePagination
      */
     public void setAllowIgnorePagination(boolean allowIgnorePagination) {
@@ -340,7 +341,7 @@ public abstract class AttachHttpMessageConverter extends AbstractGenericHttpMess
 
     /**
      * 返回ignorePaginationKey
-     * 
+     *
      * @return ignorePaginationKey
      */
     public String getIgnorePaginationKey() {
@@ -349,7 +350,7 @@ public abstract class AttachHttpMessageConverter extends AbstractGenericHttpMess
 
     /**
      * 设置ignorePaginationKey
-     * 
+     *
      * @param ignorePaginationKey ignorePaginationKey
      */
     public void setIgnorePaginationKey(String ignorePaginationKey) {
@@ -358,7 +359,7 @@ public abstract class AttachHttpMessageConverter extends AbstractGenericHttpMess
 
     /**
      * 返回templatePathKey
-     * 
+     *
      * @return templatePathKey
      */
     public String getTemplatePathKey() {
@@ -367,7 +368,7 @@ public abstract class AttachHttpMessageConverter extends AbstractGenericHttpMess
 
     /**
      * 设置templatePathKey
-     * 
+     *
      * @param templatePathKey templatePathKey
      */
     public void setTemplatePathKey(String templatePathKey) {
@@ -376,7 +377,7 @@ public abstract class AttachHttpMessageConverter extends AbstractGenericHttpMess
 
     /**
      * 返回templateBasePath
-     * 
+     *
      * @return templateBasePath
      */
     public String getTemplateBasePath() {
@@ -385,7 +386,7 @@ public abstract class AttachHttpMessageConverter extends AbstractGenericHttpMess
 
     /**
      * 设置templateBasePath
-     * 
+     *
      * @param templateBasePath templateBasePath
      */
     public void setTemplateBasePath(String templateBasePath) {

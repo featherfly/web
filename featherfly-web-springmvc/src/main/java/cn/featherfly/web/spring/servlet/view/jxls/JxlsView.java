@@ -8,14 +8,14 @@ import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.lang3.StringUtils;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.jxls.transform.Transformer;
 import org.jxls.util.TransformerFactory;
 import org.springframework.web.servlet.view.document.AbstractXlsxView;
 
 import cn.featherfly.common.lang.ClassLoaderUtils;
-import cn.featherfly.common.lang.LangUtils;
-import cn.featherfly.common.lang.StringUtils;
+import cn.featherfly.common.lang.Lang;
 import cn.featherfly.web.WebException;
 import cn.featherfly.web.servlet.ServletUtils;
 
@@ -74,7 +74,7 @@ public class JxlsView extends AbstractXlsxView {
         if (is == null) {
             is = ClassLoaderUtils.getResourceAsStream("/" + fileName, context.getClass());
         }
-        if (LangUtils.isEmpty(is)) {
+        if (Lang.isEmpty(is)) {
             throw new WebException("未找到[" + filePath + "," + fileName + "]对应的模板");
         }
         return is;
