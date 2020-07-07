@@ -16,7 +16,7 @@ import org.springframework.web.method.support.ModelAndViewContainer;
 
 import cn.featherfly.common.lang.AssertIllegalArgument;
 import cn.featherfly.common.lang.ClassUtils;
-import cn.featherfly.common.lang.LangUtils;
+import cn.featherfly.common.lang.Lang;
 import cn.featherfly.common.structure.page.Page;
 import cn.featherfly.web.pagination.PageFactory;
 
@@ -104,7 +104,7 @@ public class PageHandlerMethodArgumentResolver implements HandlerMethodArgumentR
      * @param ignoreMediaTypes ignoreMediaTypes
      */
     public void setIgnoreMediaTypes(List<String> ignoreMediaTypes) {
-        if (LangUtils.isNotEmpty(ignoreMediaTypes)) {
+        if (Lang.isNotEmpty(ignoreMediaTypes)) {
             for (String ignoreMediaType : ignoreMediaTypes) {
                 MediaType mediaType = MediaType.valueOf(ignoreMediaType);
                 this.ignoreMediaTypes.add(mediaType);
