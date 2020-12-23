@@ -9,6 +9,7 @@ import org.springframework.validation.ObjectError;
 import org.springframework.web.servlet.HandlerExceptionResolver;
 import org.springframework.web.servlet.ModelAndView;
 
+import cn.featherfly.common.api.Response;
 import cn.featherfly.web.spring.servlet.view.Result;
 import cn.featherfly.web.spring.servlet.view.json.ObjectJacksonJsonView;
 
@@ -30,6 +31,7 @@ public abstract class BindResultHandlerExceptionResolver implements HandlerExcep
             StringBuilder messages = new StringBuilder();
             if (bindingResult.hasErrors()) {
                 result.setStatus(0);
+                result.setCode(Response.DEFAULT_ERROR_CODE);
             }
             if (bindingResult.hasGlobalErrors()) {
                 for (ObjectError oe : bindingResult.getGlobalErrors()) {
@@ -37,7 +39,6 @@ public abstract class BindResultHandlerExceptionResolver implements HandlerExcep
                 }
             }
             if (bindingResult.hasFieldErrors()) {
-
                 for (org.springframework.validation.FieldError fr : bindingResult.getFieldErrors()) {
                     messages.append(fr.getDefaultMessage()).append("，");
                 }

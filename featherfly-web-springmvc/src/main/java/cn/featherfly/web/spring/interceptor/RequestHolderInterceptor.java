@@ -3,12 +3,12 @@ package cn.featherfly.web.spring.interceptor;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.springframework.web.servlet.HandlerInterceptor;
+import org.springframework.web.servlet.AsyncHandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
 
-public class RequestHolderInterceptor implements HandlerInterceptor {
+public class RequestHolderInterceptor implements AsyncHandlerInterceptor {
 
-    private static final ThreadLocal<HttpServletRequest> holder = new ThreadLocal<HttpServletRequest>();
+    private static final ThreadLocal<HttpServletRequest> holder = new ThreadLocal<>();
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)

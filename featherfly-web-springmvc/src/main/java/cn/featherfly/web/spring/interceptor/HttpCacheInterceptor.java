@@ -1,22 +1,20 @@
 package cn.featherfly.web.spring.interceptor;
 
-import org.springframework.web.method.HandlerMethod;
-import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
-
-import cn.featherfly.web.spring.annotation.HttpCache;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.springframework.web.method.HandlerMethod;
+import org.springframework.web.servlet.AsyncHandlerInterceptor;
+import org.springframework.web.servlet.ModelAndView;
+
+import cn.featherfly.web.spring.annotation.HttpCache;
+
 /**
- * <p>
- * HttpCacheInterceptor
- * </p>
- * 
+ * HttpCacheInterceptor.
+ *
  * @author zhongj
  */
-public class HttpCacheInterceptor extends HandlerInterceptorAdapter {
+public class HttpCacheInterceptor implements AsyncHandlerInterceptor {
 
     /**
      * {@inheritDoc}
