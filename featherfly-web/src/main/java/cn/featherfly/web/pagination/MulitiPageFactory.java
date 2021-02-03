@@ -1,21 +1,23 @@
 
 package cn.featherfly.web.pagination;
 
+import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 
 import cn.featherfly.common.structure.page.Page;
 
 /**
- * page object factory.
+ * muliti page object factory.
  *
  * @author zhongj
  */
-public interface PageFactory {
+public interface MulitiPageFactory {
     /**
-     * create page object.
+     * create page object list.
      *
      * @param request HttpServletRequest
-     * @return page object
+     * @return page object list
      */
-    Page create(HttpServletRequest request);
+    List<Page> create(HttpServletRequest request);
 }
