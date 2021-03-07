@@ -12,6 +12,7 @@ import org.springframework.core.PriorityOrdered;
 import org.springframework.web.servlet.HandlerExceptionResolver;
 import org.springframework.web.servlet.ModelAndView;
 
+import cn.featherfly.common.api.Response;
 import cn.featherfly.common.exception.ExceptionCode;
 import cn.featherfly.common.exception.ExceptionCodeException;
 import cn.featherfly.common.lang.LogUtils;
@@ -37,6 +38,7 @@ public class ExceptionHandlerExceptionResolver implements HandlerExceptionResolv
         LogUtils.error(ex, LOG);
         Result<?> result = new Result<>();
         result.setStatus(0);
+        result.setCode(Response.DEFAULT_ERROR_CODE);
 
         response.setStatus(httpStatus);
 

@@ -5,6 +5,7 @@ import org.springframework.web.context.request.NativeWebRequest;
 import org.springframework.web.method.support.HandlerMethodReturnValueHandler;
 import org.springframework.web.method.support.ModelAndViewContainer;
 
+import cn.featherfly.common.api.Response;
 import cn.featherfly.common.policy.AllowPolicy;
 import cn.featherfly.web.spring.servlet.view.Result;
 
@@ -36,6 +37,7 @@ public class ResponseBodyWrapHandler implements HandlerMethodReturnValueHandler 
         } else {
             Result<Object> result = new Result<>();
             result.setData(returnValue);
+            result.setCode(Response.SUCCESS_CODE);
             delegate.handleReturnValue(result, returnType, mavContainer, webRequest);
         }
     }

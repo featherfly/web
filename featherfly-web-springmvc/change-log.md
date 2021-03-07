@@ -1,3 +1,6 @@
+# 0.4.13 2021-03-07
+1. 返回参数的code带有默认值(OK, ERROR)
+
 # 0.4.12 2020-12-23
 1. 更新Response逻辑
 2. 删除PaginationHandlerMethodArgumentResolver
