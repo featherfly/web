@@ -20,6 +20,8 @@ public class ResponseBodyWrapHandler implements HandlerMethodReturnValueHandler 
 
     private AllowPolicy<Object> allowPolicy;
 
+    private boolean onlyWrapNull;
+
     public ResponseBodyWrapHandler(HandlerMethodReturnValueHandler delegate) {
         this.delegate = delegate;
     }
@@ -35,10 +37,12 @@ public class ResponseBodyWrapHandler implements HandlerMethodReturnValueHandler 
         if (allowPolicy != null && !allowPolicy.isAllow(returnValue)) {
             delegate.handleReturnValue(returnValue, returnType, mavContainer, webRequest);
         } else {
-            Result<Object> result = new Result<>();
-            result.setData(returnValue);
-            result.setCode(Response.SUCCESS_CODE);
-            delegate.handleReturnValue(result, returnType, mavContainer, webRequest);
+            if (returnValue == null || !onlyWrapNull) {
+                Result<Object> result = new Result<>();
+                result.setData(returnValue);
+                result.setCode(Response.SUCCESS_CODE);
+                delegate.handleReturnValue(result, returnType, mavContainer, webRequest);
+            }
         }
     }
 
@@ -58,6 +62,24 @@ public class ResponseBodyWrapHandler implements HandlerMethodReturnValueHandler 
      */
     public void setAllowPolicy(AllowPolicy<Object> allowPolicy) {
         this.allowPolicy = allowPolicy;
+    }
+
+    /**
+     * get onlyWrapNull value
+     *
+     * @return onlyWrapNull
+     */
+    public boolean isOnlyWrapNull() {
+        return onlyWrapNull;
+    }
+
+    /**
+     * set onlyWrapNull value
+     *
+     * @param onlyWrapNull onlyWrapNull
+     */
+    public void setOnlyWrapNull(boolean onlyWrapNull) {
+        this.onlyWrapNull = onlyWrapNull;
     }
 
 }
