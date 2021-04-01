@@ -1,3 +1,6 @@
+# 0.4.14 2021-04-01
+1. 修复PageHandlerMethodArgumentResolver pageFactory拼写错误问题
+
 # 0.4.13 2021-03-07
 1. 返回参数的code带有默认值(OK, ERROR)
 

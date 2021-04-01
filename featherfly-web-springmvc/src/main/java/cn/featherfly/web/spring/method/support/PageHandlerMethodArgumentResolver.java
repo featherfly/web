@@ -43,12 +43,12 @@ public class PageHandlerMethodArgumentResolver implements HandlerMethodArgumentR
     @Override
     public Object resolveArgument(MethodParameter parameter, ModelAndViewContainer mavContainer,
             NativeWebRequest webRequest, WebDataBinderFactory binderFactory) throws Exception {
-        AssertIllegalArgument.isNotNull(pageFacotry, "pageFacotry不能为空");
+        AssertIllegalArgument.isNotNull(pageFactory, "pageFacotry不能为空");
         List<MediaType> mediaTypes = contentNegotiationManager.resolveMediaTypes(webRequest);
         if (ignore(mediaTypes)) {
             return null;
         } else {
-            return pageFacotry.create(webRequest.getNativeRequest(HttpServletRequest.class));
+            return pageFactory.create(webRequest.getNativeRequest(HttpServletRequest.class));
         }
 
     }
@@ -74,7 +74,7 @@ public class PageHandlerMethodArgumentResolver implements HandlerMethodArgumentR
         return false;
     }
 
-    private PageFactory pageFacotry;
+    private PageFactory pageFactory;
 
     private ContentNegotiationManager contentNegotiationManager;
 
@@ -85,17 +85,17 @@ public class PageHandlerMethodArgumentResolver implements HandlerMethodArgumentR
      *
      * @return pageFacotry
      */
-    public PageFactory getPageFacotry() {
-        return pageFacotry;
+    public PageFactory getPageFactory() {
+        return pageFactory;
     }
 
     /**
      * 设置pageFacotry
      *
-     * @param pageFacotry pageFacotry
+     * @param pageFactory pageFacotry
      */
-    public void setPageFacotry(PageFactory pageFacotry) {
-        this.pageFacotry = pageFacotry;
+    public void setPageFactory(PageFactory pageFactory) {
+        this.pageFactory = pageFactory;
     }
 
     /**
