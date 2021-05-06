@@ -1,3 +1,6 @@
+# 0.4.15 
+1. 加入CrosHostInterceptor
+
 # 0.4.14 2021-04-01
 1. 修复PageHandlerMethodArgumentResolver pageFactory拼写错误问题
 
