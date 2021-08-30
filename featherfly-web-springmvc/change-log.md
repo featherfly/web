@@ -1,6 +1,6 @@
 # 0.4.15 2021-08-30
 1. 加入CrosHostInterceptor
-2. AttachHttpMessageConverter获取模板(getTemplate)都要从templateBasePath开始查找
+2. AttachHttpMessageConverter获取模板(getTemplate)都要从templateBasePath开始查找，并加入从request.attribute中获取模板路径
 
 # 0.4.14 2021-04-01
 1. 修复PageHandlerMethodArgumentResolver pageFactory拼写错误问题

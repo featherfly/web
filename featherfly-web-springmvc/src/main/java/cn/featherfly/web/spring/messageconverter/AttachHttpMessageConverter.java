@@ -101,9 +101,19 @@ public abstract class AttachHttpMessageConverter extends AbstractGenericHttpMess
      */
     protected InputStream getTemplate(HttpServletRequest request) {
         String templatePath = null;
+        // 最高优先级，从request.parameter中获取
         if (Lang.isNotEmpty(templatePathKey)) {
             templatePath = request.getParameter(templatePathKey);
+
+            // 次优先级，从request.attribute中获取
+            if (Lang.isEmpty(templatePath)) {
+                Object p = request.getAttribute(templatePathKey);
+                if (p != null) {
+                    templatePath = p.toString();
+                }
+            }
         }
+        // 最后，从请求路径获取
         if (Lang.isEmpty(templatePath)) {
             templatePath = ServletUtils.getRequestURI(request);
         }
