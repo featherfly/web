@@ -106,9 +106,8 @@ public abstract class AttachHttpMessageConverter extends AbstractGenericHttpMess
         }
         if (Lang.isEmpty(templatePath)) {
             templatePath = ServletUtils.getRequestURI(request);
-        } else {
-            templatePath = templateBasePath + "/" + templatePath;
         }
+        templatePath = templateBasePath + "/" + templatePath;
         boolean match = matchExtName(templatePath);
         if (!match) {
             templatePath = templatePath + "." + extNames[0];

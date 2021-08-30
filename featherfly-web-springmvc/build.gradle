@@ -7,10 +7,10 @@ ext {
 
 dependencies {
     api 'cn.featherfly.common:common-model-api:0.2.2'
-    api 'cn.featherfly.common:common-core:1.8.21'
+    api 'cn.featherfly.common:common-core:1.8.26'
     api 'cn.featherfly:featherfly-web:1.2.4'
     api 'cn.featherfly:featherfly-conversion:1.4.1'
-    api 'cn.featherfly:featherfly-data-office:0.1.4'
+    api 'cn.featherfly:featherfly-data-office:0.1.5'
 	api 'org.springframework:spring-web:' + sv    
     api 'org.springframework:spring-webmvc:' + sv
     //api 'org.springframework:spring-context-support:' + sv        
