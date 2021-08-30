@@ -1,3 +1,6 @@
+# 0.4.16 2021-08-30
+1. AttachHttpMessageConverter加入ClassLoader参数，用于处理项目使用特殊加载器的情况（如springboot jar）
+
 # 0.4.15 2021-08-30
 1. 加入CrosHostInterceptor
 2. AttachHttpMessageConverter获取模板(getTemplate)都要从templateBasePath开始查找，并加入从request.attribute中获取模板路径

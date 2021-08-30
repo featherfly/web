@@ -1,13 +1,12 @@
 
 package cn.featherfly.web.spring.messageconverter;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.lang.reflect.Type;
-import java.util.List;
-
-import javax.servlet.http.HttpServletRequest;
-
+import cn.featherfly.common.bean.BeanUtils;
+import cn.featherfly.common.lang.Lang;
+import cn.featherfly.common.lang.Strings;
+import cn.featherfly.common.lang.UriUtils;
+import cn.featherfly.web.WebException;
+import cn.featherfly.web.servlet.ServletUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -16,12 +15,11 @@ import org.springframework.http.MediaType;
 import org.springframework.http.converter.AbstractGenericHttpMessageConverter;
 import org.springframework.http.converter.HttpMessageNotReadableException;
 
-import cn.featherfly.common.bean.BeanUtils;
-import cn.featherfly.common.lang.ClassLoaderUtils;
-import cn.featherfly.common.lang.Lang;
-import cn.featherfly.common.lang.Strings;
-import cn.featherfly.web.WebException;
-import cn.featherfly.web.servlet.ServletUtils;
+import javax.servlet.http.HttpServletRequest;
+import java.io.IOException;
+import java.io.InputStream;
+import java.lang.reflect.Type;
+import java.util.List;
 
 /**
  * <p>
@@ -56,13 +54,37 @@ public abstract class AttachHttpMessageConverter extends AbstractGenericHttpMess
 
     protected String templateBasePath = "";
 
+    private ClassLoader classLoader;
+
+    /**
+     * Construct an {@code AbstractGenericHttpMessageConverter} with no supported media types.
+     *
+     * @see #setSupportedMediaTypes
+     */
+    protected AttachHttpMessageConverter() {
+        this(null);
+    }
+
+    /**
+     * Construct an {@code AbstractGenericHttpMessageConverter} with no supported media types.
+     *
+     * @param classLoader the class loader
+     * @see #setSupportedMediaTypes #setSupportedMediaTypes
+     */
+    protected AttachHttpMessageConverter(ClassLoader classLoader) {
+        this.classLoader = classLoader;
+        if (this.classLoader == null) {
+            this.classLoader = Thread.currentThread().getContextClassLoader();
+        }
+    }
+
     /**
      * {@inheritDoc}
      */
     @Override
     public Object read(Type type, Class<?> contextClass, HttpInputMessage inputMessage)
             throws IOException, HttpMessageNotReadableException {
-        return null;
+        throw new UnsupportedOperationException();
     }
 
     /**
@@ -79,7 +101,7 @@ public abstract class AttachHttpMessageConverter extends AbstractGenericHttpMess
     @Override
     protected Object readInternal(Class<? extends Object> clazz, HttpInputMessage inputMessage)
             throws IOException, HttpMessageNotReadableException {
-        return null;
+        throw new UnsupportedOperationException();
     }
 
     protected boolean matchExtName(String name) {
@@ -117,20 +139,20 @@ public abstract class AttachHttpMessageConverter extends AbstractGenericHttpMess
         if (Lang.isEmpty(templatePath)) {
             templatePath = ServletUtils.getRequestURI(request);
         }
-        templatePath = templateBasePath + "/" + templatePath;
+        templatePath = UriUtils.linkUri(templateBasePath, templatePath);
         boolean match = matchExtName(templatePath);
         if (!match) {
             templatePath = templatePath + "." + extNames[0];
         }
         logger.debug("TemplatePath -> {}", templatePath);
-        InputStream is = ClassLoaderUtils.getResourceAsStream(templatePath, this.getClass());
+        InputStream is = classLoader.getResourceAsStream(templatePath);
         if (is == null) {
             String fileName = StringUtils.substringAfterLast(templatePath, "/");
             logger.debug("未找到路径{}对应的模板，使用{}再查找", templatePath, fileName);
-            is = ClassLoaderUtils.getResourceAsStream(fileName, this.getClass());
-        }
-        if (Lang.isEmpty(is)) {
-            throw new WebException("未找到[" + templatePath + "]对应的模板");
+            is = classLoader.getResourceAsStream(UriUtils.linkUri(templateBasePath,fileName));
+            if (Lang.isEmpty(is)) {
+                throw new WebException("未找到[" + fileName + "]对应的模板");
+            }
         }
         return is;
     }
@@ -400,5 +422,13 @@ public abstract class AttachHttpMessageConverter extends AbstractGenericHttpMess
      */
     public void setTemplateBasePath(String templateBasePath) {
         this.templateBasePath = templateBasePath;
+    }
+
+    public ClassLoader getClassLoader() {
+        return classLoader;
+    }
+
+    public void setClassLoader(ClassLoader classLoader) {
+        this.classLoader = classLoader;
     }
 }

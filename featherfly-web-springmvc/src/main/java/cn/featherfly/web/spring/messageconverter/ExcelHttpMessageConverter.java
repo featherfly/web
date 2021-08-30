@@ -1,22 +1,20 @@
 package cn.featherfly.web.spring.messageconverter;
 
-import java.io.IOException;
-import java.lang.reflect.Type;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
-
-import javax.servlet.http.HttpServletRequest;
-
+import cn.featherfly.data.office.excel.ExcelDataMapper;
+import cn.featherfly.data.office.excel.ExcelDataSource;
+import cn.featherfly.data.office.excel.ExcelSwaggerModelMapper;
+import cn.featherfly.web.spring.interceptor.RequestHolderInterceptor;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.http.HttpOutputMessage;
 import org.springframework.http.MediaType;
 import org.springframework.http.converter.HttpMessageNotWritableException;
 
-import cn.featherfly.data.office.excel.ExcelDataMapper;
-import cn.featherfly.data.office.excel.ExcelDataSource;
-import cn.featherfly.data.office.excel.ExcelSwaggerModelMapper;
-import cn.featherfly.web.spring.interceptor.RequestHolderInterceptor;
+import javax.servlet.http.HttpServletRequest;
+import java.io.IOException;
+import java.lang.reflect.Type;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
 
 /**
  * Created by zj on 2017/4/11.
@@ -26,8 +24,20 @@ public class ExcelHttpMessageConverter extends AttachHttpMessageConverter {
     private ExcelDataMapper<?> mapper = new ExcelSwaggerModelMapper<>();
 
     /**
+     * Instantiates a new Excel http message converter.
      */
     public ExcelHttpMessageConverter() {
+        this(null);
+    }
+
+
+    /**
+     * Instantiates a new Excel http message converter.
+     *
+     * @param classLoader the class loader
+     */
+    public ExcelHttpMessageConverter(ClassLoader classLoader) {
+        super(classLoader);
         this.extNames = new String[] { "xlsx", "xls" };
         this.resolverPath = "data.content";
         setSupportedMediaTypes(
@@ -69,7 +79,8 @@ public class ExcelHttpMessageConverter extends AttachHttpMessageConverter {
 
     /**
      * 返回mapper
-     * @return mapper
+     *
+     * @return mapper mapper
      */
     public ExcelDataMapper<?> getMapper() {
         return mapper;
@@ -77,6 +88,7 @@ public class ExcelHttpMessageConverter extends AttachHttpMessageConverter {
 
     /**
      * 设置mapper
+     *
      * @param mapper mapper
      */
     public void setMapper(ExcelDataMapper<?> mapper) {

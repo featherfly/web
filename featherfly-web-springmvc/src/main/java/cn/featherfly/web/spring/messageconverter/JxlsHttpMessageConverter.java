@@ -1,27 +1,25 @@
 
 package cn.featherfly.web.spring.messageconverter;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.lang.reflect.Type;
-import java.util.Arrays;
-
-import javax.servlet.http.HttpServletRequest;
-
+import cn.featherfly.common.lang.Lang;
+import cn.featherfly.web.spring.interceptor.RequestHolderInterceptor;
 import org.jxls.common.Context;
 import org.jxls.util.JxlsHelper;
 import org.springframework.http.HttpOutputMessage;
 import org.springframework.http.MediaType;
 import org.springframework.http.converter.HttpMessageNotWritableException;
 
-import cn.featherfly.common.lang.Lang;
-import cn.featherfly.web.spring.interceptor.RequestHolderInterceptor;
+import javax.servlet.http.HttpServletRequest;
+import java.io.IOException;
+import java.io.InputStream;
+import java.lang.reflect.Type;
+import java.util.Arrays;
 
 /**
  * <p>
  * JxlsHttpMessageConverter
  * </p>
- * 
+ *
  * @author 钟冀
  */
 public class JxlsHttpMessageConverter extends AttachHttpMessageConverter {
@@ -29,10 +27,20 @@ public class JxlsHttpMessageConverter extends AttachHttpMessageConverter {
     private boolean autoHeight = true;
 
     /**
-     * 
+     * Instantiates a new Jxls http message converter.
      */
     public JxlsHttpMessageConverter() {
-        super();
+        this(null);
+
+    }
+
+    /**
+     * Instantiates a new Jxls http message converter.
+     *
+     * @param classLoader the class loader
+     */
+    public JxlsHttpMessageConverter(ClassLoader classLoader) {
+        super(classLoader);
         extNames = new String[] { "xlsx", "xls" };
         setSupportedMediaTypes(
                 Arrays.asList(new MediaType("application", "excel"), new MediaType("application", "*+excel")
@@ -66,8 +74,8 @@ public class JxlsHttpMessageConverter extends AttachHttpMessageConverter {
 
     /**
      * 返回autoHeight
-     * 
-     * @return autoHeight
+     *
+     * @return autoHeight boolean
      */
     public boolean isAutoHeight() {
         return autoHeight;
@@ -75,9 +83,8 @@ public class JxlsHttpMessageConverter extends AttachHttpMessageConverter {
 
     /**
      * 设置autoHeight
-     * 
-     * @param autoHeight
-     *            autoHeight
+     *
+     * @param autoHeight autoHeight
      */
     public void setAutoHeight(boolean autoHeight) {
         this.autoHeight = autoHeight;
