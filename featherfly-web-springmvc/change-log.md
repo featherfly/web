@@ -1,3 +1,7 @@
+# 0.4.17 2022-04-06
+1. 修复common-core不兼容升级
+2. 升级spring、jxls版本
+
 # 0.4.16 2021-08-30
 1. AttachHttpMessageConverter加入ClassLoader参数，用于处理项目使用特殊加载器的情况（如springboot jar）
 
