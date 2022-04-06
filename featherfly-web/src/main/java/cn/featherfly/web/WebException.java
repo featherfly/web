@@ -6,86 +6,102 @@ import java.util.Locale;
 import cn.featherfly.common.exception.LocalizedException;
 
 /**
- * <p>
- * WebException
- * </p>
+ * WebException.
  *
- * @author 钟冀
+ * @author zhongj
  */
 public class WebException extends LocalizedException {
 
     private static final long serialVersionUID = -1361906263491038987L;
 
     /**
-     * @param message
-     * @param locale
-     * @param ex
+     * Instantiates a new web exception.
+     *
+     * @param message the message
+     * @param locale  the locale
+     * @param ex      the ex
      */
     public WebException(String message, Locale locale, Throwable ex) {
         super(message, locale, ex);
     }
 
     /**
-     * @param message
-     * @param locale
+     * Instantiates a new web exception.
+     *
+     * @param message the message
+     * @param locale  the locale
      */
     public WebException(String message, Locale locale) {
         super(message, locale);
     }
 
     /**
-     * @param message
-     * @param argus
-     * @param locale
-     * @param ex
+     * Instantiates a new web exception.
+     *
+     * @param message the message
+     * @param argus   the argus
+     * @param locale  the locale
+     * @param ex      the ex
      */
     public WebException(String message, Object[] argus, Locale locale, Throwable ex) {
         super(message, argus, locale, ex);
     }
 
     /**
-     * @param message
-     * @param argus
-     * @param locale
+     * Instantiates a new web exception.
+     *
+     * @param message the message
+     * @param argus   the argus
+     * @param locale  the locale
      */
     public WebException(String message, Object[] argus, Locale locale) {
         super(message, argus, locale);
     }
 
     /**
-     * @param message
-     * @param argus
-     * @param ex
+     * Instantiates a new web exception.
+     *
+     * @param message the message
+     * @param argus   the argus
+     * @param ex      the ex
      */
     public WebException(String message, Object[] argus, Throwable ex) {
         super(message, argus, ex);
     }
 
     /**
-     * @param message
-     * @param argus
+     * Instantiates a new web exception.
+     *
+     * @param message the message
+     * @param argus   the argus
      */
     public WebException(String message, Object[] argus) {
         super(message, argus);
     }
 
     /**
-     * @param message
-     * @param ex
+     * Instantiates a new web exception.
+     *
+     * @param message the message
+     * @param ex      the ex
      */
     public WebException(String message, Throwable ex) {
         super(message, ex);
     }
 
     /**
-     * @param message
+     * Instantiates a new web exception.
+     *
+     * @param message the message
      */
     public WebException(String message) {
         super(message);
     }
 
     /**
-     * @param ex
+     * Instantiates a new web exception.
+     *
+     * @param ex the ex
      */
     public WebException(Throwable ex) {
         super(ex);

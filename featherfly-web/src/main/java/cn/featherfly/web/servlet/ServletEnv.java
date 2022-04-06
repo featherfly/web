@@ -16,6 +16,7 @@ import cn.featherfly.web.WebException;
  * <p>
  * servlet运行环境
  * </p>
+ * .
  *
  * @author 钟冀
  */
@@ -37,7 +38,8 @@ public class ServletEnv {
      * <p>
      * 初始化
      * </p>
-     * 
+     * .
+     *
      * @param servletContext ServletContext
      */
     public static void init(ServletContext servletContext) {
@@ -55,8 +57,9 @@ public class ServletEnv {
      * <p>
      * 获取ServletEnv
      * </p>
-     * 
-     * @return
+     * .
+     *
+     * @return the env
      */
     public static ServletEnv getEnv() {
         ASSERT.isNotEmpty(env.projectDir, "ServletEnv还没有初始化");
@@ -72,8 +75,8 @@ public class ServletEnv {
     private String libDir;
 
     /**
-     * 返回projectDir
-     * 
+     * 返回projectDir.
+     *
      * @return projectDir
      */
     public String getProjectDir() {
@@ -81,8 +84,8 @@ public class ServletEnv {
     }
 
     /**
-     * 返回classesDir
-     * 
+     * 返回classesDir.
+     *
      * @return classesDir
      */
     public String getClassesDir() {
@@ -90,8 +93,8 @@ public class ServletEnv {
     }
 
     /**
-     * 返回webinfDir
-     * 
+     * 返回webinfDir.
+     *
      * @return webinfDir
      */
     public String getWebinfDir() {
@@ -99,8 +102,8 @@ public class ServletEnv {
     }
 
     /**
-     * 返回libDir
-     * 
+     * 返回libDir.
+     *
      * @return libDir
      */
     public String getLibDir() {

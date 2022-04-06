@@ -85,7 +85,9 @@ public class UploadException extends WebException {
     }
 
     /**
-     * @param ex
+     * Instantiates a new upload exception.
+     *
+     * @param ex the ex
      */
     public UploadException(Throwable ex) {
         super(ex);
