@@ -1,3 +1,6 @@
+# 1.3.1 2022-04-06
+1. 修复common-core不兼容升级
+
 # 1.3.0 2021-2-3
 1. 加入MulitiPageFactory和RequestParameterMulitiPageFactory
 2. 删除已废弃的类PaginationFactory，RequestParameterPaginationFactory
