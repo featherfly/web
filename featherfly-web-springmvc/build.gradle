@@ -6,9 +6,9 @@ ext {
 }
 
 dependencies {
-    api 'cn.featherfly.common:common-api:0.4.0'
+    api 'cn.featherfly.common:common-api:0.4.1'
     api 'cn.featherfly.common:common-model-api:0.2.2'
-    api 'cn.featherfly.common:common-core:1.9.0'
+    api 'cn.featherfly.common:common-core:1.10.7'
     api 'cn.featherfly:featherfly-web:1.3.1'
     api 'cn.featherfly:featherfly-conversion:1.4.2'
     api 'cn.featherfly:featherfly-data-office:0.1.6'
