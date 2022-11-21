@@ -33,9 +33,7 @@ import cn.featherfly.common.lang.Strings;
 import cn.featherfly.web.WebException;
 
 /**
- * <p>
- * DownloadView
- * </p>
+ * Resource View.
  *
  * @author 钟冀
  */
@@ -74,6 +72,16 @@ public class ResourceView extends AbstractView {
         download(request, response, is, result, name);
     }
 
+    /**
+     * Download.
+     *
+     * @param request     the request
+     * @param response    the response
+     * @param is          the is
+     * @param downloadObj the download obj
+     * @param name        the name
+     * @throws IOException Signals that an I/O exception has occurred.
+     */
     protected void download(HttpServletRequest request, HttpServletResponse response, InputStream is,
             Object downloadObj, String name) throws IOException {
         if (StringUtils.isBlank(getContentType())) {
@@ -123,6 +131,7 @@ public class ResourceView extends AbstractView {
      * <p>
      * 下载完成删除文件
      * </p>
+     * .
      *
      * @param obj obj
      * @return 删除成功与否
@@ -145,9 +154,11 @@ public class ResourceView extends AbstractView {
      * <p>
      * 返回编码后的名称
      * </p>
+     * .
      *
+     * @param name the name
      * @return 编码后的名称
-     * @throws UnsupportedEncodingException
+     * @throws UnsupportedEncodingException the unsupported encoding exception
      */
     protected String getEncodeName(String name) throws UnsupportedEncodingException {
         if (Lang.isEmpty(decodeCharset)) {
@@ -180,7 +191,7 @@ public class ResourceView extends AbstractView {
     private boolean downloadable;
 
     /**
-     * 返回allowCaching
+     * 返回allowCaching.
      *
      * @return allowCaching
      */
@@ -189,7 +200,7 @@ public class ResourceView extends AbstractView {
     }
 
     /**
-     * 设置allowCaching
+     * 设置allowCaching.
      *
      * @param allowCaching allowCaching
      */
@@ -198,7 +209,7 @@ public class ResourceView extends AbstractView {
     }
 
     /**
-     * 返回inputName
+     * 返回inputName.
      *
      * @return inputName
      */
@@ -207,7 +218,7 @@ public class ResourceView extends AbstractView {
     }
 
     /**
-     * 设置inputName
+     * 设置inputName.
      *
      * @param inputName inputName
      */
@@ -216,7 +227,7 @@ public class ResourceView extends AbstractView {
     }
 
     /**
-     * 设置encodeCharset
+     * 设置encodeCharset.
      *
      * @param encodeCharset encodeCharset
      */
@@ -225,6 +236,8 @@ public class ResourceView extends AbstractView {
     }
 
     /**
+     * Gets the file name.
+     *
      * @return 返回fileName
      */
     public String getFileName() {
@@ -232,6 +245,8 @@ public class ResourceView extends AbstractView {
     }
 
     /**
+     * Sets the file name.
+     *
      * @param fileName 设置fileName
      */
     public void setFileName(String fileName) {
@@ -239,6 +254,8 @@ public class ResourceView extends AbstractView {
     }
 
     /**
+     * Gets the buffer size.
+     *
      * @return 返回bufferSize
      */
     public int getBufferSize() {
@@ -246,6 +263,8 @@ public class ResourceView extends AbstractView {
     }
 
     /**
+     * Sets the buffer size.
+     *
      * @param bufferSize 设置bufferSize
      */
     public void setBufferSize(int bufferSize) {
@@ -253,7 +272,7 @@ public class ResourceView extends AbstractView {
     }
 
     /**
-     * 返回delete
+     * 返回delete.
      *
      * @return delete
      */
@@ -262,7 +281,7 @@ public class ResourceView extends AbstractView {
     }
 
     /**
-     * 设置delete
+     * 设置delete.
      *
      * @param delete delete
      */
@@ -271,7 +290,7 @@ public class ResourceView extends AbstractView {
     }
 
     /**
-     * 设置decodeCharset
+     * 设置decodeCharset.
      *
      * @param decodeCharset decodeCharset
      */
@@ -280,7 +299,7 @@ public class ResourceView extends AbstractView {
     }
 
     /**
-     * 返回result
+     * 返回result.
      *
      * @return result
      */
@@ -289,7 +308,7 @@ public class ResourceView extends AbstractView {
     }
 
     /**
-     * 设置result
+     * 设置result.
      *
      * @param result result
      */
@@ -298,7 +317,7 @@ public class ResourceView extends AbstractView {
     }
 
     /**
-     * 返回downloadable
+     * 返回downloadable.
      *
      * @return downloadable
      */
@@ -307,7 +326,7 @@ public class ResourceView extends AbstractView {
     }
 
     /**
-     * 设置downloadable
+     * 设置downloadable.
      *
      * @param downloadable downloadable
      */

@@ -7,20 +7,21 @@ import cn.featherfly.common.lang.Lang;
 import cn.featherfly.web.spring.servlet.view.Result;
 
 /**
- * <p>
- * ResultJsonView
- * </p>
+ * Result Json View.
  *
  * @author 钟冀
  */
 public class ResultJsonView extends ObjectJacksonJsonView {
 
     /**
+     * Instantiates a new result json view.
      */
     public ResultJsonView() {
     }
 
     /**
+     * Instantiates a new result json view.
+     *
      * @param message message
      */
     public ResultJsonView(String message) {
@@ -28,6 +29,9 @@ public class ResultJsonView extends ObjectJacksonJsonView {
     }
 
     /**
+     * Instantiates a new result json view.
+     *
+     * @param <R>          the generic type
      * @param resultObject resultObject
      */
     @SuppressWarnings("rawtypes")
@@ -36,6 +40,9 @@ public class ResultJsonView extends ObjectJacksonJsonView {
     }
 
     /**
+     * Instantiates a new result json view.
+     *
+     * @param <R>          the generic type
      * @param resultObject resultObject
      * @param message      message
      */
@@ -46,7 +53,7 @@ public class ResultJsonView extends ObjectJacksonJsonView {
     }
 
     /**
-     * return result
+     * return result.
      *
      * @param model the model, as passed on to {@link #renderMergedOutputModel}
      * @return the value to be rendered -&gt; resultObject
@@ -71,7 +78,7 @@ public class ResultJsonView extends ObjectJacksonJsonView {
     private String message;
 
     /**
-     * 返回message
+     * 返回message.
      *
      * @return message
      */
@@ -80,7 +87,7 @@ public class ResultJsonView extends ObjectJacksonJsonView {
     }
 
     /**
-     * 设置message
+     * 设置message.
      *
      * @param message message
      */
