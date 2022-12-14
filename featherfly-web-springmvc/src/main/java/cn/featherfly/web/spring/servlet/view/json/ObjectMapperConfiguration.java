@@ -3,7 +3,6 @@ package cn.featherfly.web.spring.servlet.view.json;
 import java.text.SimpleDateFormat;
 
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
-import com.fasterxml.jackson.core.JsonFactoryBuilder;
 import com.fasterxml.jackson.core.JsonGenerator.Feature;
 import com.fasterxml.jackson.core.json.JsonReadFeature;
 import com.fasterxml.jackson.core.json.JsonWriteFeature;
@@ -11,6 +10,7 @@ import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.MapperFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
+import com.fasterxml.jackson.databind.json.JsonMapper;
 
 import cn.featherfly.common.lang.Lang;
 
@@ -30,28 +30,52 @@ public class ObjectMapperConfiguration {
     }
 
     private ObjectMapper configure() {
-        JsonFactoryBuilder builder = new JsonFactoryBuilder();
+        JsonMapper.Builder mapperBuilder = JsonMapper.builder();
 
         // JsonWriteFeature
-        configure(builder, JsonWriteFeature.WRITE_NUMBERS_AS_STRINGS, writeNumbersAsStrings);
-        configure(builder, JsonWriteFeature.ESCAPE_NON_ASCII, escapeNonAscii);
-        configure(builder, JsonWriteFeature.QUOTE_FIELD_NAMES, quoteFieldNames);
-        configure(builder, JsonWriteFeature.WRITE_NAN_AS_STRINGS, writeNanAsStrings);
+        configure(mapperBuilder, JsonWriteFeature.WRITE_NUMBERS_AS_STRINGS, writeNumbersAsStrings);
+        configure(mapperBuilder, JsonWriteFeature.ESCAPE_NON_ASCII, escapeNonAscii);
+        configure(mapperBuilder, JsonWriteFeature.QUOTE_FIELD_NAMES, quoteFieldNames);
+        configure(mapperBuilder, JsonWriteFeature.WRITE_NAN_AS_STRINGS, writeNanAsStrings);
 
         // JsonReadFeature
-        configure(builder, JsonReadFeature.ALLOW_BACKSLASH_ESCAPING_ANY_CHARACTER, allowBackslashEscapingAnyCharacter);
-        configure(builder, JsonReadFeature.ALLOW_JAVA_COMMENTS, allowJavaComments);
-        configure(builder, JsonReadFeature.ALLOW_LEADING_DECIMAL_POINT_FOR_NUMBERS, allowLeadingDecimalPointForNumbers);
-        configure(builder, JsonReadFeature.ALLOW_LEADING_ZEROS_FOR_NUMBERS, allowLeadingZerosForNumbers);
-        configure(builder, JsonReadFeature.ALLOW_MISSING_VALUES, allowMissingValues);
-        configure(builder, JsonReadFeature.ALLOW_NON_NUMERIC_NUMBERS, allowNonNumericNumbers);
-        configure(builder, JsonReadFeature.ALLOW_SINGLE_QUOTES, allowSingleQuotes);
-        configure(builder, JsonReadFeature.ALLOW_TRAILING_COMMA, allowTrailingComma);
-        configure(builder, JsonReadFeature.ALLOW_UNESCAPED_CONTROL_CHARS, allowUnescapedControlChars);
-        configure(builder, JsonReadFeature.ALLOW_UNQUOTED_FIELD_NAMES, allowUnquotedFieldNames);
-        configure(builder, JsonReadFeature.ALLOW_YAML_COMMENTS, allowYamlComments);
+        configure(mapperBuilder, JsonReadFeature.ALLOW_BACKSLASH_ESCAPING_ANY_CHARACTER,
+                allowBackslashEscapingAnyCharacter);
+        configure(mapperBuilder, JsonReadFeature.ALLOW_JAVA_COMMENTS, allowJavaComments);
+        configure(mapperBuilder, JsonReadFeature.ALLOW_LEADING_DECIMAL_POINT_FOR_NUMBERS,
+                allowLeadingDecimalPointForNumbers);
+        configure(mapperBuilder, JsonReadFeature.ALLOW_LEADING_ZEROS_FOR_NUMBERS, allowLeadingZerosForNumbers);
+        configure(mapperBuilder, JsonReadFeature.ALLOW_MISSING_VALUES, allowMissingValues);
+        configure(mapperBuilder, JsonReadFeature.ALLOW_NON_NUMERIC_NUMBERS, allowNonNumericNumbers);
+        configure(mapperBuilder, JsonReadFeature.ALLOW_SINGLE_QUOTES, allowSingleQuotes);
+        configure(mapperBuilder, JsonReadFeature.ALLOW_TRAILING_COMMA, allowTrailingComma);
+        configure(mapperBuilder, JsonReadFeature.ALLOW_UNESCAPED_CONTROL_CHARS, allowUnescapedControlChars);
+        configure(mapperBuilder, JsonReadFeature.ALLOW_UNQUOTED_FIELD_NAMES, allowUnquotedFieldNames);
+        configure(mapperBuilder, JsonReadFeature.ALLOW_YAML_COMMENTS, allowYamlComments);
 
-        ObjectMapper mapper = new ObjectMapper(builder.build());
+        // MapperFeature
+        configure(mapperBuilder, MapperFeature.ACCEPT_CASE_INSENSITIVE_PROPERTIES, acceptCaseInsensitiveProperties);
+        configure(mapperBuilder, MapperFeature.ALLOW_FINAL_FIELDS_AS_MUTATORS, allowFinalFieldsAsMutators);
+        configure(mapperBuilder, MapperFeature.AUTO_DETECT_CREATORS, autoDetectCreators);
+        configure(mapperBuilder, MapperFeature.AUTO_DETECT_FIELDS, autoDetectFields);
+        configure(mapperBuilder, MapperFeature.AUTO_DETECT_GETTERS, autoDetectGetters);
+        configure(mapperBuilder, MapperFeature.AUTO_DETECT_IS_GETTERS, autoDetectIsGetters);
+        configure(mapperBuilder, MapperFeature.AUTO_DETECT_SETTERS, autoDetectSetters);
+        configure(mapperBuilder, MapperFeature.CAN_OVERRIDE_ACCESS_MODIFIERS, canOverrideAccessModifiers);
+        configure(mapperBuilder, MapperFeature.DEFAULT_VIEW_INCLUSION, defaultViewInclusion);
+        configure(mapperBuilder, MapperFeature.IGNORE_DUPLICATE_MODULE_REGISTRATIONS,
+                ignoreDuplicateModuleRegistrations);
+        configure(mapperBuilder, MapperFeature.INFER_PROPERTY_MUTATORS, inferPropertyMutators);
+        configure(mapperBuilder, MapperFeature.REQUIRE_SETTERS_FOR_GETTERS, requireSettersForGetters);
+        configure(mapperBuilder, MapperFeature.SORT_PROPERTIES_ALPHABETICALLY, sortPropertiesAlphabetically);
+        configure(mapperBuilder, MapperFeature.USE_ANNOTATIONS, useAnnotations);
+        configure(mapperBuilder, MapperFeature.USE_GETTERS_AS_SETTERS, useGettersAsSetters);
+        configure(mapperBuilder, MapperFeature.USE_STATIC_TYPING, useStaticTyping);
+        configure(mapperBuilder, MapperFeature.USE_STD_BEAN_NAMING, useStdBeanNaming);
+        configure(mapperBuilder, MapperFeature.USE_WRAPPER_NAME_AS_PROPERTY_NAME, useWrapperNameAsPropertyName);
+
+        //        ObjectMapper mapper = new ObjectMapper(factoryBuilder.build());
+        ObjectMapper mapper = mapperBuilder.build();
         configure(mapper);
         return mapper;
     }
@@ -96,26 +120,6 @@ public class ObjectMapperConfiguration {
         configure(mapper, SerializationFeature.WRITE_DATE_TIMESTAMPS_AS_NANOSECONDS, writeDateTimestampsAsNanoseconds);
         configure(mapper, SerializationFeature.EAGER_SERIALIZER_FETCH, eagerserializerfetch);
 
-        // MapperFeature
-        configure(mapper, MapperFeature.ACCEPT_CASE_INSENSITIVE_PROPERTIES, acceptCaseInsensitiveProperties);
-        configure(mapper, MapperFeature.ALLOW_FINAL_FIELDS_AS_MUTATORS, allowFinalFieldsAsMutators);
-        configure(mapper, MapperFeature.AUTO_DETECT_CREATORS, autoDetectCreators);
-        configure(mapper, MapperFeature.AUTO_DETECT_FIELDS, autoDetectFields);
-        configure(mapper, MapperFeature.AUTO_DETECT_GETTERS, autoDetectGetters);
-        configure(mapper, MapperFeature.AUTO_DETECT_IS_GETTERS, autoDetectIsGetters);
-        configure(mapper, MapperFeature.AUTO_DETECT_SETTERS, autoDetectSetters);
-        configure(mapper, MapperFeature.CAN_OVERRIDE_ACCESS_MODIFIERS, canOverrideAccessModifiers);
-        configure(mapper, MapperFeature.DEFAULT_VIEW_INCLUSION, defaultViewInclusion);
-        configure(mapper, MapperFeature.IGNORE_DUPLICATE_MODULE_REGISTRATIONS, ignoreDuplicateModuleRegistrations);
-        configure(mapper, MapperFeature.INFER_PROPERTY_MUTATORS, inferPropertyMutators);
-        configure(mapper, MapperFeature.REQUIRE_SETTERS_FOR_GETTERS, requireSettersForGetters);
-        configure(mapper, MapperFeature.SORT_PROPERTIES_ALPHABETICALLY, sortPropertiesAlphabetically);
-        configure(mapper, MapperFeature.USE_ANNOTATIONS, useAnnotations);
-        configure(mapper, MapperFeature.USE_GETTERS_AS_SETTERS, useGettersAsSetters);
-        configure(mapper, MapperFeature.USE_STATIC_TYPING, useStaticTyping);
-        configure(mapper, MapperFeature.USE_STD_BEAN_NAMING, useStdBeanNaming);
-        configure(mapper, MapperFeature.USE_WRAPPER_NAME_AS_PROPERTY_NAME, useWrapperNameAsPropertyName);
-
         // Feature
         //        configure(mapper, Feature.WRITE_NUMBERS_AS_STRINGS, writeNumbersAsStrings);
         configure(mapper, Feature.WRITE_BIGDECIMAL_AS_PLAIN, writeBigdecimalAsPlain);
@@ -151,13 +155,19 @@ public class ObjectMapperConfiguration {
         configure(mapper, DeserializationFeature.WRAP_EXCEPTIONS, wrapExceptions);
     }
 
-    private void configure(JsonFactoryBuilder builder, JsonReadFeature feature, Boolean state) {
+    private void configure(JsonMapper.Builder builder, JsonReadFeature feature, Boolean state) {
         if (state != null) {
             builder.configure(feature, state);
         }
     }
 
-    private void configure(JsonFactoryBuilder builder, JsonWriteFeature feature, Boolean state) {
+    private void configure(JsonMapper.Builder builder, JsonWriteFeature feature, Boolean state) {
+        if (state != null) {
+            builder.configure(feature, state);
+        }
+    }
+
+    private void configure(JsonMapper.Builder builder, MapperFeature feature, Boolean state) {
         if (state != null) {
             builder.configure(feature, state);
         }
@@ -169,11 +179,11 @@ public class ObjectMapperConfiguration {
         }
     }
 
-    private void configure(ObjectMapper mapper, MapperFeature feature, Boolean state) {
-        if (state != null) {
-            mapper.configure(feature, state);
-        }
-    }
+    //    private void configure(ObjectMapper mapper, MapperFeature feature, Boolean state) {
+    //        if (state != null) {
+    //            mapper.configure(feature, state);
+    //        }
+    //    }
 
     private void configure(ObjectMapper mapper, Feature feature, Boolean state) {
         if (state != null) {
