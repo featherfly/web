@@ -1,3 +1,6 @@
+# 1.3.2 2022-12-14
+1. 修复common-core不兼容升级，单独提出common-storage
+
 # 1.3.1 2022-04-06
 1. 修复common-core不兼容升级
 

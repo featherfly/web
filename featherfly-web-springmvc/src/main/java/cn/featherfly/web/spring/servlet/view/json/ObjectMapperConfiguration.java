@@ -3,7 +3,10 @@ package cn.featherfly.web.spring.servlet.view.json;
 import java.text.SimpleDateFormat;
 
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
+import com.fasterxml.jackson.core.JsonFactoryBuilder;
 import com.fasterxml.jackson.core.JsonGenerator.Feature;
+import com.fasterxml.jackson.core.json.JsonReadFeature;
+import com.fasterxml.jackson.core.json.JsonWriteFeature;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.MapperFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -12,31 +15,50 @@ import com.fasterxml.jackson.databind.SerializationFeature;
 import cn.featherfly.common.lang.Lang;
 
 /**
- * <p>
- * ObjectMapperConfiguration
- * </p>
+ * ObjectMapperConfiguration.
  *
  * @author 钟冀
  */
 public class ObjectMapperConfiguration {
     /**
-     * <p>
-     * 使用配置创建ObjectMapper
-     * </p>
-     * 
+     * 使用配置创建ObjectMapper.
+     *
      * @return ObjectMapper
      */
     public ObjectMapper create() {
-        ObjectMapper mapper = new ObjectMapper();
+        return configure();
+    }
+
+    private ObjectMapper configure() {
+        JsonFactoryBuilder builder = new JsonFactoryBuilder();
+
+        // JsonWriteFeature
+        configure(builder, JsonWriteFeature.WRITE_NUMBERS_AS_STRINGS, writeNumbersAsStrings);
+        configure(builder, JsonWriteFeature.ESCAPE_NON_ASCII, escapeNonAscii);
+        configure(builder, JsonWriteFeature.QUOTE_FIELD_NAMES, quoteFieldNames);
+        configure(builder, JsonWriteFeature.WRITE_NAN_AS_STRINGS, writeNanAsStrings);
+
+        // JsonReadFeature
+        configure(builder, JsonReadFeature.ALLOW_BACKSLASH_ESCAPING_ANY_CHARACTER, allowBackslashEscapingAnyCharacter);
+        configure(builder, JsonReadFeature.ALLOW_JAVA_COMMENTS, allowJavaComments);
+        configure(builder, JsonReadFeature.ALLOW_LEADING_DECIMAL_POINT_FOR_NUMBERS, allowLeadingDecimalPointForNumbers);
+        configure(builder, JsonReadFeature.ALLOW_LEADING_ZEROS_FOR_NUMBERS, allowLeadingZerosForNumbers);
+        configure(builder, JsonReadFeature.ALLOW_MISSING_VALUES, allowMissingValues);
+        configure(builder, JsonReadFeature.ALLOW_NON_NUMERIC_NUMBERS, allowNonNumericNumbers);
+        configure(builder, JsonReadFeature.ALLOW_SINGLE_QUOTES, allowSingleQuotes);
+        configure(builder, JsonReadFeature.ALLOW_TRAILING_COMMA, allowTrailingComma);
+        configure(builder, JsonReadFeature.ALLOW_UNESCAPED_CONTROL_CHARS, allowUnescapedControlChars);
+        configure(builder, JsonReadFeature.ALLOW_UNQUOTED_FIELD_NAMES, allowUnquotedFieldNames);
+        configure(builder, JsonReadFeature.ALLOW_YAML_COMMENTS, allowYamlComments);
+
+        ObjectMapper mapper = new ObjectMapper(builder.build());
         configure(mapper);
         return mapper;
     }
 
     /**
-     * <p>
-     * 使用配置信息设置传入mapper对象
-     * </p>
-     * 
+     * 使用配置信息设置传入mapper对象.
+     *
      * @param mapper mapper
      */
     public void configure(ObjectMapper mapper) {
@@ -50,6 +72,7 @@ public class ObjectMapperConfiguration {
         if (include != null) {
             mapper.setSerializationInclusion(include);
         }
+
         // SerializationFeature
         configure(mapper, SerializationFeature.WRITE_ENUMS_USING_INDEX, writeEnumsUseingIndex);
         configure(mapper, SerializationFeature.WRITE_ENUMS_USING_TO_STRING, writeEnumsUsingToString);
@@ -68,8 +91,8 @@ public class ObjectMapperConfiguration {
         configure(mapper, SerializationFeature.WRITE_SINGLE_ELEM_ARRAYS_UNWRAPPED, writeSingleElemArraysUnwrapped);
         configure(mapper, SerializationFeature.ORDER_MAP_ENTRIES_BY_KEYS, orderMapEntriesByKeys);
         configure(mapper, SerializationFeature.USE_EQUALITY_FOR_OBJECT_ID, useEqualityForObjectId);
-        configure(mapper, SerializationFeature.WRITE_NULL_MAP_VALUES, writeNullMapValues);
-        configure(mapper, SerializationFeature.WRITE_EMPTY_JSON_ARRAYS, writeEmptyJsonArrays);
+        //        configure(mapper, SerializationFeature.WRITE_NULL_MAP_VALUES, writeNullMapValues);
+        //        configure(mapper, SerializationFeature.WRITE_EMPTY_JSON_ARRAYS, writeEmptyJsonArrays);
         configure(mapper, SerializationFeature.WRITE_DATE_TIMESTAMPS_AS_NANOSECONDS, writeDateTimestampsAsNanoseconds);
         configure(mapper, SerializationFeature.EAGER_SERIALIZER_FETCH, eagerserializerfetch);
 
@@ -94,15 +117,15 @@ public class ObjectMapperConfiguration {
         configure(mapper, MapperFeature.USE_WRAPPER_NAME_AS_PROPERTY_NAME, useWrapperNameAsPropertyName);
 
         // Feature
-        configure(mapper, Feature.WRITE_NUMBERS_AS_STRINGS, writeNumbersAsStrings);
+        //        configure(mapper, Feature.WRITE_NUMBERS_AS_STRINGS, writeNumbersAsStrings);
         configure(mapper, Feature.WRITE_BIGDECIMAL_AS_PLAIN, writeBigdecimalAsPlain);
-        configure(mapper, Feature.ESCAPE_NON_ASCII, escapeNonAscii);
+        //        configure(mapper, Feature.ESCAPE_NON_ASCII, escapeNonAscii);
         configure(mapper, Feature.STRICT_DUPLICATE_DETECTION, strictDuplicateDetection);
         configure(mapper, Feature.IGNORE_UNKNOWN, ignoreUnknown);
         configure(mapper, Feature.AUTO_CLOSE_TARGET, autoCloseTarget);
         configure(mapper, Feature.AUTO_CLOSE_JSON_CONTENT, autoCloseJsonContent);
-        configure(mapper, Feature.QUOTE_FIELD_NAMES, quoteFieldNames);
-        configure(mapper, Feature.QUOTE_NON_NUMERIC_NUMBERS, quoteNonNumericNumbers);
+        //        configure(mapper, Feature.QUOTE_FIELD_NAMES, quoteFieldNames);
+        //        configure(mapper, Feature.QUOTE_NON_NUMERIC_NUMBERS, quoteNonNumericNumbers);
         configure(mapper, Feature.FLUSH_PASSED_TO_STREAM, flushPassedToStream);
 
         configure(mapper, DeserializationFeature.ACCEPT_EMPTY_ARRAY_AS_NULL_OBJECT, acceptEmptyArrayAsNullObject);
@@ -126,6 +149,18 @@ public class ObjectMapperConfiguration {
         configure(mapper, DeserializationFeature.USE_BIG_INTEGER_FOR_INTS, useBigIntegerForInts);
         configure(mapper, DeserializationFeature.USE_JAVA_ARRAY_FOR_JSON_ARRAY, userJavaArrayForJsonArray);
         configure(mapper, DeserializationFeature.WRAP_EXCEPTIONS, wrapExceptions);
+    }
+
+    private void configure(JsonFactoryBuilder builder, JsonReadFeature feature, Boolean state) {
+        if (state != null) {
+            builder.configure(feature, state);
+        }
+    }
+
+    private void configure(JsonFactoryBuilder builder, JsonWriteFeature feature, Boolean state) {
+        if (state != null) {
+            builder.configure(feature, state);
+        }
     }
 
     private void configure(ObjectMapper mapper, SerializationFeature feature, Boolean state) {
@@ -155,6 +190,44 @@ public class ObjectMapperConfiguration {
     private String dateFormat;
 
     private Include include;
+
+    // JsonWriteFeature
+
+    private Boolean writeNumbersAsStrings;
+
+    private Boolean escapeNonAscii;
+
+    private Boolean writeNanAsStrings;
+
+    private Boolean quoteFieldNames/* = true*/;
+
+    // JsonWriteFeature
+
+    // JsonReadFeature
+
+    private Boolean allowBackslashEscapingAnyCharacter;
+
+    private Boolean allowJavaComments;
+
+    private Boolean allowYamlComments;
+
+    private Boolean allowSingleQuotes;
+
+    private Boolean allowUnquotedFieldNames;
+
+    private Boolean allowUnescapedControlChars;
+
+    private Boolean allowLeadingDecimalPointForNumbers;
+
+    private Boolean allowLeadingZerosForNumbers;
+
+    private Boolean allowNonNumericNumbers;
+
+    private Boolean allowMissingValues;
+
+    private Boolean allowTrailingComma;
+
+    // JsonReadFeature
 
     // SerializationFeature
     private Boolean writeEnumsUseingIndex;
@@ -191,9 +264,9 @@ public class ObjectMapperConfiguration {
 
     private Boolean useEqualityForObjectId;
 
-    private Boolean writeNullMapValues/* = true*/;
-
-    private Boolean writeEmptyJsonArrays/* = true*/;
+    //    private Boolean writeNullMapValues/* = true*/;
+    //
+    //    private Boolean writeEmptyJsonArrays/* = true*/;
 
     private Boolean writeDateTimestampsAsNanoseconds/* = true*/;
 
@@ -227,16 +300,13 @@ public class ObjectMapperConfiguration {
 
     // jsongenerator.feature
 
-    private Boolean writeNumbersAsStrings;
     private Boolean writeBigdecimalAsPlain;
-    private Boolean escapeNonAscii;
     private Boolean strictDuplicateDetection;
     private Boolean ignoreUnknown;
 
     private Boolean autoCloseTarget/* = true*/;
     private Boolean autoCloseJsonContent/* = true*/;
-    private Boolean quoteFieldNames/* = true*/;
-    private Boolean quoteNonNumericNumbers/* = true*/;
+
     private Boolean flushPassedToStream/* = true*/;
 
     // JsonGenerator.Feature
@@ -268,7 +338,7 @@ public class ObjectMapperConfiguration {
 
     /**
      * 返回dateFormat
-     * 
+     *
      * @return dateFormat
      */
     public String getDateFormat() {
@@ -277,7 +347,7 @@ public class ObjectMapperConfiguration {
 
     /**
      * 设置dateFormat
-     * 
+     *
      * @param dateFormat dateFormat
      */
     public void setDateFormat(String dateFormat) {
@@ -286,7 +356,7 @@ public class ObjectMapperConfiguration {
 
     /**
      * 返回writeEnumsUseingIndex
-     * 
+     *
      * @return writeEnumsUseingIndex
      */
     public Boolean getWriteEnumsUseingIndex() {
@@ -295,7 +365,7 @@ public class ObjectMapperConfiguration {
 
     /**
      * 设置writeEnumsUseingIndex
-     * 
+     *
      * @param writeEnumsUseingIndex writeEnumsUseingIndex
      */
     public void setWriteEnumsUseingIndex(Boolean writeEnumsUseingIndex) {
@@ -304,7 +374,7 @@ public class ObjectMapperConfiguration {
 
     /**
      * 返回writeEnumsUsingToString
-     * 
+     *
      * @return writeEnumsUsingToString
      */
     public Boolean getWriteEnumsUsingToString() {
@@ -313,7 +383,7 @@ public class ObjectMapperConfiguration {
 
     /**
      * 设置writeEnumsUsingToString
-     * 
+     *
      * @param writeEnumsUsingToString writeEnumsUsingToString
      */
     public void setWriteEnumsUsingToString(Boolean writeEnumsUsingToString) {
@@ -322,7 +392,7 @@ public class ObjectMapperConfiguration {
 
     /**
      * 返回wrapRootValue
-     * 
+     *
      * @return wrapRootValue
      */
     public Boolean getWrapRootValue() {
@@ -331,7 +401,7 @@ public class ObjectMapperConfiguration {
 
     /**
      * 设置wrapRootValue
-     * 
+     *
      * @param wrapRootValue wrapRootValue
      */
     public void setWrapRootValue(Boolean wrapRootValue) {
@@ -340,7 +410,7 @@ public class ObjectMapperConfiguration {
 
     /**
      * 返回indentOutput
-     * 
+     *
      * @return indentOutput
      */
     public Boolean getIndentOutput() {
@@ -349,7 +419,7 @@ public class ObjectMapperConfiguration {
 
     /**
      * 设置indentOutput
-     * 
+     *
      * @param indentOutput indentOutput
      */
     public void setIndentOutput(Boolean indentOutput) {
@@ -358,7 +428,7 @@ public class ObjectMapperConfiguration {
 
     /**
      * 返回wrapExceptions
-     * 
+     *
      * @return wrapExceptions
      */
     public Boolean getWrapExceptions() {
@@ -367,7 +437,7 @@ public class ObjectMapperConfiguration {
 
     /**
      * 设置wrapExceptions
-     * 
+     *
      * @param wrapExceptions wrapExceptions
      */
     public void setWrapExceptions(Boolean wrapExceptions) {
@@ -376,7 +446,7 @@ public class ObjectMapperConfiguration {
 
     /**
      * 返回failOnEmptyBeans
-     * 
+     *
      * @return failOnEmptyBeans
      */
     public Boolean getFailOnEmptyBeans() {
@@ -385,7 +455,7 @@ public class ObjectMapperConfiguration {
 
     /**
      * 设置failOnEmptyBeans
-     * 
+     *
      * @param failOnEmptyBeans failOnEmptyBeans
      */
     public void setFailOnEmptyBeans(Boolean failOnEmptyBeans) {
@@ -394,7 +464,7 @@ public class ObjectMapperConfiguration {
 
     /**
      * 返回failOnSelfReferences
-     * 
+     *
      * @return failOnSelfReferences
      */
     public Boolean getFailOnSelfReferences() {
@@ -403,7 +473,7 @@ public class ObjectMapperConfiguration {
 
     /**
      * 设置failOnSelfReferences
-     * 
+     *
      * @param failOnSelfReferences failOnSelfReferences
      */
     public void setFailOnSelfReferences(Boolean failOnSelfReferences) {
@@ -412,7 +482,7 @@ public class ObjectMapperConfiguration {
 
     /**
      * 返回failOnUnwrappedTypeIdentifiers
-     * 
+     *
      * @return failOnUnwrappedTypeIdentifiers
      */
     public Boolean getFailOnUnwrappedTypeIdentifiers() {
@@ -421,7 +491,7 @@ public class ObjectMapperConfiguration {
 
     /**
      * 设置failOnUnwrappedTypeIdentifiers
-     * 
+     *
      * @param failOnUnwrappedTypeIdentifiers failOnUnwrappedTypeIdentifiers
      */
     public void setFailOnUnwrappedTypeIdentifiers(Boolean failOnUnwrappedTypeIdentifiers) {
@@ -430,7 +500,7 @@ public class ObjectMapperConfiguration {
 
     /**
      * 返回closeCloseable
-     * 
+     *
      * @return closeCloseable
      */
     public Boolean getCloseCloseable() {
@@ -439,7 +509,7 @@ public class ObjectMapperConfiguration {
 
     /**
      * 设置closeCloseable
-     * 
+     *
      * @param closeCloseable closeCloseable
      */
     public void setCloseCloseable(Boolean closeCloseable) {
@@ -448,7 +518,7 @@ public class ObjectMapperConfiguration {
 
     /**
      * 返回flushAfterWriteValue
-     * 
+     *
      * @return flushAfterWriteValue
      */
     public Boolean getFlushAfterWriteValue() {
@@ -457,7 +527,7 @@ public class ObjectMapperConfiguration {
 
     /**
      * 设置flushAfterWriteValue
-     * 
+     *
      * @param flushAfterWriteValue flushAfterWriteValue
      */
     public void setFlushAfterWriteValue(Boolean flushAfterWriteValue) {
@@ -466,7 +536,7 @@ public class ObjectMapperConfiguration {
 
     /**
      * 返回writeDatesAsTimestamps
-     * 
+     *
      * @return writeDatesAsTimestamps
      */
     public Boolean getWriteDatesAsTimestamps() {
@@ -475,7 +545,7 @@ public class ObjectMapperConfiguration {
 
     /**
      * 设置writeDatesAsTimestamps
-     * 
+     *
      * @param writeDatesAsTimestamps writeDatesAsTimestamps
      */
     public void setWriteDatesAsTimestamps(Boolean writeDatesAsTimestamps) {
@@ -484,7 +554,7 @@ public class ObjectMapperConfiguration {
 
     /**
      * 返回writeDurationsAsTimestamps
-     * 
+     *
      * @return writeDurationsAsTimestamps
      */
     public Boolean getWriteDurationsAsTimestamps() {
@@ -493,7 +563,7 @@ public class ObjectMapperConfiguration {
 
     /**
      * 设置writeDurationsAsTimestamps
-     * 
+     *
      * @param writeDurationsAsTimestamps writeDurationsAsTimestamps
      */
     public void setWriteDurationsAsTimestamps(Boolean writeDurationsAsTimestamps) {
@@ -502,7 +572,7 @@ public class ObjectMapperConfiguration {
 
     /**
      * 返回writeDateKeysAsTimestamps
-     * 
+     *
      * @return writeDateKeysAsTimestamps
      */
     public Boolean getWriteDateKeysAsTimestamps() {
@@ -511,7 +581,7 @@ public class ObjectMapperConfiguration {
 
     /**
      * 设置writeDateKeysAsTimestamps
-     * 
+     *
      * @param writeDateKeysAsTimestamps writeDateKeysAsTimestamps
      */
     public void setWriteDateKeysAsTimestamps(Boolean writeDateKeysAsTimestamps) {
@@ -520,7 +590,7 @@ public class ObjectMapperConfiguration {
 
     /**
      * 返回writeCharArraysAsJsonArrays
-     * 
+     *
      * @return writeCharArraysAsJsonArrays
      */
     public Boolean getWriteCharArraysAsJsonArrays() {
@@ -529,7 +599,7 @@ public class ObjectMapperConfiguration {
 
     /**
      * 设置writeCharArraysAsJsonArrays
-     * 
+     *
      * @param writeCharArraysAsJsonArrays writeCharArraysAsJsonArrays
      */
     public void setWriteCharArraysAsJsonArrays(Boolean writeCharArraysAsJsonArrays) {
@@ -538,7 +608,7 @@ public class ObjectMapperConfiguration {
 
     /**
      * 返回writeSingleElemArraysUnwrapped
-     * 
+     *
      * @return writeSingleElemArraysUnwrapped
      */
     public Boolean getWriteSingleElemArraysUnwrapped() {
@@ -547,7 +617,7 @@ public class ObjectMapperConfiguration {
 
     /**
      * 设置writeSingleElemArraysUnwrapped
-     * 
+     *
      * @param writeSingleElemArraysUnwrapped writeSingleElemArraysUnwrapped
      */
     public void setWriteSingleElemArraysUnwrapped(Boolean writeSingleElemArraysUnwrapped) {
@@ -556,7 +626,7 @@ public class ObjectMapperConfiguration {
 
     /**
      * 返回orderMapEntriesByKeys
-     * 
+     *
      * @return orderMapEntriesByKeys
      */
     public Boolean getOrderMapEntriesByKeys() {
@@ -565,7 +635,7 @@ public class ObjectMapperConfiguration {
 
     /**
      * 设置orderMapEntriesByKeys
-     * 
+     *
      * @param orderMapEntriesByKeys orderMapEntriesByKeys
      */
     public void setOrderMapEntriesByKeys(Boolean orderMapEntriesByKeys) {
@@ -574,7 +644,7 @@ public class ObjectMapperConfiguration {
 
     /**
      * 返回useEqualityForObjectId
-     * 
+     *
      * @return useEqualityForObjectId
      */
     public Boolean getUseEqualityForObjectId() {
@@ -583,7 +653,7 @@ public class ObjectMapperConfiguration {
 
     /**
      * 设置useEqualityForObjectId
-     * 
+     *
      * @param useEqualityForObjectId useEqualityForObjectId
      */
     public void setUseEqualityForObjectId(Boolean useEqualityForObjectId) {
@@ -591,44 +661,8 @@ public class ObjectMapperConfiguration {
     }
 
     /**
-     * 返回writeNullMapValues
-     * 
-     * @return writeNullMapValues
-     */
-    public Boolean getWriteNullMapValues() {
-        return writeNullMapValues;
-    }
-
-    /**
-     * 设置writeNullMapValues
-     * 
-     * @param writeNullMapValues writeNullMapValues
-     */
-    public void setWriteNullMapValues(Boolean writeNullMapValues) {
-        this.writeNullMapValues = writeNullMapValues;
-    }
-
-    /**
-     * 返回writeEmptyJsonArrays
-     * 
-     * @return writeEmptyJsonArrays
-     */
-    public Boolean getWriteEmptyJsonArrays() {
-        return writeEmptyJsonArrays;
-    }
-
-    /**
-     * 设置writeEmptyJsonArrays
-     * 
-     * @param writeEmptyJsonArrays writeEmptyJsonArrays
-     */
-    public void setWriteEmptyJsonArrays(Boolean writeEmptyJsonArrays) {
-        this.writeEmptyJsonArrays = writeEmptyJsonArrays;
-    }
-
-    /**
      * 返回writeDateTimestampsAsNanoseconds
-     * 
+     *
      * @return writeDateTimestampsAsNanoseconds
      */
     public Boolean getWriteDateTimestampsAsNanoseconds() {
@@ -637,7 +671,7 @@ public class ObjectMapperConfiguration {
 
     /**
      * 设置writeDateTimestampsAsNanoseconds
-     * 
+     *
      * @param writeDateTimestampsAsNanoseconds writeDateTimestampsAsNanoseconds
      */
     public void setWriteDateTimestampsAsNanoseconds(Boolean writeDateTimestampsAsNanoseconds) {
@@ -646,7 +680,7 @@ public class ObjectMapperConfiguration {
 
     /**
      * 返回eagerserializerfetch
-     * 
+     *
      * @return eagerserializerfetch
      */
     public Boolean getEagerserializerfetch() {
@@ -655,7 +689,7 @@ public class ObjectMapperConfiguration {
 
     /**
      * 设置eagerserializerfetch
-     * 
+     *
      * @param eagerserializerfetch eagerserializerfetch
      */
     public void setEagerserializerfetch(Boolean eagerserializerfetch) {
@@ -664,7 +698,7 @@ public class ObjectMapperConfiguration {
 
     /**
      * 返回requireSettersForGetters
-     * 
+     *
      * @return requireSettersForGetters
      */
     public Boolean getRequireSettersForGetters() {
@@ -673,7 +707,7 @@ public class ObjectMapperConfiguration {
 
     /**
      * 设置requireSettersForGetters
-     * 
+     *
      * @param requireSettersForGetters requireSettersForGetters
      */
     public void setRequireSettersForGetters(Boolean requireSettersForGetters) {
@@ -682,7 +716,7 @@ public class ObjectMapperConfiguration {
 
     /**
      * 返回useStaticTyping
-     * 
+     *
      * @return useStaticTyping
      */
     public Boolean getUseStaticTyping() {
@@ -691,7 +725,7 @@ public class ObjectMapperConfiguration {
 
     /**
      * 设置useStaticTyping
-     * 
+     *
      * @param useStaticTyping useStaticTyping
      */
     public void setUseStaticTyping(Boolean useStaticTyping) {
@@ -700,7 +734,7 @@ public class ObjectMapperConfiguration {
 
     /**
      * 返回sortPropertiesAlphabetically
-     * 
+     *
      * @return sortPropertiesAlphabetically
      */
     public Boolean getSortPropertiesAlphabetically() {
@@ -709,7 +743,7 @@ public class ObjectMapperConfiguration {
 
     /**
      * 设置sortPropertiesAlphabetically
-     * 
+     *
      * @param sortPropertiesAlphabetically sortPropertiesAlphabetically
      */
     public void setSortPropertiesAlphabetically(Boolean sortPropertiesAlphabetically) {
@@ -718,7 +752,7 @@ public class ObjectMapperConfiguration {
 
     /**
      * 返回acceptCaseInsensitiveProperties
-     * 
+     *
      * @return acceptCaseInsensitiveProperties
      */
     public Boolean getAcceptCaseInsensitiveProperties() {
@@ -727,7 +761,7 @@ public class ObjectMapperConfiguration {
 
     /**
      * 设置acceptCaseInsensitiveProperties
-     * 
+     *
      * @param acceptCaseInsensitiveProperties acceptCaseInsensitiveProperties
      */
     public void setAcceptCaseInsensitiveProperties(Boolean acceptCaseInsensitiveProperties) {
@@ -736,7 +770,7 @@ public class ObjectMapperConfiguration {
 
     /**
      * 返回useWrapperNameAsPropertyName
-     * 
+     *
      * @return useWrapperNameAsPropertyName
      */
     public Boolean getUseWrapperNameAsPropertyName() {
@@ -745,7 +779,7 @@ public class ObjectMapperConfiguration {
 
     /**
      * 设置useWrapperNameAsPropertyName
-     * 
+     *
      * @param useWrapperNameAsPropertyName useWrapperNameAsPropertyName
      */
     public void setUseWrapperNameAsPropertyName(Boolean useWrapperNameAsPropertyName) {
@@ -754,7 +788,7 @@ public class ObjectMapperConfiguration {
 
     /**
      * 返回useStdBeanNaming
-     * 
+     *
      * @return useStdBeanNaming
      */
     public Boolean getUseStdBeanNaming() {
@@ -763,7 +797,7 @@ public class ObjectMapperConfiguration {
 
     /**
      * 设置useStdBeanNaming
-     * 
+     *
      * @param useStdBeanNaming useStdBeanNaming
      */
     public void setUseStdBeanNaming(Boolean useStdBeanNaming) {
@@ -772,7 +806,7 @@ public class ObjectMapperConfiguration {
 
     /**
      * 返回useAnnotations
-     * 
+     *
      * @return useAnnotations
      */
     public Boolean getUseAnnotations() {
@@ -781,7 +815,7 @@ public class ObjectMapperConfiguration {
 
     /**
      * 设置useAnnotations
-     * 
+     *
      * @param useAnnotations useAnnotations
      */
     public void setUseAnnotations(Boolean useAnnotations) {
@@ -790,7 +824,7 @@ public class ObjectMapperConfiguration {
 
     /**
      * 返回autoDetectCreators
-     * 
+     *
      * @return autoDetectCreators
      */
     public Boolean getAutoDetectCreators() {
@@ -799,7 +833,7 @@ public class ObjectMapperConfiguration {
 
     /**
      * 设置autoDetectCreators
-     * 
+     *
      * @param autoDetectCreators autoDetectCreators
      */
     public void setAutoDetectCreators(Boolean autoDetectCreators) {
@@ -808,7 +842,7 @@ public class ObjectMapperConfiguration {
 
     /**
      * 返回autoDetectFields
-     * 
+     *
      * @return autoDetectFields
      */
     public Boolean getAutoDetectFields() {
@@ -817,7 +851,7 @@ public class ObjectMapperConfiguration {
 
     /**
      * 设置autoDetectFields
-     * 
+     *
      * @param autoDetectFields autoDetectFields
      */
     public void setAutoDetectFields(Boolean autoDetectFields) {
@@ -826,7 +860,7 @@ public class ObjectMapperConfiguration {
 
     /**
      * 返回autoDetectGetters
-     * 
+     *
      * @return autoDetectGetters
      */
     public Boolean getAutoDetectGetters() {
@@ -835,7 +869,7 @@ public class ObjectMapperConfiguration {
 
     /**
      * 设置autoDetectGetters
-     * 
+     *
      * @param autoDetectGetters autoDetectGetters
      */
     public void setAutoDetectGetters(Boolean autoDetectGetters) {
@@ -844,7 +878,7 @@ public class ObjectMapperConfiguration {
 
     /**
      * 返回autoDetectIsGetters
-     * 
+     *
      * @return autoDetectIsGetters
      */
     public Boolean getAutoDetectIsGetters() {
@@ -853,7 +887,7 @@ public class ObjectMapperConfiguration {
 
     /**
      * 设置autoDetectIsGetters
-     * 
+     *
      * @param autoDetectIsGetters autoDetectIsGetters
      */
     public void setAutoDetectIsGetters(Boolean autoDetectIsGetters) {
@@ -862,7 +896,7 @@ public class ObjectMapperConfiguration {
 
     /**
      * 返回autoDetectSetters
-     * 
+     *
      * @return autoDetectSetters
      */
     public Boolean getAutoDetectSetters() {
@@ -871,7 +905,7 @@ public class ObjectMapperConfiguration {
 
     /**
      * 设置autoDetectSetters
-     * 
+     *
      * @param autoDetectSetters autoDetectSetters
      */
     public void setAutoDetectSetters(Boolean autoDetectSetters) {
@@ -880,7 +914,7 @@ public class ObjectMapperConfiguration {
 
     /**
      * 返回useGettersAsSetters
-     * 
+     *
      * @return useGettersAsSetters
      */
     public Boolean getUseGettersAsSetters() {
@@ -889,7 +923,7 @@ public class ObjectMapperConfiguration {
 
     /**
      * 设置useGettersAsSetters
-     * 
+     *
      * @param useGettersAsSetters useGettersAsSetters
      */
     public void setUseGettersAsSetters(Boolean useGettersAsSetters) {
@@ -898,7 +932,7 @@ public class ObjectMapperConfiguration {
 
     /**
      * 返回canOverrideAccessModifiers
-     * 
+     *
      * @return canOverrideAccessModifiers
      */
     public Boolean getCanOverrideAccessModifiers() {
@@ -907,7 +941,7 @@ public class ObjectMapperConfiguration {
 
     /**
      * 设置canOverrideAccessModifiers
-     * 
+     *
      * @param canOverrideAccessModifiers canOverrideAccessModifiers
      */
     public void setCanOverrideAccessModifiers(Boolean canOverrideAccessModifiers) {
@@ -916,7 +950,7 @@ public class ObjectMapperConfiguration {
 
     /**
      * 返回inferPropertyMutators
-     * 
+     *
      * @return inferPropertyMutators
      */
     public Boolean getInferPropertyMutators() {
@@ -925,7 +959,7 @@ public class ObjectMapperConfiguration {
 
     /**
      * 设置inferPropertyMutators
-     * 
+     *
      * @param inferPropertyMutators inferPropertyMutators
      */
     public void setInferPropertyMutators(Boolean inferPropertyMutators) {
@@ -934,7 +968,7 @@ public class ObjectMapperConfiguration {
 
     /**
      * 返回allowFinalFieldsAsMutators
-     * 
+     *
      * @return allowFinalFieldsAsMutators
      */
     public Boolean getAllowFinalFieldsAsMutators() {
@@ -943,7 +977,7 @@ public class ObjectMapperConfiguration {
 
     /**
      * 设置allowFinalFieldsAsMutators
-     * 
+     *
      * @param allowFinalFieldsAsMutators allowFinalFieldsAsMutators
      */
     public void setAllowFinalFieldsAsMutators(Boolean allowFinalFieldsAsMutators) {
@@ -952,7 +986,7 @@ public class ObjectMapperConfiguration {
 
     /**
      * 返回defaultViewInclusion
-     * 
+     *
      * @return defaultViewInclusion
      */
     public Boolean getDefaultViewInclusion() {
@@ -961,7 +995,7 @@ public class ObjectMapperConfiguration {
 
     /**
      * 设置defaultViewInclusion
-     * 
+     *
      * @param defaultViewInclusion defaultViewInclusion
      */
     public void setDefaultViewInclusion(Boolean defaultViewInclusion) {
@@ -970,7 +1004,7 @@ public class ObjectMapperConfiguration {
 
     /**
      * 返回ignoreDuplicateModuleRegistrations
-     * 
+     *
      * @return ignoreDuplicateModuleRegistrations
      */
     public Boolean getIgnoreDuplicateModuleRegistrations() {
@@ -979,7 +1013,7 @@ public class ObjectMapperConfiguration {
 
     /**
      * 设置ignoreDuplicateModuleRegistrations
-     * 
+     *
      * @param ignoreDuplicateModuleRegistrations ignoreDuplicateModuleRegistrations
      */
     public void setIgnoreDuplicateModuleRegistrations(Boolean ignoreDuplicateModuleRegistrations) {
@@ -988,7 +1022,7 @@ public class ObjectMapperConfiguration {
 
     /**
      * 返回writeNumbersAsStrings
-     * 
+     *
      * @return writeNumbersAsStrings
      */
     public Boolean getWriteNumbersAsStrings() {
@@ -997,7 +1031,7 @@ public class ObjectMapperConfiguration {
 
     /**
      * 设置writeNumbersAsStrings
-     * 
+     *
      * @param writeNumbersAsStrings writeNumbersAsStrings
      */
     public void setWriteNumbersAsStrings(Boolean writeNumbersAsStrings) {
@@ -1006,7 +1040,7 @@ public class ObjectMapperConfiguration {
 
     /**
      * 返回writeBigdecimalAsPlain
-     * 
+     *
      * @return writeBigdecimalAsPlain
      */
     public Boolean getWriteBigdecimalAsPlain() {
@@ -1015,7 +1049,7 @@ public class ObjectMapperConfiguration {
 
     /**
      * 设置writeBigdecimalAsPlain
-     * 
+     *
      * @param writeBigdecimalAsPlain writeBigdecimalAsPlain
      */
     public void setWriteBigdecimalAsPlain(Boolean writeBigdecimalAsPlain) {
@@ -1024,7 +1058,7 @@ public class ObjectMapperConfiguration {
 
     /**
      * 返回escapeNonAscii
-     * 
+     *
      * @return escapeNonAscii
      */
     public Boolean getEscapeNonAscii() {
@@ -1033,7 +1067,7 @@ public class ObjectMapperConfiguration {
 
     /**
      * 设置escapeNonAscii
-     * 
+     *
      * @param escapeNonAscii escapeNonAscii
      */
     public void setEscapeNonAscii(Boolean escapeNonAscii) {
@@ -1042,7 +1076,7 @@ public class ObjectMapperConfiguration {
 
     /**
      * 返回strictDuplicateDetection
-     * 
+     *
      * @return strictDuplicateDetection
      */
     public Boolean getStrictDuplicateDetection() {
@@ -1051,7 +1085,7 @@ public class ObjectMapperConfiguration {
 
     /**
      * 设置strictDuplicateDetection
-     * 
+     *
      * @param strictDuplicateDetection strictDuplicateDetection
      */
     public void setStrictDuplicateDetection(Boolean strictDuplicateDetection) {
@@ -1060,7 +1094,7 @@ public class ObjectMapperConfiguration {
 
     /**
      * 返回ignoreUnknown
-     * 
+     *
      * @return ignoreUnknown
      */
     public Boolean getIgnoreUnknown() {
@@ -1069,7 +1103,7 @@ public class ObjectMapperConfiguration {
 
     /**
      * 设置ignoreUnknown
-     * 
+     *
      * @param ignoreUnknown ignoreUnknown
      */
     public void setIgnoreUnknown(Boolean ignoreUnknown) {
@@ -1078,7 +1112,7 @@ public class ObjectMapperConfiguration {
 
     /**
      * 返回autoCloseTarget
-     * 
+     *
      * @return autoCloseTarget
      */
     public Boolean getAutoCloseTarget() {
@@ -1087,7 +1121,7 @@ public class ObjectMapperConfiguration {
 
     /**
      * 设置autoCloseTarget
-     * 
+     *
      * @param autoCloseTarget autoCloseTarget
      */
     public void setAutoCloseTarget(Boolean autoCloseTarget) {
@@ -1096,7 +1130,7 @@ public class ObjectMapperConfiguration {
 
     /**
      * 返回autoCloseJsonContent
-     * 
+     *
      * @return autoCloseJsonContent
      */
     public Boolean getAutoCloseJsonContent() {
@@ -1105,7 +1139,7 @@ public class ObjectMapperConfiguration {
 
     /**
      * 设置autoCloseJsonContent
-     * 
+     *
      * @param autoCloseJsonContent autoCloseJsonContent
      */
     public void setAutoCloseJsonContent(Boolean autoCloseJsonContent) {
@@ -1114,7 +1148,7 @@ public class ObjectMapperConfiguration {
 
     /**
      * 返回quoteFieldNames
-     * 
+     *
      * @return quoteFieldNames
      */
     public Boolean getQuoteFieldNames() {
@@ -1123,7 +1157,7 @@ public class ObjectMapperConfiguration {
 
     /**
      * 设置quoteFieldNames
-     * 
+     *
      * @param quoteFieldNames quoteFieldNames
      */
     public void setQuoteFieldNames(Boolean quoteFieldNames) {
@@ -1131,26 +1165,66 @@ public class ObjectMapperConfiguration {
     }
 
     /**
-     * 返回quoteNonNumericNumbers
-     * 
-     * @return quoteNonNumericNumbers
+     * get writeNanAsStrings value
+     *
+     * @return writeNanAsStrings
      */
+    public Boolean getWriteNanAsStrings() {
+        return writeNanAsStrings;
+    }
+
+    /**
+     * set writeNanAsStrings value
+     *
+     * @param writeNanAsStrings writeNanAsStrings
+     */
+    public void setWriteNanAsStrings(Boolean writeNanAsStrings) {
+        this.writeNanAsStrings = writeNanAsStrings;
+    }
+
+    /**
+     * get allowBackslashEscapingAnyCharacter value
+     *
+     * @return allowBackslashEscapingAnyCharacter
+     */
+    public Boolean getAllowBackslashEscapingAnyCharacter() {
+        return allowBackslashEscapingAnyCharacter;
+    }
+
+    /**
+     * set allowBackslashEscapingAnyCharacter value
+     *
+     * @param allowBackslashEscapingAnyCharacter allowBackslashEscapingAnyCharacter
+     */
+    public void setAllowBackslashEscapingAnyCharacter(Boolean allowBackslashEscapingAnyCharacter) {
+        this.allowBackslashEscapingAnyCharacter = allowBackslashEscapingAnyCharacter;
+    }
+
+    /**
+     * 返回quoteNonNumericNumbers
+     *
+     * @return quoteNonNumericNumbers
+     * @deprecated {@link #getWriteNanAsStrings()}
+     */
+    @Deprecated
     public Boolean getQuoteNonNumericNumbers() {
-        return quoteNonNumericNumbers;
+        return getWriteNanAsStrings();
     }
 
     /**
      * 设置quoteNonNumericNumbers
-     * 
+     *
      * @param quoteNonNumericNumbers quoteNonNumericNumbers
+     * @deprecated {@link #setWriteNanAsStrings(Boolean)}
      */
+    @Deprecated
     public void setQuoteNonNumericNumbers(Boolean quoteNonNumericNumbers) {
-        this.quoteNonNumericNumbers = quoteNonNumericNumbers;
+        setWriteNanAsStrings(quoteNonNumericNumbers);
     }
 
     /**
      * 返回flushPassedToStream
-     * 
+     *
      * @return flushPassedToStream
      */
     public Boolean getFlushPassedToStream() {
@@ -1159,7 +1233,7 @@ public class ObjectMapperConfiguration {
 
     /**
      * 设置flushPassedToStream
-     * 
+     *
      * @param flushPassedToStream flushPassedToStream
      */
     public void setFlushPassedToStream(Boolean flushPassedToStream) {
@@ -1168,7 +1242,7 @@ public class ObjectMapperConfiguration {
 
     /**
      * 返回include
-     * 
+     *
      * @return include
      */
     public Include getInclude() {
@@ -1177,7 +1251,7 @@ public class ObjectMapperConfiguration {
 
     /**
      * 设置include
-     * 
+     *
      * @param include include
      */
     public void setInclude(Include include) {
@@ -1186,7 +1260,7 @@ public class ObjectMapperConfiguration {
 
     /**
      * 返回acceptEmptyArrayAsNullObject
-     * 
+     *
      * @return acceptEmptyArrayAsNullObject
      */
     public Boolean getAcceptEmptyArrayAsNullObject() {
@@ -1195,7 +1269,7 @@ public class ObjectMapperConfiguration {
 
     /**
      * 设置acceptEmptyArrayAsNullObject
-     * 
+     *
      * @param acceptEmptyArrayAsNullObject acceptEmptyArrayAsNullObject
      */
     public void setAcceptEmptyArrayAsNullObject(Boolean acceptEmptyArrayAsNullObject) {
@@ -1204,7 +1278,7 @@ public class ObjectMapperConfiguration {
 
     /**
      * 返回acceptEmptyStringAsNullObject
-     * 
+     *
      * @return acceptEmptyStringAsNullObject
      */
     public Boolean getAcceptEmptyStringAsNullObject() {
@@ -1213,7 +1287,7 @@ public class ObjectMapperConfiguration {
 
     /**
      * 设置acceptEmptyStringAsNullObject
-     * 
+     *
      * @param acceptEmptyStringAsNullObject acceptEmptyStringAsNullObject
      */
     public void setAcceptEmptyStringAsNullObject(Boolean acceptEmptyStringAsNullObject) {
@@ -1222,7 +1296,7 @@ public class ObjectMapperConfiguration {
 
     /**
      * 返回acceptSingleValueAsArray
-     * 
+     *
      * @return acceptSingleValueAsArray
      */
     public Boolean getAcceptSingleValueAsArray() {
@@ -1231,7 +1305,7 @@ public class ObjectMapperConfiguration {
 
     /**
      * 设置acceptSingleValueAsArray
-     * 
+     *
      * @param acceptSingleValueAsArray acceptSingleValueAsArray
      */
     public void setAcceptSingleValueAsArray(Boolean acceptSingleValueAsArray) {
@@ -1240,7 +1314,7 @@ public class ObjectMapperConfiguration {
 
     /**
      * 返回adjustDatesToContextTimeZone
-     * 
+     *
      * @return adjustDatesToContextTimeZone
      */
     public Boolean getAdjustDatesToContextTimeZone() {
@@ -1249,7 +1323,7 @@ public class ObjectMapperConfiguration {
 
     /**
      * 设置adjustDatesToContextTimeZone
-     * 
+     *
      * @param adjustDatesToContextTimeZone adjustDatesToContextTimeZone
      */
     public void setAdjustDatesToContextTimeZone(Boolean adjustDatesToContextTimeZone) {
@@ -1258,7 +1332,7 @@ public class ObjectMapperConfiguration {
 
     /**
      * 返回eagerDeserializerFetch
-     * 
+     *
      * @return eagerDeserializerFetch
      */
     public Boolean getEagerDeserializerFetch() {
@@ -1267,7 +1341,7 @@ public class ObjectMapperConfiguration {
 
     /**
      * 设置eagerDeserializerFetch
-     * 
+     *
      * @param eagerDeserializerFetch eagerDeserializerFetch
      */
     public void setEagerDeserializerFetch(Boolean eagerDeserializerFetch) {
@@ -1276,7 +1350,7 @@ public class ObjectMapperConfiguration {
 
     /**
      * 返回failOnIgnoredProperties
-     * 
+     *
      * @return failOnIgnoredProperties
      */
     public Boolean getFailOnIgnoredProperties() {
@@ -1285,7 +1359,7 @@ public class ObjectMapperConfiguration {
 
     /**
      * 设置failOnIgnoredProperties
-     * 
+     *
      * @param failOnIgnoredProperties failOnIgnoredProperties
      */
     public void setFailOnIgnoredProperties(Boolean failOnIgnoredProperties) {
@@ -1294,7 +1368,7 @@ public class ObjectMapperConfiguration {
 
     /**
      * 返回failOnInvalidSubtype
-     * 
+     *
      * @return failOnInvalidSubtype
      */
     public Boolean getFailOnInvalidSubtype() {
@@ -1303,7 +1377,7 @@ public class ObjectMapperConfiguration {
 
     /**
      * 设置failOnInvalidSubtype
-     * 
+     *
      * @param failOnInvalidSubtype failOnInvalidSubtype
      */
     public void setFailOnInvalidSubtype(Boolean failOnInvalidSubtype) {
@@ -1312,7 +1386,7 @@ public class ObjectMapperConfiguration {
 
     /**
      * 返回failOnNullForPrimitives
-     * 
+     *
      * @return failOnNullForPrimitives
      */
     public Boolean getFailOnNullForPrimitives() {
@@ -1321,7 +1395,7 @@ public class ObjectMapperConfiguration {
 
     /**
      * 设置failOnNullForPrimitives
-     * 
+     *
      * @param failOnNullForPrimitives failOnNullForPrimitives
      */
     public void setFailOnNullForPrimitives(Boolean failOnNullForPrimitives) {
@@ -1330,7 +1404,7 @@ public class ObjectMapperConfiguration {
 
     /**
      * 返回failOnNumbersForEnums
-     * 
+     *
      * @return failOnNumbersForEnums
      */
     public Boolean getFailOnNumbersForEnums() {
@@ -1339,7 +1413,7 @@ public class ObjectMapperConfiguration {
 
     /**
      * 设置failOnNumbersForEnums
-     * 
+     *
      * @param failOnNumbersForEnums failOnNumbersForEnums
      */
     public void setFailOnNumbersForEnums(Boolean failOnNumbersForEnums) {
@@ -1348,7 +1422,7 @@ public class ObjectMapperConfiguration {
 
     /**
      * 返回failOnReadingDupTreeKey
-     * 
+     *
      * @return failOnReadingDupTreeKey
      */
     public Boolean getFailOnReadingDupTreeKey() {
@@ -1357,7 +1431,7 @@ public class ObjectMapperConfiguration {
 
     /**
      * 设置failOnReadingDupTreeKey
-     * 
+     *
      * @param failOnReadingDupTreeKey failOnReadingDupTreeKey
      */
     public void setFailOnReadingDupTreeKey(Boolean failOnReadingDupTreeKey) {
@@ -1366,7 +1440,7 @@ public class ObjectMapperConfiguration {
 
     /**
      * 返回failOnUnknownProperties
-     * 
+     *
      * @return failOnUnknownProperties
      */
     public Boolean getFailOnUnknownProperties() {
@@ -1375,7 +1449,7 @@ public class ObjectMapperConfiguration {
 
     /**
      * 设置failOnUnknownProperties
-     * 
+     *
      * @param failOnUnknownProperties failOnUnknownProperties
      */
     public void setFailOnUnknownProperties(Boolean failOnUnknownProperties) {
@@ -1384,7 +1458,7 @@ public class ObjectMapperConfiguration {
 
     /**
      * 返回failOnUnresolvedObjectIds
-     * 
+     *
      * @return failOnUnresolvedObjectIds
      */
     public Boolean getFailOnUnresolvedObjectIds() {
@@ -1393,7 +1467,7 @@ public class ObjectMapperConfiguration {
 
     /**
      * 设置failOnUnresolvedObjectIds
-     * 
+     *
      * @param failOnUnresolvedObjectIds failOnUnresolvedObjectIds
      */
     public void setFailOnUnresolvedObjectIds(Boolean failOnUnresolvedObjectIds) {
@@ -1402,7 +1476,7 @@ public class ObjectMapperConfiguration {
 
     /**
      * 返回readDateTimestampsAsNanoseconds
-     * 
+     *
      * @return readDateTimestampsAsNanoseconds
      */
     public Boolean getReadDateTimestampsAsNanoseconds() {
@@ -1411,7 +1485,7 @@ public class ObjectMapperConfiguration {
 
     /**
      * 设置readDateTimestampsAsNanoseconds
-     * 
+     *
      * @param readDateTimestampsAsNanoseconds readDateTimestampsAsNanoseconds
      */
     public void setReadDateTimestampsAsNanoseconds(Boolean readDateTimestampsAsNanoseconds) {
@@ -1420,7 +1494,7 @@ public class ObjectMapperConfiguration {
 
     /**
      * 返回readEnumsUsingToString
-     * 
+     *
      * @return readEnumsUsingToString
      */
     public Boolean getReadEnumsUsingToString() {
@@ -1429,7 +1503,7 @@ public class ObjectMapperConfiguration {
 
     /**
      * 设置readEnumsUsingToString
-     * 
+     *
      * @param readEnumsUsingToString readEnumsUsingToString
      */
     public void setReadEnumsUsingToString(Boolean readEnumsUsingToString) {
@@ -1438,7 +1512,7 @@ public class ObjectMapperConfiguration {
 
     /**
      * 返回readUnknownEnumValuesAsNull
-     * 
+     *
      * @return readUnknownEnumValuesAsNull
      */
     public Boolean getReadUnknownEnumValuesAsNull() {
@@ -1447,7 +1521,7 @@ public class ObjectMapperConfiguration {
 
     /**
      * 设置readUnknownEnumValuesAsNull
-     * 
+     *
      * @param readUnknownEnumValuesAsNull readUnknownEnumValuesAsNull
      */
     public void setReadUnknownEnumValuesAsNull(Boolean readUnknownEnumValuesAsNull) {
@@ -1456,7 +1530,7 @@ public class ObjectMapperConfiguration {
 
     /**
      * 返回unwrapRootValue
-     * 
+     *
      * @return unwrapRootValue
      */
     public Boolean getUnwrapRootValue() {
@@ -1465,7 +1539,7 @@ public class ObjectMapperConfiguration {
 
     /**
      * 设置unwrapRootValue
-     * 
+     *
      * @param unwrapRootValue unwrapRootValue
      */
     public void setUnwrapRootValue(Boolean unwrapRootValue) {
@@ -1474,7 +1548,7 @@ public class ObjectMapperConfiguration {
 
     /**
      * 返回unwrapSingleValueArrays
-     * 
+     *
      * @return unwrapSingleValueArrays
      */
     public Boolean getUnwrapSingleValueArrays() {
@@ -1483,7 +1557,7 @@ public class ObjectMapperConfiguration {
 
     /**
      * 设置unwrapSingleValueArrays
-     * 
+     *
      * @param unwrapSingleValueArrays unwrapSingleValueArrays
      */
     public void setUnwrapSingleValueArrays(Boolean unwrapSingleValueArrays) {
@@ -1492,7 +1566,7 @@ public class ObjectMapperConfiguration {
 
     /**
      * 返回useBigDecimalForFloats
-     * 
+     *
      * @return useBigDecimalForFloats
      */
     public Boolean getUseBigDecimalForFloats() {
@@ -1501,7 +1575,7 @@ public class ObjectMapperConfiguration {
 
     /**
      * 设置useBigDecimalForFloats
-     * 
+     *
      * @param useBigDecimalForFloats useBigDecimalForFloats
      */
     public void setUseBigDecimalForFloats(Boolean useBigDecimalForFloats) {
@@ -1510,7 +1584,7 @@ public class ObjectMapperConfiguration {
 
     /**
      * 返回useBigIntegerForInts
-     * 
+     *
      * @return useBigIntegerForInts
      */
     public Boolean getUseBigIntegerForInts() {
@@ -1519,7 +1593,7 @@ public class ObjectMapperConfiguration {
 
     /**
      * 设置useBigIntegerForInts
-     * 
+     *
      * @param useBigIntegerForInts useBigIntegerForInts
      */
     public void setUseBigIntegerForInts(Boolean useBigIntegerForInts) {
@@ -1528,7 +1602,7 @@ public class ObjectMapperConfiguration {
 
     /**
      * 返回userJavaArrayForJsonArray
-     * 
+     *
      * @return userJavaArrayForJsonArray
      */
     public Boolean getUserJavaArrayForJsonArray() {
@@ -1537,10 +1611,190 @@ public class ObjectMapperConfiguration {
 
     /**
      * 设置userJavaArrayForJsonArray
-     * 
+     *
      * @param userJavaArrayForJsonArray userJavaArrayForJsonArray
      */
     public void setUserJavaArrayForJsonArray(Boolean userJavaArrayForJsonArray) {
         this.userJavaArrayForJsonArray = userJavaArrayForJsonArray;
+    }
+
+    /**
+     * get allowJavaComments value
+     *
+     * @return allowJavaComments
+     */
+    public Boolean getAllowJavaComments() {
+        return allowJavaComments;
+    }
+
+    /**
+     * set allowJavaComments value
+     *
+     * @param allowJavaComments allowJavaComments
+     */
+    public void setAllowJavaComments(Boolean allowJavaComments) {
+        this.allowJavaComments = allowJavaComments;
+    }
+
+    /**
+     * get allowYamlComments value
+     *
+     * @return allowYamlComments
+     */
+    public Boolean getAllowYamlComments() {
+        return allowYamlComments;
+    }
+
+    /**
+     * set allowYamlComments value
+     *
+     * @param allowYamlComments allowYamlComments
+     */
+    public void setAllowYamlComments(Boolean allowYamlComments) {
+        this.allowYamlComments = allowYamlComments;
+    }
+
+    /**
+     * get allowSingleQuotes value
+     *
+     * @return allowSingleQuotes
+     */
+    public Boolean getAllowSingleQuotes() {
+        return allowSingleQuotes;
+    }
+
+    /**
+     * set allowSingleQuotes value
+     *
+     * @param allowSingleQuotes allowSingleQuotes
+     */
+    public void setAllowSingleQuotes(Boolean allowSingleQuotes) {
+        this.allowSingleQuotes = allowSingleQuotes;
+    }
+
+    /**
+     * get allowUnquotedFieldNames value
+     *
+     * @return allowUnquotedFieldNames
+     */
+    public Boolean getAllowUnquotedFieldNames() {
+        return allowUnquotedFieldNames;
+    }
+
+    /**
+     * set allowUnquotedFieldNames value
+     *
+     * @param allowUnquotedFieldNames allowUnquotedFieldNames
+     */
+    public void setAllowUnquotedFieldNames(Boolean allowUnquotedFieldNames) {
+        this.allowUnquotedFieldNames = allowUnquotedFieldNames;
+    }
+
+    /**
+     * get allowUnescapedControlChars value
+     *
+     * @return allowUnescapedControlChars
+     */
+    public Boolean getAllowUnescapedControlChars() {
+        return allowUnescapedControlChars;
+    }
+
+    /**
+     * set allowUnescapedControlChars value
+     *
+     * @param allowUnescapedControlChars allowUnescapedControlChars
+     */
+    public void setAllowUnescapedControlChars(Boolean allowUnescapedControlChars) {
+        this.allowUnescapedControlChars = allowUnescapedControlChars;
+    }
+
+    /**
+     * get allowLeadingDecimalPointForNumbers value
+     *
+     * @return allowLeadingDecimalPointForNumbers
+     */
+    public Boolean getAllowLeadingDecimalPointForNumbers() {
+        return allowLeadingDecimalPointForNumbers;
+    }
+
+    /**
+     * set allowLeadingDecimalPointForNumbers value
+     *
+     * @param allowLeadingDecimalPointForNumbers allowLeadingDecimalPointForNumbers
+     */
+    public void setAllowLeadingDecimalPointForNumbers(Boolean allowLeadingDecimalPointForNumbers) {
+        this.allowLeadingDecimalPointForNumbers = allowLeadingDecimalPointForNumbers;
+    }
+
+    /**
+     * get allowLeadingZerosForNumbers value
+     *
+     * @return allowLeadingZerosForNumbers
+     */
+    public Boolean getAllowLeadingZerosForNumbers() {
+        return allowLeadingZerosForNumbers;
+    }
+
+    /**
+     * set allowLeadingZerosForNumbers value
+     *
+     * @param allowLeadingZerosForNumbers allowLeadingZerosForNumbers
+     */
+    public void setAllowLeadingZerosForNumbers(Boolean allowLeadingZerosForNumbers) {
+        this.allowLeadingZerosForNumbers = allowLeadingZerosForNumbers;
+    }
+
+    /**
+     * get allowNonNumericNumbers value
+     *
+     * @return allowNonNumericNumbers
+     */
+    public Boolean getAllowNonNumericNumbers() {
+        return allowNonNumericNumbers;
+    }
+
+    /**
+     * set allowNonNumericNumbers value
+     *
+     * @param allowNonNumericNumbers allowNonNumericNumbers
+     */
+    public void setAllowNonNumericNumbers(Boolean allowNonNumericNumbers) {
+        this.allowNonNumericNumbers = allowNonNumericNumbers;
+    }
+
+    /**
+     * get allowMissingValues value
+     *
+     * @return allowMissingValues
+     */
+    public Boolean getAllowMissingValues() {
+        return allowMissingValues;
+    }
+
+    /**
+     * set allowMissingValues value
+     *
+     * @param allowMissingValues allowMissingValues
+     */
+    public void setAllowMissingValues(Boolean allowMissingValues) {
+        this.allowMissingValues = allowMissingValues;
+    }
+
+    /**
+     * get allowTrailingComma value
+     *
+     * @return allowTrailingComma
+     */
+    public Boolean getAllowTrailingComma() {
+        return allowTrailingComma;
+    }
+
+    /**
+     * set allowTrailingComma value
+     *
+     * @param allowTrailingComma allowTrailingComma
+     */
+    public void setAllowTrailingComma(Boolean allowTrailingComma) {
+        this.allowTrailingComma = allowTrailingComma;
     }
 }
