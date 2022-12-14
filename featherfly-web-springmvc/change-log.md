@@ -1,5 +1,9 @@
-# 0.
+# 0.4.19 2022-12-14
 1. 升级依赖
+2. 修复Jxls检测ResolverPath与设置datakey时没有检索request参数的问题
+3. Result去掉status属性
+4. ObjectMapperConfiguration移除writeNullMapValues,writeEmptyJsonArrays属性
+5. ObjectMapperConfiguration加入JsonWriteFeature和JsonReadFeature枚举对应的设置属性
 
 # 0.4.18 2022-11-21
 1. 不兼容性依赖升级

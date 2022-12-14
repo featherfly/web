@@ -65,7 +65,6 @@ public class ResultJsonView extends ObjectJacksonJsonView {
         if (result == null) {
             result = new Result();
         }
-        result.setStatus(1);
         if (Lang.isNotEmpty(message)) {
             result.setMessage(message);
         }

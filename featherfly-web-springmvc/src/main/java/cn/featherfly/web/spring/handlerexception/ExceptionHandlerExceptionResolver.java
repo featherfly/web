@@ -37,7 +37,6 @@ public class ExceptionHandlerExceptionResolver implements HandlerExceptionResolv
             Exception ex) {
         LogUtils.error(ex, LOG);
         Result<?> result = new Result<>();
-        result.setStatus(0);
         result.setCode(Response.DEFAULT_ERROR_CODE);
 
         response.setStatus(httpStatus);

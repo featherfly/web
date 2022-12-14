@@ -30,7 +30,6 @@ public abstract class BindResultHandlerExceptionResolver implements HandlerExcep
             Result<?> result = new Result<>();
             StringBuilder messages = new StringBuilder();
             if (bindingResult.hasErrors()) {
-                result.setStatus(0);
                 result.setCode(Response.DEFAULT_ERROR_CODE);
             }
             if (bindingResult.hasGlobalErrors()) {

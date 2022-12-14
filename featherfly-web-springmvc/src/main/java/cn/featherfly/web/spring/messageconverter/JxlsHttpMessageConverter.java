@@ -1,19 +1,21 @@
 
 package cn.featherfly.web.spring.messageconverter;
 
-import cn.featherfly.common.lang.Lang;
-import cn.featherfly.web.spring.interceptor.RequestHolderInterceptor;
+import java.io.IOException;
+import java.io.InputStream;
+import java.lang.reflect.Type;
+import java.util.Arrays;
+
+import javax.servlet.http.HttpServletRequest;
+
 import org.jxls.common.Context;
 import org.jxls.util.JxlsHelper;
 import org.springframework.http.HttpOutputMessage;
 import org.springframework.http.MediaType;
 import org.springframework.http.converter.HttpMessageNotWritableException;
 
-import javax.servlet.http.HttpServletRequest;
-import java.io.IOException;
-import java.io.InputStream;
-import java.lang.reflect.Type;
-import java.util.Arrays;
+import cn.featherfly.common.lang.Lang;
+import cn.featherfly.web.spring.interceptor.RequestHolderInterceptor;
 
 /**
  * <p>
@@ -42,9 +44,8 @@ public class JxlsHttpMessageConverter extends AttachHttpMessageConverter {
     public JxlsHttpMessageConverter(ClassLoader classLoader) {
         super(classLoader);
         extNames = new String[] { "xlsx", "xls" };
-        setSupportedMediaTypes(
-                Arrays.asList(new MediaType("application", "excel"), new MediaType("application", "*+excel")
-                        , new MediaType("application", "jxls")));
+        setSupportedMediaTypes(Arrays.asList(new MediaType("application", "excel"),
+                new MediaType("application", "*+excel"), new MediaType("application", "jxls")));
     }
 
     /**
@@ -59,9 +60,10 @@ public class JxlsHttpMessageConverter extends AttachHttpMessageConverter {
         outputMessage.getHeaders().set("Content-Disposition", "attachment;filename=" + fileName);
         outputMessage.getHeaders().setContentType(getDefaultContentType());
         Context context = new Context();
-        if (Lang.isNotEmpty(resolverPath)) {
-            Object source = getDataFromResult(result, request);            
-            context.putVar(resolverPath, source);
+        String rp = getResolverPath();
+        if (Lang.isNotEmpty(rp)) {
+            Object source = getDataFromResult(result, request);
+            context.putVar(rp, source);
         } else {
             context.putVar("result", result);
         }

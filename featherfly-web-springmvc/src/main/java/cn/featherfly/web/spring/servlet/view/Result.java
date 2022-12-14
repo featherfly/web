@@ -4,42 +4,39 @@ package cn.featherfly.web.spring.servlet.view;
 import cn.featherfly.common.api.Response;
 
 /**
- * <p>
- * Result
- * </p>
+ * Result.
  *
  * @author 钟冀
+ * @param <D> the generic type
  */
 public class Result<D> extends Response<D> {
 
-    private Integer status;
-
     /**
+     * Instantiates a new result.
      */
     public Result() {
-        setStatus(1);
+        this(true);
     }
 
     /**
-     * 返回status
+     * Instantiates a new result.
      *
-     * @return status
-     * @deprecated use code = OK 代替 status = 1, 其他代码代替错误
+     * @param success the success
      */
-    @Deprecated
-    public Integer getStatus() {
-        return status;
+    public Result(boolean success) {
+        setSuccess(success);
     }
 
     /**
-     * 设置status
+     * Sets the success.
      *
-     * @param status status
+     * @param b the new success
      */
-    public void setStatus(Integer status) {
-        this.status = status;
-        if (status == 1) {
+    public void setSuccess(boolean b) {
+        if (b) {
             setCode(SUCCESS_CODE);
+        } else {
+            setCode(DEFAULT_ERROR_CODE);
         }
     }
 }
