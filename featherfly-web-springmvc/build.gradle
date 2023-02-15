@@ -2,7 +2,7 @@ apply from: './gradle/java_base.gradle'
 apply from: './gradle/maven_push.gradle'
 
 ext {
-    sv = '5.3.24'
+    sv = '5.3.25'
 }
 
 dependencies {
