@@ -12,9 +12,7 @@ import cn.featherfly.common.structure.page.Page;
 import cn.featherfly.common.structure.page.SimplePagination;
 
 /**
- * <p>
- * RequestParameterPageFactory
- * </p>
+ * RequestParameterPageFactory.
  *
  * @author 钟冀
  */
@@ -40,10 +38,10 @@ public class RequestParameterPageFactory implements PageFactory {
         return pagination;
     }
 
-    private Integer getPageSize(HttpServletRequest request) {
+    private int getPageSize(HttpServletRequest request) {
         if (allowDaynmicPageSize) {
             Object ps = request.getParameter(pageSizeName);
-            Integer pageSize = NumberUtils.parse(ps + "", defaultPageSize);
+            int pageSize = NumberUtils.parse(ps + "", defaultPageSize);
             if (pageSize > allowMaxPageSize) {
                 logger.debug("pageSize({}) > allowMaxPageSize({}), set pageSize = allowMaxPageSize");
                 pageSize = allowMaxPageSize;
@@ -79,16 +77,16 @@ public class RequestParameterPageFactory implements PageFactory {
     //	private String pageNumberSizeName = "_pns";
 
     // 默认每页显示数量
-    private Integer defaultPageSize = 10;
+    private int defaultPageSize = 10;
 
     // 默认显示分页页数的个数
-    private Integer defaultPageNumberSize = 10;
+    private int defaultPageNumberSize = 10;
 
     // 默认显示的页
-    private Integer defaultPageNumber = 1;
+    private int defaultPageNumber = 1;
 
     // 允许的每页显示最大数
-    private Integer allowMaxPageSize = 10;
+    private int allowMaxPageSize = 10;
 
     /**
      * 返回pageSizeName
@@ -133,7 +131,7 @@ public class RequestParameterPageFactory implements PageFactory {
      *
      * @return defaultPageSize
      */
-    public Integer getDefaultPageSize() {
+    public int getDefaultPageSize() {
         return defaultPageSize;
     }
 
@@ -142,8 +140,7 @@ public class RequestParameterPageFactory implements PageFactory {
      *
      * @param defaultPageSize defaultPageSize
      */
-    public void setDefaultPageSize(Integer defaultPageSize) {
-        AssertIllegalArgument.isNotEmpty(defaultPageSize, "defaultPageSize不能为空");
+    public void setDefaultPageSize(int defaultPageSize) {
         this.defaultPageSize = defaultPageSize;
     }
 
@@ -152,7 +149,7 @@ public class RequestParameterPageFactory implements PageFactory {
      *
      * @return defaultPageNumberSize
      */
-    public Integer getDefaultPageNumberSize() {
+    public int getDefaultPageNumberSize() {
         return defaultPageNumberSize;
     }
 
@@ -161,8 +158,7 @@ public class RequestParameterPageFactory implements PageFactory {
      *
      * @param defaultPageNumberSize defaultPageNumberSize
      */
-    public void setDefaultPageNumberSize(Integer defaultPageNumberSize) {
-        AssertIllegalArgument.isNotEmpty(defaultPageNumberSize, "defaultPageNumberSize不能为空");
+    public void setDefaultPageNumberSize(int defaultPageNumberSize) {
         this.defaultPageNumberSize = defaultPageNumberSize;
     }
 
@@ -171,7 +167,7 @@ public class RequestParameterPageFactory implements PageFactory {
      *
      * @return defaultPageNumber
      */
-    public Integer getDefaultPageNumber() {
+    public int getDefaultPageNumber() {
         return defaultPageNumber;
     }
 
@@ -180,8 +176,7 @@ public class RequestParameterPageFactory implements PageFactory {
      *
      * @param defaultPageNumber defaultPageNumber
      */
-    public void setDefaultPageNumber(Integer defaultPageNumber) {
-        AssertIllegalArgument.isNotEmpty(defaultPageNumber, "defaultPageNumber不能为空");
+    public void setDefaultPageNumber(int defaultPageNumber) {
         this.defaultPageNumber = defaultPageNumber;
     }
 
@@ -208,7 +203,7 @@ public class RequestParameterPageFactory implements PageFactory {
      *
      * @return allowMaxPageSize
      */
-    public Integer getAllowMaxPageSize() {
+    public int getAllowMaxPageSize() {
         return allowMaxPageSize;
     }
 
@@ -217,7 +212,7 @@ public class RequestParameterPageFactory implements PageFactory {
      *
      * @param allowMaxPageSize allowMaxPageSize
      */
-    public void setAllowMaxPageSize(Integer allowMaxPageSize) {
+    public void setAllowMaxPageSize(int allowMaxPageSize) {
         this.allowMaxPageSize = allowMaxPageSize;
     }
 }

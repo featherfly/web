@@ -6,9 +6,7 @@ import java.util.Locale;
 import cn.featherfly.web.WebException;
 
 /**
- * <p>
- * UploadException
- * </p>
+ * UploadException.
  *
  * @author 钟冀
  */
@@ -17,68 +15,84 @@ public class UploadException extends WebException {
     private static final long serialVersionUID = -3703774287662486241L;
 
     /**
-     * @param message
-     * @param locale
-     * @param ex
+     * Instantiates a new upload exception.
+     *
+     * @param message the message
+     * @param locale the locale
+     * @param ex the ex
      */
     public UploadException(String message, Locale locale, Throwable ex) {
         super(message, locale, ex);
     }
 
     /**
-     * @param message
-     * @param locale
+     * Instantiates a new upload exception.
+     *
+     * @param message the message
+     * @param locale the locale
      */
     public UploadException(String message, Locale locale) {
         super(message, locale);
     }
 
     /**
-     * @param message
-     * @param argus
-     * @param locale
-     * @param ex
+     * Instantiates a new upload exception.
+     *
+     * @param message the message
+     * @param argus the argus
+     * @param locale the locale
+     * @param ex the ex
      */
     public UploadException(String message, Object[] argus, Locale locale, Throwable ex) {
         super(message, argus, locale, ex);
     }
 
     /**
-     * @param message
-     * @param argus
-     * @param locale
+     * Instantiates a new upload exception.
+     *
+     * @param message the message
+     * @param argus the argus
+     * @param locale the locale
      */
     public UploadException(String message, Object[] argus, Locale locale) {
         super(message, argus, locale);
     }
 
     /**
-     * @param message
-     * @param argus
-     * @param ex
+     * Instantiates a new upload exception.
+     *
+     * @param message the message
+     * @param argus the argus
+     * @param ex the ex
      */
     public UploadException(String message, Object[] argus, Throwable ex) {
         super(message, argus, ex);
     }
 
     /**
-     * @param message
-     * @param argus
+     * Instantiates a new upload exception.
+     *
+     * @param message the message
+     * @param argus the argus
      */
     public UploadException(String message, Object[] argus) {
         super(message, argus);
     }
 
     /**
-     * @param message
-     * @param ex
+     * Instantiates a new upload exception.
+     *
+     * @param message the message
+     * @param ex the ex
      */
     public UploadException(String message, Throwable ex) {
         super(message, ex);
     }
 
     /**
-     * @param message
+     * Instantiates a new upload exception.
+     *
+     * @param message the message
      */
     public UploadException(String message) {
         super(message);

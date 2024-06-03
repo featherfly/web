@@ -1,3 +1,6 @@
+# 1.3.3 2024-06-02
+1. 修复common-core不兼容升级
+
 # 1.3.2 2022-12-14
 1. 修复common-core不兼容升级，单独提出common-storage
 
@@ -7,26 +10,26 @@
 # 1.3.0 2021-2-3
 1. 加入MulitiPageFactory和RequestParameterMulitiPageFactory
 2. 删除已废弃的类PaginationFactory，RequestParameterPaginationFactory
-    
+   
 # 1.2.4 2020-5-20
 1. 加入PageFactory和RequestParameterPageFactory
-    
+   
 # 1.2.3 2019-12-03
 1. 升级依赖
-    
+   
 # 1.2.2 2019-08-27
 1. 升级依赖
-    
+   
 # 1.2.1 2019-08-15 
 1. 升级依赖并修复
-    
+   
 # 1.2.0 2019-08-06
 1. 升级依赖
 
 # 1.1.4 2016-08-01
 1. 修复分页工厂没有返回传入的每页显示个数的BUG
 2. 加入请求输入流缓存Filter
-    
+   
 # 1.1.3 2015-07-13 
 1. 修复分页工厂没有使用动态分页参数的BUG
 	

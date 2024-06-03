@@ -13,16 +13,13 @@ import cn.featherfly.common.lang.UriUtils;
 import cn.featherfly.web.WebException;
 
 /**
- * <p>
- * servlet运行环境
- * </p>
- * .
+ * servlet运行环境.
  *
  * @author 钟冀
  */
 public class ServletEnv {
 
-    private static final Assert ASSERT = new Assert(WebException.class);
+    private static final Assert<WebException> ASSERT = new Assert<>((message) -> new WebException(message));
 
     private static final Logger LOGGER = LoggerFactory.getLogger(ServletEnv.class);
 
@@ -35,10 +32,7 @@ public class ServletEnv {
     private static final ServletEnv env = new ServletEnv();
 
     /**
-     * <p>
-     * 初始化
-     * </p>
-     * .
+     * 初始化.
      *
      * @param servletContext ServletContext
      */

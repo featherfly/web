@@ -1,25 +1,27 @@
 package cn.featherfly.web.servlet.filter;
 
-import org.apache.commons.io.IOUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import cn.featherfly.web.WebException;
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
 
 import javax.servlet.ReadListener;
 import javax.servlet.ServletInputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletRequestWrapper;
 
-import java.io.ByteArrayInputStream;
-import java.io.IOException;
+import org.apache.commons.io.IOUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import cn.featherfly.web.WebException;
 
 /**
- * 请求输入流缓存HttpServletRequestWrapper
+ * 请求输入流缓存HttpServletRequestWrapper.
+ *
  * @author 钟冀
  */
 public class CachedRequestStreamHttpServletRequestWrapper extends HttpServletRequestWrapper {
 
+    /** The logger. */
     protected Logger logger = LoggerFactory.getLogger(this.getClass());
 
     private byte[] body;
@@ -27,7 +29,7 @@ public class CachedRequestStreamHttpServletRequestWrapper extends HttpServletReq
     /**
      * Constructs a request object wrapping the given request.
      *
-     * @param request
+     * @param request the request
      * @throws IllegalArgumentException if the request is null
      */
     public CachedRequestStreamHttpServletRequestWrapper(HttpServletRequest request) {
@@ -43,6 +45,9 @@ public class CachedRequestStreamHttpServletRequestWrapper extends HttpServletReq
         }
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public ServletInputStream getInputStream() throws IOException {
 
