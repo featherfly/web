@@ -2,16 +2,13 @@ package cn.featherfly.web.servlet;
 
 import java.util.Enumeration;
 
-import javax.servlet.http.HttpServletRequest;
-
 import org.apache.commons.lang3.StringUtils;
 
 import cn.featherfly.common.lang.Lang;
+import jakarta.servlet.http.HttpServletRequest;
 
 /**
- * <p>
- * ServletUtils
- * </p>
+ * ServletUtils.
  *
  * @author 钟冀
  */

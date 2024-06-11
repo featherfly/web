@@ -3,14 +3,13 @@ package cn.featherfly.web.servlet;
 
 import java.io.File;
 
-import javax.servlet.ServletContext;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import cn.featherfly.common.lang.Assert;
 import cn.featherfly.common.lang.UriUtils;
 import cn.featherfly.web.WebException;
+import jakarta.servlet.ServletContext;
 
 /**
  * servlet运行环境.

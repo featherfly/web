@@ -5,9 +5,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import javax.servlet.http.HttpServletRequest;
-
 import cn.featherfly.common.structure.page.Page;
+import jakarta.servlet.http.HttpServletRequest;
 
 /**
  * RequestParameterMulitiPageFactory.

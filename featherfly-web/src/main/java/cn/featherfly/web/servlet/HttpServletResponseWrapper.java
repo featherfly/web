@@ -3,7 +3,7 @@ package cn.featherfly.web.servlet;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 
-import javax.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpServletResponse;
 
 /**
  * <p>
@@ -14,20 +14,20 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author 钟冀
  */
-public class HttpServletResponseWrapper extends javax.servlet.http.HttpServletResponseWrapper{
+public class HttpServletResponseWrapper extends jakarta.servlet.http.HttpServletResponseWrapper {
 
-	private StringPrintWriter pw;
+    private StringPrintWriter pw;
 
-	public HttpServletResponseWrapper(HttpServletResponse response,StringWriter sw){
-		super(response);
-		this.pw = new StringPrintWriter(sw);
-	}
+    public HttpServletResponseWrapper(HttpServletResponse response, StringWriter sw) {
+        super(response);
+        pw = new StringPrintWriter(sw);
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public PrintWriter getWriter(){
-		return pw;
-	}
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public PrintWriter getWriter() {
+        return pw;
+    }
 }

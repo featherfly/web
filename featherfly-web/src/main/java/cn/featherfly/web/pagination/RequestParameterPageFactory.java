@@ -1,8 +1,6 @@
 
 package cn.featherfly.web.pagination;
 
-import javax.servlet.http.HttpServletRequest;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -10,6 +8,7 @@ import cn.featherfly.common.lang.AssertIllegalArgument;
 import cn.featherfly.common.lang.NumberUtils;
 import cn.featherfly.common.structure.page.Page;
 import cn.featherfly.common.structure.page.SimplePagination;
+import jakarta.servlet.http.HttpServletRequest;
 
 /**
  * RequestParameterPageFactory.

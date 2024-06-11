@@ -3,9 +3,8 @@ package cn.featherfly.web.pagination;
 
 import java.util.List;
 
-import javax.servlet.http.HttpServletRequest;
-
 import cn.featherfly.common.structure.page.Page;
+import jakarta.servlet.http.HttpServletRequest;
 
 /**
  * muliti page object factory.

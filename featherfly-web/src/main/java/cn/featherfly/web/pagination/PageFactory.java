@@ -1,9 +1,8 @@
 
 package cn.featherfly.web.pagination;
 
-import javax.servlet.http.HttpServletRequest;
-
 import cn.featherfly.common.structure.page.Page;
+import jakarta.servlet.http.HttpServletRequest;
 
 /**
  * page object factory.
