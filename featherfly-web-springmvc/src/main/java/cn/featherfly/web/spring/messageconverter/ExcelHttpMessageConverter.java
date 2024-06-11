@@ -1,23 +1,26 @@
 package cn.featherfly.web.spring.messageconverter;
 
-import cn.featherfly.data.office.excel.ExcelDataMapper;
-import cn.featherfly.data.office.excel.ExcelDataSource;
-import cn.featherfly.data.office.excel.ExcelSwaggerModelMapper;
-import cn.featherfly.web.spring.interceptor.RequestHolderInterceptor;
-import org.apache.poi.xssf.usermodel.XSSFWorkbook;
-import org.springframework.http.HttpOutputMessage;
-import org.springframework.http.MediaType;
-import org.springframework.http.converter.HttpMessageNotWritableException;
-
-import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import org.springframework.http.HttpOutputMessage;
+import org.springframework.http.MediaType;
+import org.springframework.http.converter.HttpMessageNotWritableException;
+
+import cn.featherfly.data.office.excel.ExcelDataMapper;
+import cn.featherfly.data.office.excel.ExcelDataSource;
+import cn.featherfly.data.office.excel.ExcelSwaggerModelMapper;
+import cn.featherfly.web.spring.interceptor.RequestHolderInterceptor;
+import jakarta.servlet.http.HttpServletRequest;
+
 /**
- * Created by zj on 2017/4/11.
+ * ExcelHttpMessageConverter.
+ *
+ * @author zhongj
  */
 public class ExcelHttpMessageConverter extends AttachHttpMessageConverter {
 
@@ -30,7 +33,6 @@ public class ExcelHttpMessageConverter extends AttachHttpMessageConverter {
         this(null);
     }
 
-
     /**
      * Instantiates a new Excel http message converter.
      *
@@ -38,10 +40,10 @@ public class ExcelHttpMessageConverter extends AttachHttpMessageConverter {
      */
     public ExcelHttpMessageConverter(ClassLoader classLoader) {
         super(classLoader);
-        this.extNames = new String[] { "xlsx", "xls" };
-        this.resolverPath = "data.content";
+        extNames = new String[] { "xlsx", "xls" };
+        resolverPath = "data.content";
         setSupportedMediaTypes(
-                Arrays.asList(new MediaType("application", "excel"), new MediaType("application", "*+excel")));
+            Arrays.asList(new MediaType("application", "excel"), new MediaType("application", "*+excel")));
     }
 
     /**
@@ -50,7 +52,7 @@ public class ExcelHttpMessageConverter extends AttachHttpMessageConverter {
     @SuppressWarnings("unchecked")
     @Override
     protected void writeInternal(Object result, Type type, HttpOutputMessage outputMessage)
-            throws IOException, HttpMessageNotWritableException {
+        throws IOException, HttpMessageNotWritableException {
         HttpServletRequest request = RequestHolderInterceptor.getHttpServletRequest();
 
         String fileName = getFileName(request);
@@ -58,7 +60,7 @@ public class ExcelHttpMessageConverter extends AttachHttpMessageConverter {
         outputMessage.getHeaders().set("Content-Disposition", "attachment;filename=" + fileName);
         outputMessage.getHeaders().setContentType(getDefaultContentType());
         // outputMessage.getHeaders().setContentLength();
-        
+
         Object data = getDataFromResult(result, request);
         if (data != null) {
             Collection<Object> datas;

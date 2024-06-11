@@ -1,12 +1,11 @@
 
 package cn.featherfly.web.spring.messageconverter;
 
-import cn.featherfly.common.bean.BeanUtils;
-import cn.featherfly.common.lang.Lang;
-import cn.featherfly.common.lang.Strings;
-import cn.featherfly.common.lang.UriUtils;
-import cn.featherfly.web.WebException;
-import cn.featherfly.web.servlet.ServletUtils;
+import java.io.IOException;
+import java.io.InputStream;
+import java.lang.reflect.Type;
+import java.util.List;
+
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -15,43 +14,54 @@ import org.springframework.http.MediaType;
 import org.springframework.http.converter.AbstractGenericHttpMessageConverter;
 import org.springframework.http.converter.HttpMessageNotReadableException;
 
-import javax.servlet.http.HttpServletRequest;
-import java.io.IOException;
-import java.io.InputStream;
-import java.lang.reflect.Type;
-import java.util.List;
+import cn.featherfly.common.bean.BeanUtils;
+import cn.featherfly.common.lang.Lang;
+import cn.featherfly.common.lang.Strings;
+import cn.featherfly.common.lang.UriUtils;
+import cn.featherfly.web.WebException;
+import cn.featherfly.web.servlet.ServletUtils;
+import jakarta.servlet.http.HttpServletRequest;
 
 /**
- * <p>
- * JxlsHttpMessageConverter
- * </p>
+ * JxlsHttpMessageConverter.
  *
- * @author 钟冀
+ * @author zhongj
  */
 public abstract class AttachHttpMessageConverter extends AbstractGenericHttpMessageConverter<Object> {
 
+    /** The logger. */
     protected final Logger logger = LoggerFactory.getLogger(this.getClass());
 
+    /** The ext names. */
     protected String[] extNames;
 
+    /** The allow name param. */
     protected boolean allowNameParam;
 
     private boolean allowNameAsLastUri;
 
+    /** The name param key. */
     protected String nameParamKey = "fileName";
 
+    /** The resolver path. */
     protected String resolverPath = "data";
 
+    /** The allow resolver path. */
     protected boolean allowResolverPath;
 
+    /** The resolver path key. */
     protected String resolverPathKey = "resolverPath";
 
+    /** The allow ignore pagination. */
     protected boolean allowIgnorePagination;
 
+    /** The ignore pagination key. */
     protected String ignorePaginationKey = "ignorePagination";
 
+    /** The template path key. */
     protected String templatePathKey = "template";
 
+    /** The template base path. */
     protected String templateBasePath = "";
 
     private ClassLoader classLoader;
@@ -83,7 +93,7 @@ public abstract class AttachHttpMessageConverter extends AbstractGenericHttpMess
      */
     @Override
     public Object read(Type type, Class<?> contextClass, HttpInputMessage inputMessage)
-            throws IOException, HttpMessageNotReadableException {
+        throws IOException, HttpMessageNotReadableException {
         throw new UnsupportedOperationException();
     }
 
@@ -100,10 +110,16 @@ public abstract class AttachHttpMessageConverter extends AbstractGenericHttpMess
      */
     @Override
     protected Object readInternal(Class<? extends Object> clazz, HttpInputMessage inputMessage)
-            throws IOException, HttpMessageNotReadableException {
+        throws IOException, HttpMessageNotReadableException {
         throw new UnsupportedOperationException();
     }
 
+    /**
+     * Match ext name.
+     *
+     * @param name the name
+     * @return true, if successful
+     */
     protected boolean matchExtName(String name) {
         for (String extName : extNames) {
             if (name.endsWith(extName)) {
@@ -117,6 +133,7 @@ public abstract class AttachHttpMessageConverter extends AbstractGenericHttpMess
      * <p>
      * 获取模板
      * </p>
+     * .
      *
      * @param request HttpServletRequest
      * @return 模板
@@ -149,7 +166,7 @@ public abstract class AttachHttpMessageConverter extends AbstractGenericHttpMess
         if (is == null) {
             String fileName = StringUtils.substringAfterLast(templatePath, "/");
             logger.debug("未找到路径{}对应的模板，使用{}再查找", templatePath, fileName);
-            is = classLoader.getResourceAsStream(UriUtils.linkUri(templateBasePath,fileName));
+            is = classLoader.getResourceAsStream(UriUtils.linkUri(templateBasePath, fileName));
             if (Lang.isEmpty(is)) {
                 throw new WebException("未找到[" + fileName + "]对应的模板");
             }
@@ -157,6 +174,12 @@ public abstract class AttachHttpMessageConverter extends AbstractGenericHttpMess
         return is;
     }
 
+    /**
+     * Gets the file name.
+     *
+     * @param request the request
+     * @return the file name
+     */
     protected String getFileName(HttpServletRequest request) {
         if (request == null) {
             return System.currentTimeMillis() + "." + extNames[0];
@@ -189,8 +212,9 @@ public abstract class AttachHttpMessageConverter extends AbstractGenericHttpMess
      * <p>
      * 从结果对象获取数据对象
      * </p>
+     * .
      *
-     * @param result  结果对象
+     * @param result 结果对象
      * @param request HttpServletRequest
      * @return 数据对象
      */
@@ -206,6 +230,12 @@ public abstract class AttachHttpMessageConverter extends AbstractGenericHttpMess
         return null;
     }
 
+    /**
+     * Gets the resolver path.
+     *
+     * @param request the request
+     * @return the resolver path
+     */
     protected String getResolverPath(HttpServletRequest request) {
         if (request == null) {
             return resolverPath;
@@ -221,13 +251,19 @@ public abstract class AttachHttpMessageConverter extends AbstractGenericHttpMess
         return rp;
     }
 
+    /**
+     * Gets the default content type.
+     *
+     * @return the default content type
+     * @throws IOException Signals that an I/O exception has occurred.
+     */
     protected MediaType getDefaultContentType() throws IOException {
         List<MediaType> mediaTypes = getSupportedMediaTypes();
         return !mediaTypes.isEmpty() ? mediaTypes.get(0) : null;
     }
 
     /**
-     * 返回allowNameParam
+     * 返回allowNameParam.
      *
      * @return allowNameParam
      */
@@ -236,7 +272,7 @@ public abstract class AttachHttpMessageConverter extends AbstractGenericHttpMess
     }
 
     /**
-     * 设置allowNameParam
+     * 设置allowNameParam.
      *
      * @param allowNameParam allowNameParam
      */
@@ -245,7 +281,7 @@ public abstract class AttachHttpMessageConverter extends AbstractGenericHttpMess
     }
 
     /**
-     * 返回nameParamKey
+     * 返回nameParamKey.
      *
      * @return nameParamKey
      */
@@ -254,7 +290,7 @@ public abstract class AttachHttpMessageConverter extends AbstractGenericHttpMess
     }
 
     /**
-     * 设置nameParamKey
+     * 设置nameParamKey.
      *
      * @param nameParamKey nameParamKey
      */
@@ -263,7 +299,7 @@ public abstract class AttachHttpMessageConverter extends AbstractGenericHttpMess
     }
 
     /**
-     * 返回extNames
+     * 返回extNames.
      *
      * @return extNames
      */
@@ -272,7 +308,7 @@ public abstract class AttachHttpMessageConverter extends AbstractGenericHttpMess
     }
 
     /**
-     * 设置extNames
+     * 设置extNames.
      *
      * @param extNames extNames
      */
@@ -281,7 +317,7 @@ public abstract class AttachHttpMessageConverter extends AbstractGenericHttpMess
     }
 
     /**
-     * 返回resolverPath
+     * 返回resolverPath.
      *
      * @return resolverPath
      */
@@ -290,7 +326,7 @@ public abstract class AttachHttpMessageConverter extends AbstractGenericHttpMess
     }
 
     /**
-     * 设置resolverPath
+     * 设置resolverPath.
      *
      * @param resolverPath resolverPath
      */
@@ -299,7 +335,7 @@ public abstract class AttachHttpMessageConverter extends AbstractGenericHttpMess
     }
 
     /**
-     * 返回allowResolverPath
+     * 返回allowResolverPath.
      *
      * @return allowResolverPath
      */
@@ -308,7 +344,7 @@ public abstract class AttachHttpMessageConverter extends AbstractGenericHttpMess
     }
 
     /**
-     * 设置allowResolverPath
+     * 设置allowResolverPath.
      *
      * @param allowResolverPath allowResolverPath
      */
@@ -317,7 +353,7 @@ public abstract class AttachHttpMessageConverter extends AbstractGenericHttpMess
     }
 
     /**
-     * 返回resolverPathKey
+     * 返回resolverPathKey.
      *
      * @return resolverPathKey
      */
@@ -326,7 +362,7 @@ public abstract class AttachHttpMessageConverter extends AbstractGenericHttpMess
     }
 
     /**
-     * 设置resolverPathKey
+     * 设置resolverPathKey.
      *
      * @param resolverPathKey resolverPathKey
      */
@@ -335,7 +371,7 @@ public abstract class AttachHttpMessageConverter extends AbstractGenericHttpMess
     }
 
     /**
-     * 返回allowNameAsLastUri
+     * 返回allowNameAsLastUri.
      *
      * @return allowNameAsLastUri
      */
@@ -344,7 +380,7 @@ public abstract class AttachHttpMessageConverter extends AbstractGenericHttpMess
     }
 
     /**
-     * 设置allowNameAsLastUri
+     * 设置allowNameAsLastUri.
      *
      * @param allowNameAsLastUri allowNameAsLastUri
      */
@@ -353,7 +389,7 @@ public abstract class AttachHttpMessageConverter extends AbstractGenericHttpMess
     }
 
     /**
-     * 返回allowIgnorePagination
+     * 返回allowIgnorePagination.
      *
      * @return allowIgnorePagination
      */
@@ -362,7 +398,7 @@ public abstract class AttachHttpMessageConverter extends AbstractGenericHttpMess
     }
 
     /**
-     * 设置allowIgnorePagination
+     * 设置allowIgnorePagination.
      *
      * @param allowIgnorePagination allowIgnorePagination
      */
@@ -371,7 +407,7 @@ public abstract class AttachHttpMessageConverter extends AbstractGenericHttpMess
     }
 
     /**
-     * 返回ignorePaginationKey
+     * 返回ignorePaginationKey.
      *
      * @return ignorePaginationKey
      */
@@ -380,7 +416,7 @@ public abstract class AttachHttpMessageConverter extends AbstractGenericHttpMess
     }
 
     /**
-     * 设置ignorePaginationKey
+     * 设置ignorePaginationKey.
      *
      * @param ignorePaginationKey ignorePaginationKey
      */
@@ -389,7 +425,7 @@ public abstract class AttachHttpMessageConverter extends AbstractGenericHttpMess
     }
 
     /**
-     * 返回templatePathKey
+     * 返回templatePathKey.
      *
      * @return templatePathKey
      */
@@ -398,7 +434,7 @@ public abstract class AttachHttpMessageConverter extends AbstractGenericHttpMess
     }
 
     /**
-     * 设置templatePathKey
+     * 设置templatePathKey.
      *
      * @param templatePathKey templatePathKey
      */
@@ -407,7 +443,7 @@ public abstract class AttachHttpMessageConverter extends AbstractGenericHttpMess
     }
 
     /**
-     * 返回templateBasePath
+     * 返回templateBasePath.
      *
      * @return templateBasePath
      */
@@ -416,7 +452,7 @@ public abstract class AttachHttpMessageConverter extends AbstractGenericHttpMess
     }
 
     /**
-     * 设置templateBasePath
+     * 设置templateBasePath.
      *
      * @param templateBasePath templateBasePath
      */
@@ -424,10 +460,20 @@ public abstract class AttachHttpMessageConverter extends AbstractGenericHttpMess
         this.templateBasePath = templateBasePath;
     }
 
+    /**
+     * Gets the class loader.
+     *
+     * @return the class loader
+     */
     public ClassLoader getClassLoader() {
         return classLoader;
     }
 
+    /**
+     * Sets the class loader.
+     *
+     * @param classLoader the new class loader
+     */
     public void setClassLoader(ClassLoader classLoader) {
         this.classLoader = classLoader;
     }

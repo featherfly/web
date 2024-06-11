@@ -3,18 +3,16 @@ package cn.featherfly.web.spring.servlet.view.json;
 import org.springframework.web.servlet.view.json.MappingJackson2JsonView;
 
 /**
- * <p>
- * MappingJackson2JsonViewFactory
- * </p>
+ * MappingJackson2JsonViewFactory.
  *
- * @author 钟冀
+ * @author zhongj
  */
 public class MappingJackson2JsonViewFactory {
 
     private ObjectMapperConfiguration configuration;
 
     /**
-     * 返回configuration
+     * 返回configuration.
      *
      * @return configuration
      */
@@ -23,7 +21,7 @@ public class MappingJackson2JsonViewFactory {
     }
 
     /**
-     * 设置configuration
+     * 设置configuration.
      *
      * @param configuration configuration
      */
@@ -31,6 +29,11 @@ public class MappingJackson2JsonViewFactory {
         this.configuration = configuration;
     }
 
+    /**
+     * Creates the.
+     *
+     * @return the mapping jackson 2 json view
+     */
     public MappingJackson2JsonView create() {
         MappingJackson2JsonView view = new MappingJackson2JsonView();
         configuration.configure(view.getObjectMapper());

@@ -4,10 +4,6 @@ package cn.featherfly.web.spring.servlet.view.jxls;
 import java.io.InputStream;
 import java.util.Map;
 
-import javax.servlet.ServletContext;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
 import org.apache.commons.lang3.StringUtils;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.jxls.transform.Transformer;
@@ -18,13 +14,14 @@ import cn.featherfly.common.lang.ClassLoaderUtils;
 import cn.featherfly.common.lang.Lang;
 import cn.featherfly.web.WebException;
 import cn.featherfly.web.servlet.ServletUtils;
+import jakarta.servlet.ServletContext;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 
 /**
- * <p>
- * JxlsView
- * </p>
+ * JxlsView.
  *
- * @author 钟冀
+ * @author zhongj
  */
 public class JxlsView extends AbstractXlsxView {
 
@@ -37,7 +34,7 @@ public class JxlsView extends AbstractXlsxView {
      */
     @Override
     protected void buildExcelDocument(Map<String, Object> model, Workbook workbook, HttpServletRequest request,
-            HttpServletResponse response) throws Exception {
+        HttpServletResponse response) throws Exception {
         String path = ServletUtils.getRequestURI(request);
         if (path.indexOf('.') < 0) {
             path = path + "." + suffix;

@@ -7,7 +7,7 @@ import java.util.Map;
 /**
  * Map Data Result.
  *
- * @author 钟冀
+ * @author zhongj
  */
 public class MapDataResult extends Result<Map<String, Object>> {
 

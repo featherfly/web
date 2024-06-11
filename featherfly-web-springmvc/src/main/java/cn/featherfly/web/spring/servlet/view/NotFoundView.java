@@ -1,12 +1,9 @@
 /*
  * Copyright 2002-2014 the original author or authors.
- *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
+ * http://www.apache.org/licenses/LICENSE-2.0
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -18,59 +15,57 @@ package cn.featherfly.web.spring.servlet.view;
 
 import java.util.Map;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
 import org.springframework.web.servlet.view.AbstractView;
 
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+
 /**
- * <p>
- * DownloadView
- * </p>
- * 
- * @author 钟冀
+ * NotFoundView.
+ *
+ * @author zhongj
  */
 public class NotFoundView extends AbstractView {
-	
-	/**
-	 */
-	public NotFoundView() {
-	}
-	
-	/**
-	 * @param message message
-	 */
-	public NotFoundView(String message) {
-		this.message = message;
-	}
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	protected void renderMergedOutputModel(Map<String, Object> model,
-			HttpServletRequest request, HttpServletResponse response)
-			throws Exception {
-		response.sendError(HttpServletResponse.SC_NOT_FOUND, message);		
-	}
-	
-	private String message;
+    /**
+     */
+    public NotFoundView() {
+    }
 
-	/**
-	 * 返回message
-	 * @return message
-	 */
-	public String getMessage() {
-		return message;
-	}
+    /**
+     * @param message message
+     */
+    public NotFoundView(String message) {
+        this.message = message;
+    }
 
-	/**
-	 * 设置message
-	 * @param message message
-	 */
-	public void setMessage(String message) {
-		this.message = message;
-	}
-	
-	
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    protected void renderMergedOutputModel(Map<String, Object> model, HttpServletRequest request,
+        HttpServletResponse response) throws Exception {
+        response.sendError(HttpServletResponse.SC_NOT_FOUND, message);
+    }
+
+    private String message;
+
+    /**
+     * 返回message
+     *
+     * @return message
+     */
+    public String getMessage() {
+        return message;
+    }
+
+    /**
+     * 设置message
+     *
+     * @param message message
+     */
+    public void setMessage(String message) {
+        this.message = message;
+    }
+
 }

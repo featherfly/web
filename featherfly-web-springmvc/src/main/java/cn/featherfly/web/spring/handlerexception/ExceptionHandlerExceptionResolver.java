@@ -3,9 +3,6 @@ package cn.featherfly.web.spring.handlerexception;
 import java.util.HashMap;
 import java.util.Map;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.core.PriorityOrdered;
@@ -18,9 +15,13 @@ import cn.featherfly.common.exception.ExceptionCodeException;
 import cn.featherfly.common.lang.LogUtils;
 import cn.featherfly.web.spring.servlet.view.Result;
 import cn.featherfly.web.spring.servlet.view.json.ObjectJacksonJsonView;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 
 /**
- * @author Zhong Ji
+ * The Class ExceptionHandlerExceptionResolver.
+ *
+ * @author zhongj
  */
 public class ExceptionHandlerExceptionResolver implements HandlerExceptionResolver, PriorityOrdered {
 
@@ -32,9 +33,12 @@ public class ExceptionHandlerExceptionResolver implements HandlerExceptionResolv
 
     private int order = 1;
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public ModelAndView resolveException(HttpServletRequest request, HttpServletResponse response, Object handler,
-            Exception ex) {
+        Exception ex) {
         LogUtils.error(ex, LOG);
         Result<?> result = new Result<>();
         result.setCode(Response.DEFAULT_ERROR_CODE);
@@ -58,19 +62,37 @@ public class ExceptionHandlerExceptionResolver implements HandlerExceptionResolv
         return new ModelAndView(new ObjectJacksonJsonView(result));
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public int getOrder() {
         return order;
     }
 
+    /**
+     * Sets the order.
+     *
+     * @param order the new order
+     */
     public void setOrder(int order) {
         this.order = order;
     }
 
+    /**
+     * Gets the http status.
+     *
+     * @return the http status
+     */
     public Integer getHttpStatus() {
         return httpStatus;
     }
 
+    /**
+     * Sets the http status.
+     *
+     * @param httpStatus the new http status
+     */
     public void setHttpStatus(Integer httpStatus) {
         this.httpStatus = httpStatus;
     }
@@ -88,7 +110,7 @@ public class ExceptionHandlerExceptionResolver implements HandlerExceptionResolv
      * Setter for property 'exceptionHttpStatusMap'.
      *
      * @param exceptionHttpStatusMap Value to set for property
-     *                               'exceptionHttpStatusMap'.
+     *        'exceptionHttpStatusMap'.
      */
     public void setExceptionHttpStatusMap(Map<Class<?>, Integer> exceptionHttpStatusMap) {
         this.exceptionHttpStatusMap = exceptionHttpStatusMap;

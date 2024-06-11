@@ -4,8 +4,6 @@ package cn.featherfly.web.spring.method.support;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.servlet.http.HttpServletRequest;
-
 import org.springframework.core.MethodParameter;
 import org.springframework.http.MediaType;
 import org.springframework.web.accept.ContentNegotiationManager;
@@ -19,13 +17,12 @@ import cn.featherfly.common.lang.ClassUtils;
 import cn.featherfly.common.lang.Lang;
 import cn.featherfly.common.structure.page.Page;
 import cn.featherfly.web.pagination.PageFactory;
+import jakarta.servlet.http.HttpServletRequest;
 
 /**
- * <p>
- * 分页参数
- * </p>
+ * 分页参数.
  *
- * @author 钟冀
+ * @author zhongj
  */
 public class PageHandlerMethodArgumentResolver implements HandlerMethodArgumentResolver {
 
@@ -42,7 +39,7 @@ public class PageHandlerMethodArgumentResolver implements HandlerMethodArgumentR
      */
     @Override
     public Object resolveArgument(MethodParameter parameter, ModelAndViewContainer mavContainer,
-            NativeWebRequest webRequest, WebDataBinderFactory binderFactory) throws Exception {
+        NativeWebRequest webRequest, WebDataBinderFactory binderFactory) throws Exception {
         AssertIllegalArgument.isNotNull(pageFactory, "pageFacotry不能为空");
         List<MediaType> mediaTypes = contentNegotiationManager.resolveMediaTypes(webRequest);
         if (ignore(mediaTypes)) {

@@ -6,8 +6,6 @@ import java.io.InputStream;
 import java.lang.reflect.Type;
 import java.util.Arrays;
 
-import javax.servlet.http.HttpServletRequest;
-
 import org.jxls.common.Context;
 import org.jxls.util.JxlsHelper;
 import org.springframework.http.HttpOutputMessage;
@@ -16,13 +14,12 @@ import org.springframework.http.converter.HttpMessageNotWritableException;
 
 import cn.featherfly.common.lang.Lang;
 import cn.featherfly.web.spring.interceptor.RequestHolderInterceptor;
+import jakarta.servlet.http.HttpServletRequest;
 
 /**
- * <p>
- * JxlsHttpMessageConverter
- * </p>
+ * JxlsHttpMessageConverter.
  *
- * @author 钟冀
+ * @author zhongj
  */
 public class JxlsHttpMessageConverter extends AttachHttpMessageConverter {
 
@@ -45,7 +42,7 @@ public class JxlsHttpMessageConverter extends AttachHttpMessageConverter {
         super(classLoader);
         extNames = new String[] { "xlsx", "xls" };
         setSupportedMediaTypes(Arrays.asList(new MediaType("application", "excel"),
-                new MediaType("application", "*+excel"), new MediaType("application", "jxls")));
+            new MediaType("application", "*+excel"), new MediaType("application", "jxls")));
     }
 
     /**
@@ -53,7 +50,7 @@ public class JxlsHttpMessageConverter extends AttachHttpMessageConverter {
      */
     @Override
     protected void writeInternal(Object result, Type type, HttpOutputMessage outputMessage)
-            throws IOException, HttpMessageNotWritableException {
+        throws IOException, HttpMessageNotWritableException {
         HttpServletRequest request = RequestHolderInterceptor.getHttpServletRequest();
         String fileName = getFileName(request);
         fileName = new String(fileName.getBytes(), "ISO-8859-1"); // 各浏览器基本都支持ISO编码

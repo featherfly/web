@@ -9,7 +9,7 @@ import cn.featherfly.web.spring.servlet.view.Result;
 /**
  * Result Json View.
  *
- * @author 钟冀
+ * @author zhongj
  */
 public class ResultJsonView extends ObjectJacksonJsonView {
 

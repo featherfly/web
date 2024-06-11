@@ -3,13 +3,12 @@ package cn.featherfly.web.spring.interceptor;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.AsyncHandlerInterceptor;
 
 import cn.featherfly.common.constant.Chars;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 
 /**
  * CrosHostInterceptor.
@@ -46,7 +45,7 @@ public class CrosHostInterceptor implements AsyncHandlerInterceptor {
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
-            throws Exception {
+        throws Exception {
         //添加跨域CORS
         //        response.setHeader("Access-Control-Allow-Origin", "*");
         //        response.setHeader("Access-Control-Allow-Headers", "X-Requested-With,content-type,token");

@@ -21,9 +21,6 @@ import java.io.OutputStream;
 import java.io.UnsupportedEncodingException;
 import java.util.Map;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.web.servlet.view.AbstractView;
 
@@ -31,11 +28,13 @@ import cn.featherfly.common.io.file.FileWrapper;
 import cn.featherfly.common.lang.Lang;
 import cn.featherfly.common.lang.Strings;
 import cn.featherfly.web.WebException;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 
 /**
  * Resource View.
  *
- * @author 钟冀
+ * @author zhongj
  */
 public class ResourceView extends AbstractView {
 
@@ -46,7 +45,7 @@ public class ResourceView extends AbstractView {
      */
     @Override
     protected void renderMergedOutputModel(Map<String, Object> model, HttpServletRequest request,
-            HttpServletResponse response) throws Exception {
+        HttpServletResponse response) throws Exception {
         InputStream is = null;
         String name = null;
         try {
@@ -75,15 +74,15 @@ public class ResourceView extends AbstractView {
     /**
      * Download.
      *
-     * @param request     the request
-     * @param response    the response
-     * @param is          the is
+     * @param request the request
+     * @param response the response
+     * @param is the is
      * @param downloadObj the download obj
-     * @param name        the name
+     * @param name the name
      * @throws IOException Signals that an I/O exception has occurred.
      */
     protected void download(HttpServletRequest request, HttpServletResponse response, InputStream is,
-            Object downloadObj, String name) throws IOException {
+        Object downloadObj, String name) throws IOException {
         if (StringUtils.isBlank(getContentType())) {
             setContentType("application/octet-stream;charset=" + encodeCharset);
         }

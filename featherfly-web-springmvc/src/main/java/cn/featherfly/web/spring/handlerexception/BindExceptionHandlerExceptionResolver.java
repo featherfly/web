@@ -4,10 +4,15 @@ import org.springframework.validation.BindException;
 import org.springframework.validation.BindingResult;
 
 /**
- * @author Zhong Ji
+ * The Class BindExceptionHandlerExceptionResolver.
+ *
+ * @author zhongj
  */
 public class BindExceptionHandlerExceptionResolver extends BindResultHandlerExceptionResolver {
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     protected BindingResult getBindingResult(Exception ex) {
         if (ex instanceof BindException) {

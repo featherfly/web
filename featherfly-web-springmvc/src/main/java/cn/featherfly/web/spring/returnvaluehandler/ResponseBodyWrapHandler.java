@@ -10,9 +10,9 @@ import cn.featherfly.common.policy.AllowPolicy;
 import cn.featherfly.web.spring.servlet.view.Result;
 
 /**
- * ResponseBodyWrapHandler with Result
+ * ResponseBodyWrapHandler with Result.
  *
- * @author Zhong Ji
+ * @author zhongj
  */
 public class ResponseBodyWrapHandler implements HandlerMethodReturnValueHandler {
 
@@ -22,18 +22,29 @@ public class ResponseBodyWrapHandler implements HandlerMethodReturnValueHandler 
 
     private boolean onlyWrapNull;
 
+    /**
+     * Instantiates a new response body wrap handler.
+     *
+     * @param delegate the delegate
+     */
     public ResponseBodyWrapHandler(HandlerMethodReturnValueHandler delegate) {
         this.delegate = delegate;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public boolean supportsReturnType(MethodParameter returnType) {
         return delegate.supportsReturnType(returnType);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void handleReturnValue(Object returnValue, MethodParameter returnType, ModelAndViewContainer mavContainer,
-            NativeWebRequest webRequest) throws Exception {
+        NativeWebRequest webRequest) throws Exception {
         if (allowPolicy != null && !allowPolicy.isAllow(returnValue)) {
             delegate.handleReturnValue(returnValue, returnType, mavContainer, webRequest);
         } else {
@@ -47,7 +58,7 @@ public class ResponseBodyWrapHandler implements HandlerMethodReturnValueHandler 
     }
 
     /**
-     * 返回allowPolicy
+     * 返回allowPolicy.
      *
      * @return allowPolicy
      */
@@ -56,7 +67,7 @@ public class ResponseBodyWrapHandler implements HandlerMethodReturnValueHandler 
     }
 
     /**
-     * 设置allowPolicy
+     * 设置allowPolicy.
      *
      * @param allowPolicy allowPolicy
      */
@@ -65,7 +76,7 @@ public class ResponseBodyWrapHandler implements HandlerMethodReturnValueHandler 
     }
 
     /**
-     * get onlyWrapNull value
+     * get onlyWrapNull value.
      *
      * @return onlyWrapNull
      */
@@ -74,7 +85,7 @@ public class ResponseBodyWrapHandler implements HandlerMethodReturnValueHandler 
     }
 
     /**
-     * set onlyWrapNull value
+     * set onlyWrapNull value.
      *
      * @param onlyWrapNull onlyWrapNull
      */

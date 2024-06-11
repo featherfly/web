@@ -6,7 +6,7 @@ import cn.featherfly.common.api.Response;
 /**
  * Result.
  *
- * @author 钟冀
+ * @author zhongj
  * @param <D> the generic type
  */
 public class Result<D> extends Response<D> {

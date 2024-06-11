@@ -4,20 +4,27 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-import javax.annotation.Resource;
-
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.web.method.support.HandlerMethodReturnValueHandler;
 import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter;
 import org.springframework.web.servlet.mvc.method.annotation.RequestResponseBodyMethodProcessor;
 
 import cn.featherfly.common.lang.ClassUtils;
+import jakarta.annotation.Resource;
 
+/**
+ * The Class ResponseBodyWrapFactoryBean.
+ *
+ * @author zhongj
+ */
 public class ResponseBodyWrapFactoryBean implements InitializingBean {
 
     @Resource
     private RequestMappingHandlerAdapter adapter;
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void afterPropertiesSet() throws Exception {
         List<HandlerMethodReturnValueHandler> returnValueHandlers = adapter.getReturnValueHandlers();
@@ -34,12 +41,12 @@ public class ResponseBodyWrapFactoryBean implements InitializingBean {
             Class<?> representationModelProcessorHandlerMethodReturnValueHandler = null;
             try {
                 representationModelProcessorHandlerMethodReturnValueHandler = ClassUtils.forName(
-                        "org.springframework.hateoas.server.mvc.RepresentationModelProcessorHandlerMethodReturnValueHandler");
+                    "org.springframework.hateoas.server.mvc.RepresentationModelProcessorHandlerMethodReturnValueHandler");
             } catch (Exception e) {
                 // 忽略
             }
             if (handler instanceof RequestResponseBodyMethodProcessor || ClassUtils
-                    .isParent(representationModelProcessorHandlerMethodReturnValueHandler, handler.getClass())) {
+                .isParent(representationModelProcessorHandlerMethodReturnValueHandler, handler.getClass())) {
                 ResponseBodyWrapHandler decorator = new ResponseBodyWrapHandler(handler);
                 int index = handlers.indexOf(handler);
                 handlers.set(index, decorator);

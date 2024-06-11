@@ -17,7 +17,7 @@ import cn.featherfly.common.lang.Lang;
 /**
  * ObjectMapperConfiguration.
  *
- * @author 钟冀
+ * @author zhongj
  */
 public class ObjectMapperConfiguration {
     /**

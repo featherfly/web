@@ -1,12 +1,9 @@
 /*
  * Copyright 2002-2014 the original author or authors.
- *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
+ * http://www.apache.org/licenses/LICENSE-2.0
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -18,67 +15,67 @@ package cn.featherfly.web.spring.servlet.view.json;
 
 import java.util.Map;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
 import org.springframework.web.servlet.view.json.MappingJackson2JsonView;
 
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+
 /**
- * <p>
- * ObjectJacksonJsonView
- * </p>
- * 
- * @author 钟冀
+ * ObjectJacksonJsonView.
+ *
+ * @author zhongj
  */
 public class ObjectJacksonJsonView extends MappingJackson2JsonView {
-	
-	/**
-	 */
-	public ObjectJacksonJsonView() {
-		this(null);
-	}
-	
-	/**
-	 * 
-	 * @param resultObject resultObject
-	 */
-	public ObjectJacksonJsonView(Object resultObject) {
-		getObjectMapper().setSerializationInclusion(Include.NON_EMPTY);
-		setResult(resultObject);
-	}
-	
-	/**
-	 * return result
-	 * @param model the model, as passed on to {@link #renderMergedOutputModel}
-	 * @return the value to be rendered -&gt; resultObject
-	 */
-	@Override
-	protected Object filterModel(Map<String, Object> model) {
-		return result;
-	}	
-	
-	/**
-	 * 返回result
-	 * @return result
-	 */
-	public Object getResult() {
-		return result;
-	}
 
-	/**
-	 * 设置result
-	 * @param result result
-	 */
-	public void setResult(Object result) {
-		this.result = result;
-	}
-	
-	@Override
+    /**
+     */
+    public ObjectJacksonJsonView() {
+        this(null);
+    }
+
+    /**
+     * @param resultObject resultObject
+     */
+    public ObjectJacksonJsonView(Object resultObject) {
+        getObjectMapper().setSerializationInclusion(Include.NON_EMPTY);
+        setResult(resultObject);
+    }
+
+    /**
+     * return result
+     *
+     * @param model the model, as passed on to {@link #renderMergedOutputModel}
+     * @return the value to be rendered -&gt; resultObject
+     */
+    @Override
+    protected Object filterModel(Map<String, Object> model) {
+        return result;
+    }
+
+    /**
+     * 返回result
+     *
+     * @return result
+     */
+    public Object getResult() {
+        return result;
+    }
+
+    /**
+     * 设置result
+     *
+     * @param result result
+     */
+    public void setResult(Object result) {
+        this.result = result;
+    }
+
+    @Override
     protected void prepareResponse(HttpServletRequest request, HttpServletResponse response) {
-        setResponseContentType(request, response);        
-        response.setCharacterEncoding(this.getEncoding().getJavaName());        
+        setResponseContentType(request, response);
+        response.setCharacterEncoding(getEncoding().getJavaName());
         if (cacheExpires > 0) {
             response.addHeader("Cache-Control", "max-age=" + cacheExpires);
         } else {
@@ -88,13 +85,13 @@ public class ObjectJacksonJsonView extends MappingJackson2JsonView {
         }
     }
 
+    private Object result;
 
-	private Object result;
-	
-	private int cacheExpires = -1;
+    private int cacheExpires = -1;
 
     /**
      * 返回cacheExpires
+     *
      * @return cacheExpires
      */
     public int getCacheExpires() {
@@ -103,9 +100,10 @@ public class ObjectJacksonJsonView extends MappingJackson2JsonView {
 
     /**
      * 设置cacheExpires
+     *
      * @param cacheExpires cacheExpires
      */
     public void setCacheExpires(int cacheExpires) {
         this.cacheExpires = cacheExpires;
-    }    
+    }
 }
