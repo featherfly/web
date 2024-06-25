@@ -1,3 +1,6 @@
+# 1.0.1 2024-06-25
+1. ResponseBodyWrapFactoryBean加入getRequestPathPolicy(),getReturnObjectPolicy()用于设置策略
+
 # 1.0.0 2024-06-11
 1. 升级spring5到spring6
 2. 升级jdk8到jdk17

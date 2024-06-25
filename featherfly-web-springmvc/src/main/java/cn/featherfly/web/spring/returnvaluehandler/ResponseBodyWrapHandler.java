@@ -2,6 +2,7 @@ package cn.featherfly.web.spring.returnvaluehandler;
 
 import org.springframework.core.MethodParameter;
 import org.springframework.web.context.request.NativeWebRequest;
+import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.method.support.HandlerMethodReturnValueHandler;
 import org.springframework.web.method.support.ModelAndViewContainer;
 
@@ -18,9 +19,9 @@ public class ResponseBodyWrapHandler implements HandlerMethodReturnValueHandler 
 
     private final HandlerMethodReturnValueHandler delegate;
 
-    private AllowPolicy<Object> allowPolicy;
+    private AllowPolicy<Object> returnObjectPolicy;
 
-    private boolean onlyWrapNull;
+    private AllowPolicy<WebRequest> requestPathPolicy;
 
     /**
      * Instantiates a new response body wrap handler.
@@ -45,52 +46,50 @@ public class ResponseBodyWrapHandler implements HandlerMethodReturnValueHandler 
     @Override
     public void handleReturnValue(Object returnValue, MethodParameter returnType, ModelAndViewContainer mavContainer,
         NativeWebRequest webRequest) throws Exception {
-        if (allowPolicy != null && !allowPolicy.isAllow(returnValue)) {
+        if (returnObjectPolicy != null && !returnObjectPolicy.isAllow(returnValue)
+            || requestPathPolicy != null && !requestPathPolicy.isAllow(webRequest)) {
             delegate.handleReturnValue(returnValue, returnType, mavContainer, webRequest);
         } else {
-            if (returnValue == null || !onlyWrapNull) {
-                Result<Object> result = new Result<>();
-                result.setData(returnValue);
-                result.setCode(Response.SUCCESS_CODE);
-                delegate.handleReturnValue(result, returnType, mavContainer, webRequest);
-            }
+            Result<Object> result = new Result<>();
+            result.setData(returnValue);
+            result.setCode(Response.SUCCESS_CODE);
+            delegate.handleReturnValue(result, returnType, mavContainer, webRequest);
         }
     }
 
     /**
-     * 返回allowPolicy.
+     * Gets the return object policy.
      *
-     * @return allowPolicy
+     * @return the return object policy
      */
-    public AllowPolicy<Object> getAllowPolicy() {
-        return allowPolicy;
+    public AllowPolicy<Object> getReturnObjectPolicy() {
+        return returnObjectPolicy;
     }
 
     /**
-     * 设置allowPolicy.
+     * Sets the return object policy.
      *
-     * @param allowPolicy allowPolicy
+     * @param returnObjectPolicy the new return object policy
      */
-    public void setAllowPolicy(AllowPolicy<Object> allowPolicy) {
-        this.allowPolicy = allowPolicy;
+    public void setReturnObjectPolicy(AllowPolicy<Object> returnObjectPolicy) {
+        this.returnObjectPolicy = returnObjectPolicy;
     }
 
     /**
-     * get onlyWrapNull value.
+     * Gets the request path policy.
      *
-     * @return onlyWrapNull
+     * @return the request path policy
      */
-    public boolean isOnlyWrapNull() {
-        return onlyWrapNull;
+    public AllowPolicy<WebRequest> getRequestPathPolicy() {
+        return requestPathPolicy;
     }
 
     /**
-     * set onlyWrapNull value.
+     * Sets the request path policy.
      *
-     * @param onlyWrapNull onlyWrapNull
+     * @param requestPathPolicy the new request path policy
      */
-    public void setOnlyWrapNull(boolean onlyWrapNull) {
-        this.onlyWrapNull = onlyWrapNull;
+    public void setRequestPathPolicy(AllowPolicy<WebRequest> requestPathPolicy) {
+        this.requestPathPolicy = requestPathPolicy;
     }
-
 }

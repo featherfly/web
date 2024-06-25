@@ -5,11 +5,13 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.springframework.beans.factory.InitializingBean;
+import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.method.support.HandlerMethodReturnValueHandler;
 import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter;
 import org.springframework.web.servlet.mvc.method.annotation.RequestResponseBodyMethodProcessor;
 
 import cn.featherfly.common.lang.ClassUtils;
+import cn.featherfly.common.policy.AllowDenyListPolicy;
 import jakarta.annotation.Resource;
 
 /**
@@ -21,6 +23,10 @@ public class ResponseBodyWrapFactoryBean implements InitializingBean {
 
     @Resource
     private RequestMappingHandlerAdapter adapter;
+
+    private final AllowDenyListPolicy<Object> returnObjectPolicy = new AllowDenyListPolicy<>();
+
+    private final AllowDenyListPolicy<WebRequest> requestPathPolicy = new AllowDenyListPolicy<>();
 
     /**
      * {@inheritDoc}
@@ -47,11 +53,31 @@ public class ResponseBodyWrapFactoryBean implements InitializingBean {
             }
             if (handler instanceof RequestResponseBodyMethodProcessor || ClassUtils
                 .isParent(representationModelProcessorHandlerMethodReturnValueHandler, handler.getClass())) {
-                ResponseBodyWrapHandler decorator = new ResponseBodyWrapHandler(handler);
+                ResponseBodyWrapHandler bodyWrapHandler = new ResponseBodyWrapHandler(handler);
+                bodyWrapHandler.setRequestPathPolicy(requestPathPolicy);
+                bodyWrapHandler.setReturnObjectPolicy(returnObjectPolicy);
                 int index = handlers.indexOf(handler);
-                handlers.set(index, decorator);
+                handlers.set(index, bodyWrapHandler);
                 break;
             }
         }
+    }
+
+    /**
+     * Gets the request path policy.
+     *
+     * @return the request path policy
+     */
+    public AllowDenyListPolicy<WebRequest> getRequestPathPolicy() {
+        return requestPathPolicy;
+    }
+
+    /**
+     * Gets the return object policy.
+     *
+     * @return the return object policy
+     */
+    public AllowDenyListPolicy<Object> getReturnObjectPolicy() {
+        return returnObjectPolicy;
     }
 }
