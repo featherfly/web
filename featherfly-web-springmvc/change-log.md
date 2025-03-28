@@ -1,3 +1,6 @@
+# 0.4.21 2025-03-28
+1. RequestHolderInterceptor清楚ThreadLocal资源
+
 # 0.4.20 2024-06-02
 1. 升级依赖
 
