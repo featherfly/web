@@ -7,7 +7,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import cn.featherfly.common.lang.AssertIllegalArgument;
-import cn.featherfly.common.lang.NumberUtils;
+import cn.featherfly.common.lang.Num;
 import cn.featherfly.common.structure.page.Page;
 import cn.featherfly.common.structure.page.SimplePagination;
 
@@ -27,7 +27,7 @@ public class RequestParameterPageFactory implements PageFactory {
     public Page create(HttpServletRequest request) {
         Object p = request.getParameter(pageNumberName);
 
-        Integer pageNumber = NumberUtils.parse(p + "", defaultPageNumber);
+        Integer pageNumber = Num.parse(p + "", defaultPageNumber);
 
         SimplePagination pagination = new SimplePagination();
 
@@ -41,7 +41,7 @@ public class RequestParameterPageFactory implements PageFactory {
     private int getPageSize(HttpServletRequest request) {
         if (allowDaynmicPageSize) {
             Object ps = request.getParameter(pageSizeName);
-            int pageSize = NumberUtils.parse(ps + "", defaultPageSize);
+            int pageSize = Num.parse(ps + "", defaultPageSize);
             if (pageSize > allowMaxPageSize) {
                 logger.debug("pageSize({}) > allowMaxPageSize({}), set pageSize = allowMaxPageSize");
                 pageSize = allowMaxPageSize;
