@@ -1,3 +1,6 @@
+# 0.4.22 2025-12-23
+1. 升级依赖common-core-1.15.2
+
 # 0.4.21 2025-03-28
 1. RequestHolderInterceptor清楚ThreadLocal资源
 

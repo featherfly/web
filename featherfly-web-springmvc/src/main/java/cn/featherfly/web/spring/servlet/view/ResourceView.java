@@ -29,7 +29,7 @@ import org.springframework.web.servlet.view.AbstractView;
 
 import cn.featherfly.common.io.file.FileWrapper;
 import cn.featherfly.common.lang.Lang;
-import cn.featherfly.common.lang.Strings;
+import cn.featherfly.common.lang.Str;
 import cn.featherfly.web.WebException;
 
 /**
@@ -46,7 +46,7 @@ public class ResourceView extends AbstractView {
      */
     @Override
     protected void renderMergedOutputModel(Map<String, Object> model, HttpServletRequest request,
-            HttpServletResponse response) throws Exception {
+        HttpServletResponse response) throws Exception {
         InputStream is = null;
         String name = null;
         try {
@@ -75,19 +75,19 @@ public class ResourceView extends AbstractView {
     /**
      * Download.
      *
-     * @param request     the request
-     * @param response    the response
-     * @param is          the is
+     * @param request the request
+     * @param response the response
+     * @param is the is
      * @param downloadObj the download obj
-     * @param name        the name
+     * @param name the name
      * @throws IOException Signals that an I/O exception has occurred.
      */
     protected void download(HttpServletRequest request, HttpServletResponse response, InputStream is,
-            Object downloadObj, String name) throws IOException {
+        Object downloadObj, String name) throws IOException {
         if (StringUtils.isBlank(getContentType())) {
             setContentType("application/octet-stream;charset=" + encodeCharset);
         }
-        if (Strings.isNotBlank(fileName)) {
+        if (Str.isNotBlank(fileName)) {
             name = fileName;
         }
         if (StringUtils.isBlank(name)) {

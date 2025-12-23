@@ -1,29 +1,38 @@
+plugins {
+    id 'org.jreleaser' version '1.21.0'
+}
+
 apply from: './gradle/java_base.gradle'
-apply from: './gradle/maven_push.gradle'
+apply from: './gradle/maven_push_jreleaser.gradle'
 
 ext {
-    sv = '5.3.36'
+    sv = '5.3.39'
 }
 
 dependencies {
     //api 'cn.featherfly.common:common-api:0.5.1'
     api 'cn.featherfly.common:common-model-api:0.2.2'
-    api 'cn.featherfly.common:common-core:1.13.0'
-    api 'cn.featherfly:featherfly-web:1.3.3'
-    api 'cn.featherfly:featherfly-conversion:1.4.3'
-    api 'cn.featherfly:featherfly-data-office:0.1.6'
+    api 'cn.featherfly.common:common-core:1.15.2'
+    api 'cn.featherfly:featherfly-web:1.3.4'
+    api 'cn.featherfly:featherfly-conversion:1.5.1'
+    api 'cn.featherfly:featherfly-data-office:0.2.0'
 	api 'org.springframework:spring-web:' + sv    
     api 'org.springframework:spring-webmvc:' + sv
-    //api 'org.springframework:spring-context-support:' + sv        
-    api group: 'org.jxls', name: 'jxls', version: '2.14.0'
-    api group: 'org.jxls', name: 'jxls-poi', version: '2.14.0'
-    api group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: '2.17.1'
+    //api 'org.springframework:spring-context-support:' + sv
+    // jxls
+    implementation 'org.jxls:jxls:2.14.0'
+    implementation 'org.jxls:jxls-poi:2.14.0'
+    // json jackson
+    implementation 'com.fasterxml.jackson.core:jackson-databind:2.20.1'
+    //implementation 'tools.jackson.core:jackson-databind:3.0.3'
+    
+    // test
+    testImplementation 'org.testng:testng:7.5.1'
+    testImplementation 'com.google.inject:guice:4.2.3'
 	testImplementation (
-    	'org.testng:testng:7.1.0'
-        ,'org.slf4j:slf4j-log4j12:1.7.30'
+        'org.slf4j:slf4j-log4j12:1.7.30'
     	,'org.springframework:spring-test:' + sv
     	,'org.springframework:spring-tx:' + sv
     	,'net.sf.ehcache:ehcache:2.10.6'
     )
-    testImplementation group: 'com.google.inject', name: 'guice', version: '4.2.3'
 }

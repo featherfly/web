@@ -1,12 +1,13 @@
 
 package cn.featherfly.web.spring.messageconverter;
 
-import cn.featherfly.common.bean.BeanUtils;
-import cn.featherfly.common.lang.Lang;
-import cn.featherfly.common.lang.Strings;
-import cn.featherfly.common.lang.UriUtils;
-import cn.featherfly.web.WebException;
-import cn.featherfly.web.servlet.ServletUtils;
+import java.io.IOException;
+import java.io.InputStream;
+import java.lang.reflect.Type;
+import java.util.List;
+
+import javax.servlet.http.HttpServletRequest;
+
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -15,16 +16,15 @@ import org.springframework.http.MediaType;
 import org.springframework.http.converter.AbstractGenericHttpMessageConverter;
 import org.springframework.http.converter.HttpMessageNotReadableException;
 
-import javax.servlet.http.HttpServletRequest;
-import java.io.IOException;
-import java.io.InputStream;
-import java.lang.reflect.Type;
-import java.util.List;
+import cn.featherfly.common.bean.BeanUtils;
+import cn.featherfly.common.lang.Lang;
+import cn.featherfly.common.lang.Str;
+import cn.featherfly.common.lang.UriUtils;
+import cn.featherfly.web.WebException;
+import cn.featherfly.web.servlet.ServletUtils;
 
 /**
- * <p>
- * JxlsHttpMessageConverter
- * </p>
+ * JxlsHttpMessageConverter.
  *
  * @author 钟冀
  */
@@ -83,7 +83,7 @@ public abstract class AttachHttpMessageConverter extends AbstractGenericHttpMess
      */
     @Override
     public Object read(Type type, Class<?> contextClass, HttpInputMessage inputMessage)
-            throws IOException, HttpMessageNotReadableException {
+        throws IOException, HttpMessageNotReadableException {
         throw new UnsupportedOperationException();
     }
 
@@ -100,7 +100,7 @@ public abstract class AttachHttpMessageConverter extends AbstractGenericHttpMess
      */
     @Override
     protected Object readInternal(Class<? extends Object> clazz, HttpInputMessage inputMessage)
-            throws IOException, HttpMessageNotReadableException {
+        throws IOException, HttpMessageNotReadableException {
         throw new UnsupportedOperationException();
     }
 
@@ -149,7 +149,7 @@ public abstract class AttachHttpMessageConverter extends AbstractGenericHttpMess
         if (is == null) {
             String fileName = StringUtils.substringAfterLast(templatePath, "/");
             logger.debug("未找到路径{}对应的模板，使用{}再查找", templatePath, fileName);
-            is = classLoader.getResourceAsStream(UriUtils.linkUri(templateBasePath,fileName));
+            is = classLoader.getResourceAsStream(UriUtils.linkUri(templateBasePath, fileName));
             if (Lang.isEmpty(is)) {
                 throw new WebException("未找到[" + fileName + "]对应的模板");
             }
@@ -190,14 +190,14 @@ public abstract class AttachHttpMessageConverter extends AbstractGenericHttpMess
      * 从结果对象获取数据对象
      * </p>
      *
-     * @param result  结果对象
+     * @param result 结果对象
      * @param request HttpServletRequest
      * @return 数据对象
      */
     protected Object getDataFromResult(Object result, HttpServletRequest request) {
         String rp = getResolverPath(request);
         if (result != null) {
-            if (Strings.isNotBlank(rp)) {
+            if (Str.isNotBlank(rp)) {
                 return BeanUtils.getProperty(result, rp);
             } else {
                 return result;
