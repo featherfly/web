@@ -2,13 +2,13 @@ apply from: './gradle/java_base.gradle'
 apply from: './gradle/maven_push.gradle'
 
 ext {
-    sv = '6.1.8'
+    sv = '6.2.15'
 }
 
 dependencies {
     //api 'cn.featherfly.common:common-api:0.5.1'
     api 'cn.featherfly.common:common-model-api:0.2.2'
-    api 'cn.featherfly.common:common-core:1.13.0'
+    api 'cn.featherfly.common:common-core:1.16.0'
     api 'cn.featherfly:featherfly-web:2.0.0'
     api 'cn.featherfly:featherfly-conversion:1.4.3'
     api 'cn.featherfly:featherfly-data-office:0.1.6'
