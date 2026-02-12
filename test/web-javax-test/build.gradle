@@ -1,0 +1,8 @@
+apply from: './gradle/java_base.gradle'
+
+dependencies {
+    implementation 'cn.featherfly.web:web-javax:1.4.0-SNAPSHOT'
+    
+    testImplementation 'org.testng:testng:7.5.1'
+    testImplementation 'com.google.inject:guice:4.2.3'
+}

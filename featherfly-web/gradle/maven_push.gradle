@@ -135,3 +135,7 @@ jreleaser {
         }
     }
 }
+
+//tasks.findByName("jreleaserDeploy").doFirst {
+//    project.name = getArtifact();
+//}

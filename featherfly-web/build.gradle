@@ -1,5 +1,5 @@
 plugins {
-    id 'org.jreleaser' version '1.21.0'
+    id 'org.jreleaser' version '1.22.0'
 }
 
 ext {
@@ -46,8 +46,8 @@ apply from: './gradle/maven_push.gradle'
 
 def getServletApi() {
     if (isUseJakarta()) {
-        println 'jakarta.servlet:jakarta.servlet-api:6.0.0'
-        return 'jakarta.servlet:jakarta.servlet-api:6.0.0'
+        println 'jakarta.servlet:jakarta.servlet-api:6.1.0'
+        return 'jakarta.servlet:jakarta.servlet-api:6.1.0'
     } else {
         println 'javax.servlet:javax.servlet-api:4.0.1'
         return 'javax.servlet:javax.servlet-api:4.0.1'

@@ -1,0 +1,24 @@
+apply plugin: 'java-library'
+
+tasks.withType(JavaCompile) {
+    sourceCompatibility = JavaVersion.current()
+    targetCompatibility = JavaVersion.current()
+    options.encoding = "UTF-8"
+    //options.compilerArgs << "-parameters"
+    //options.compilerArgs << "-verbose"
+}
+tasks.withType(Javadoc) {
+    options.encoding = "UTF-8"
+    options.locale = "en"
+}
+
+println JavaVersion.current()
+
+jar {
+    manifest.attributes 'Build-Name': archiveBaseName
+    manifest.attributes 'Build-By': "zhong ji"
+    manifest.attributes 'Build-Tool' : "gradle " + gradle.gradleVersion
+    manifest.attributes 'Build-Jdk' : ant.properties['java.runtime.version']
+    manifest.attributes 'Bundle-License': 'http://www.apache.org/licenses/LICENSE-2.0'
+    manifest.attributes 'Compile-Version': JavaVersion.current()
+}

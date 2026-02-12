@@ -1,4 +1,9 @@
+# 1.4.0 2026-02-12
+
+1. 使用manifold的#if #else #endif 来动态引入javax或者jakarta
+
 # 2.0.0 2024-06-11
+
 1. 升级jakarta.servlet-api
 2. 升级jdk到11
 
