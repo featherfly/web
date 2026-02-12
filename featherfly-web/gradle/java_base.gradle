@@ -1,23 +1,40 @@
 apply plugin: 'java-library'
 apply plugin: 'maven-publish'
 
+//println "archivesName:" + archivesName
+
 tasks.withType(JavaCompile) {
-    sourceCompatibility = sourceVersion  
-    targetCompatibility = targetVersion
-    
+    JavaVersion javaVersion = getCompileVersion();
+//    println  project.name + " CompileVersion: " + javaVersion.getMajorVersion()
+    sourceCompatibility = javaVersion
+    targetCompatibility = javaVersion
+
     options.encoding = "UTF-8"
     //options.compilerArgs << "-parameters"
     //options.compilerArgs << "-verbose"
+
+    int runJdkVersion = Integer.valueOf(javaVersion.getMajorVersion())
+    if (runJdkVersion > 8) {
+        // feature since jdk9
+        options.release.set(runJdkVersion)
+    }
 }
 tasks.withType(Javadoc) {
     options.encoding = "UTF-8"
     options.locale = "en"
+}.each { t ->
+    t.doFirst {
+//        println '-javaagent:' + findJavaAgentJar()
+        t.options.jFlags('-javaagent:' + findJavaAgentJar())
+    }
 }
 
 jar {
-    manifest.attributes 'Build-Name': archivesBaseName
+    archiveBaseName = getArtifact()
+    manifest.attributes 'Build-Name': getArtifact()
     manifest.attributes 'Build-By': "zhong ji"
     manifest.attributes 'Build-Tool' : "gradle " + gradle.gradleVersion
     manifest.attributes 'Build-Jdk' : ant.properties['java.runtime.version']
     manifest.attributes 'Bundle-License': 'http://www.apache.org/licenses/LICENSE-2.0'
+    manifest.attributes 'Compile-Version': getCompileVersion().getMajorVersion()
 }

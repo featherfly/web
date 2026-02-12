@@ -4,8 +4,12 @@ package cn.featherfly.web.pagination;
 import java.util.List;
 
 import cn.featherfly.common.structure.page.Page;
-import jakarta.servlet.http.HttpServletRequest;
 
+#if JAVA_11_OR_LATER
+import jakarta.servlet.http.HttpServletRequest;
+#else
+import javax.servlet.http.HttpServletRequest;
+#endif
 /**
  * muliti page object factory.
  *

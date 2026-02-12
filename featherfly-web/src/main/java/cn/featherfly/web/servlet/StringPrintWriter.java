@@ -7,9 +7,7 @@ import java.io.StringWriter;
 import cn.featherfly.common.lang.SystemPropertyUtils;
 
 /**
- * <p>
  * PrintWriter的包装类，所有的输出方法均使用传入的StringWriter实现.
- * </p>
  *
  * @author 钟冀
  */
@@ -288,7 +286,7 @@ public class StringPrintWriter extends PrintWriter {
     }
 
     // ********************************************************************
-    //	
+    //
     // ********************************************************************
 
     private String lineSeparator = SystemPropertyUtils.getLineSeparator();

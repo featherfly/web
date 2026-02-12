@@ -1,21 +1,26 @@
-apply plugin: 'java'
+apply plugin: 'java-library'
 apply plugin: 'maven-publish'
-apply plugin: 'signing'
+apply plugin: 'org.jreleaser'
+
+
 
 def isReleaseBuild() {
-    return version.contains("SNAPSHOT") == false
+    return System.getProperty("snapshot") == null && System.getProperty("SNAPSHOT") == null && getProperties().get("snapshot") == null && getProperties().get("SNAPSHOT") == null
 }
 
-def sonatypeRepositoryUrl
-if (isReleaseBuild()) {
-    println 'RELEASE BUILD'
-    sonatypeRepositoryUrl = hasProperty('RELEASE_REPOSITORY_URL') ? RELEASE_REPOSITORY_URL
-            : "https://oss.sonatype.org/service/local/staging/deploy/maven2/"
-} else {
-    println 'SNAPSHOT BUILD'
-    sonatypeRepositoryUrl = hasProperty('SNAPSHOT_REPOSITORY_URL') ? SNAPSHOT_REPOSITORY_URL
-            : "https://oss.sonatype.org/content/repositories/snapshots/"
+def getFinalVersion() {
+    return isReleaseBuild() ? version : version + "-SNAPSHOT"
+}
 
+def getSonatypeRepositoryUrl() {
+    if (isReleaseBuild()) {
+        println 'RELEASE BUILD'
+        return hasProperty('RELEASE_REPOSITORY_URL') ? RELEASE_REPOSITORY_URL : "https://central.sonatype.com"
+    } else {
+        println 'SNAPSHOT BUILD'
+        return hasProperty('SNAPSHOT_REPOSITORY_URL') ? SNAPSHOT_REPOSITORY_URL : "https://central.sonatype.com"
+
+    }
 }
 
 def getRepositoryUsername() {
@@ -34,28 +39,29 @@ def getRepositoryPassword() {
     }
 }
 
-task sourcesJar(type: Jar) {
-    //classifier = 'sources'
+tasks.register('sourcesJar', Jar) {
+    archiveBaseName = getArtifact()
     archiveClassifier.set("sources")
     from sourceSets.main.java.srcDirs
 }
 
-task javadocJar(type: Jar, dependsOn:javadoc) {
-    //classifier = 'javadoc'
+tasks.register('javadocJar', Jar) {
+    dependsOn javadoc
+    archiveBaseName = getArtifact()
     archiveClassifier.set("javadoc")
     from javadoc.destinationDir
 }
 
 publishing {
     publications {
-        mavenJava(MavenPublication) {
+        maven(MavenPublication) {
             from components.java
 
             artifact sourcesJar
             artifact javadocJar
             groupId = group
-            artifactId = archivesBaseName
-            version = version
+            artifactId = getArtifact()
+            version = getFinalVersion()
             pom {
                 name = archivesBaseName
                 packaging = POM_Packaging
@@ -88,17 +94,44 @@ publishing {
     }
     repositories {
         maven {
-            url sonatypeRepositoryUrl
-            credentials {
-                username getRepositoryUsername()
-                password getRepositoryPassword()
-            }
+            url = layout.buildDirectory.dir('staging-deploy')
         }
     }
 }
 
-signing {
-    required { isReleaseBuild() && gradle.taskGraph.hasTask("uploadArchives") }
-    sign publishing.publications.mavenJava
-}
+var publicKeyFile = project.getProperty('publicKeyFile')
+var privateKeyFile = project.getProperty('privateKeyFile')
 
+
+jreleaser {
+    signing {
+        active = 'ALWAYS'
+        armored = true
+        mode = 'FILE'
+        publicKey = publicKeyFile
+        secretKey = privateKeyFile
+    }
+    deploy {
+        maven {
+            mavenCentral {
+                sonatype {
+                    active = 'ALWAYS'
+                    url = 'https://central.sonatype.com/api/v1/publisher'
+                    stagingRepository('build/staging-deploy')
+                }
+            }
+            /* Legacy OSSRH
+            nexus2 {
+                'maven-central' {
+                    active = 'ALWAYS'
+                    url = 'https://s01.oss.sonatype.org/service/local'
+                    snapshotUrl = 'https://s01.oss.sonatype.org/content/repositories/snapshots/'
+                    closeRepository = true
+                    releaseRepository = true
+                    stagingRepository('build/staging-deploy')
+                }
+            }
+            */
+        }
+    }
+}

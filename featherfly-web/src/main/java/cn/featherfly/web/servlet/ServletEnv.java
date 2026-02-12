@@ -9,7 +9,12 @@ import org.slf4j.LoggerFactory;
 import cn.featherfly.common.lang.Assert;
 import cn.featherfly.common.lang.UriUtils;
 import cn.featherfly.web.WebException;
+
+#if JAVA_11_OR_LATER
 import jakarta.servlet.ServletContext;
+#else
+import javax.servlet.ServletContext;
+#endif
 
 /**
  * servlet运行环境.

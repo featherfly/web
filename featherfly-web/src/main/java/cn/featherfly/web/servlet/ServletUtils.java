@@ -5,7 +5,12 @@ import java.util.Enumeration;
 import org.apache.commons.lang3.StringUtils;
 
 import cn.featherfly.common.lang.Lang;
-import jakarta.servlet.http.HttpServletRequest;
+
+ #if JAVA_11_OR_LATER
+ import jakarta.servlet.http.HttpServletRequest;
+ #else
+ import javax.servlet.http.HttpServletRequest;
+ #endif
 
 /**
  * ServletUtils.

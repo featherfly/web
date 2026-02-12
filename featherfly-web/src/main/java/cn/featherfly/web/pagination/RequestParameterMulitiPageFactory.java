@@ -6,7 +6,11 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import cn.featherfly.common.structure.page.Page;
+#if JAVA_11_OR_LATER
 import jakarta.servlet.http.HttpServletRequest;
+#else
+import javax.servlet.http.HttpServletRequest;
+#endif
 
 /**
  * RequestParameterMulitiPageFactory.

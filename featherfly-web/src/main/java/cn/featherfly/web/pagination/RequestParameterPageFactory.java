@@ -8,7 +8,12 @@ import cn.featherfly.common.lang.AssertIllegalArgument;
 import cn.featherfly.common.lang.NumberUtils;
 import cn.featherfly.common.structure.page.Page;
 import cn.featherfly.common.structure.page.SimplePagination;
+
+#if JAVA_11_OR_LATER
 import jakarta.servlet.http.HttpServletRequest;
+#else
+import javax.servlet.http.HttpServletRequest;
+#endif
 
 /**
  * RequestParameterPageFactory.
@@ -24,9 +29,9 @@ public class RequestParameterPageFactory implements PageFactory {
      */
     @Override
     public Page create(HttpServletRequest request) {
-        Object p = request.getParameter(pageNumberName);
+        String p = request.getParameter(pageNumberName);
 
-        Integer pageNumber = NumberUtils.parse(p + "", defaultPageNumber);
+        Integer pageNumber = NumberUtils.parse(p, defaultPageNumber);
 
         SimplePagination pagination = new SimplePagination();
 
@@ -50,21 +55,21 @@ public class RequestParameterPageFactory implements PageFactory {
         return defaultPageSize;
     }
 
-    //	private Integer getPageNumberSize(HttpServletRequest request) {
-    //		if (allowDaynmicPageNumberSize) {
-    //			Object ps = request.getParameter(pageNumberName);
-    //			return StringUtils.parse(ps + "", defaultPageNumberSize);
-    //		}
-    //		return defaultPageNumberSize;
-    //	}
+    //    private Integer getPageNumberSize(HttpServletRequest request) {
+    //        if (allowDaynmicPageNumberSize) {
+    //            Object ps = request.getParameter(pageNumberName);
+    //            return StringUtils.parse(ps + "", defaultPageNumberSize);
+    //        }
+    //        return defaultPageNumberSize;
+    //    }
 
     // ********************************************************************
-    //	property
+    //    property
     // ********************************************************************
 
     private boolean allowDaynmicPageSize;
 
-    //	private boolean allowDaynmicPageNumberSize;
+    //    private boolean allowDaynmicPageNumberSize;
 
     // 每页显示数量
     private String pageSizeName = "_ps";
@@ -73,7 +78,7 @@ public class RequestParameterPageFactory implements PageFactory {
     private String pageNumberName = "_p";
 
     // 显示分页页数的个数
-    //	private String pageNumberSizeName = "_pns";
+    //    private String pageNumberSizeName = "_pns";
 
     // 默认每页显示数量
     private int defaultPageSize = 10;

@@ -2,7 +2,11 @@
 package cn.featherfly.web.pagination;
 
 import cn.featherfly.common.structure.page.Page;
+#if JAVA_11_OR_LATER
 import jakarta.servlet.http.HttpServletRequest;
+#else
+import javax.servlet.http.HttpServletRequest;
+#endif
 
 /**
  * page object factory.

@@ -2,8 +2,14 @@
 package cn.featherfly.web.servlet.listener;
 
 import cn.featherfly.web.servlet.ServletEnv;
+
+#if JAVA_11_OR_LATER
 import jakarta.servlet.ServletContextEvent;
 import jakarta.servlet.ServletContextListener;
+#else
+import javax.servlet.ServletContextEvent;
+import javax.servlet.ServletContextListener;
+#endif
 
 /**
  * ServletEnvListener.

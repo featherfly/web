@@ -1,18 +1,92 @@
+plugins {
+    id 'org.jreleaser' version '1.21.0'
+}
+
+ext {
+    javadocAgent = "systems.manifold:manifold-javadoc-agent:2026.1.4"
+    manifoldPreprocessor = 'systems.manifold:manifold-preprocessor:2026.1.3'
+
+    getCompileVersion = {
+        if (getProperties().get("compileVersion") != null) {
+            return JavaVersion.getVersionForMajor(Integer.valueOf(getProperties().get("compileVersion")));
+        }
+        return JavaVersion.current()
+    }
+
+    isUseJakarta = {
+        return getCompileVersion().ordinal() >= JavaVersion.VERSION_11.ordinal()
+    }
+
+    getArtifact = {
+        if (isUseJakarta()) {
+            return 'web-jakarta'
+        } else {
+            return 'web-javax'
+        }
+    }
+
+    findJavaAgentJar = {
+        String p = "manifold-javadoc-agent-2026.1.4.jar";
+        configurations.all.each { c ->
+            if (c.name.equals("compileOnly")) {
+                c.copy().resolvedConfiguration.resolvedArtifacts.each { a ->
+                    if (a.name.equals('manifold-javadoc-agent')) {
+                        p = a.getFile().getAbsolutePath()
+                    }
+                }
+            }
+        }
+        return p
+    }
+}
+
+
 apply from: './gradle/java_base.gradle'
 apply from: './gradle/maven_push.gradle'
 
+def getServletApi() {
+    if (isUseJakarta()) {
+        println 'jakarta.servlet:jakarta.servlet-api:6.0.0'
+        return 'jakarta.servlet:jakarta.servlet-api:6.0.0'
+    } else {
+        println 'javax.servlet:javax.servlet-api:4.0.1'
+        return 'javax.servlet:javax.servlet-api:4.0.1'
+    }
+}
 
-ext {
+if (JavaVersion.current() != JavaVersion.VERSION_1_8 &&
+    sourceSets.main.allJava.files.any { it.name == "module-info.java" }) {
+    tasks.withType(JavaCompile) {
+        // if you DO define a module-info.java file:
+        options.compilerArgs += ['-Xplugin:Manifold', '--module-path', it.classpath.asPath]
+    }
+} else {
+    tasks.withType(JavaCompile) {
+        // If you DO NOT define a module-info.java file:
+        options.compilerArgs += ['-Xplugin:Manifold']
+//        options.compilerArgs += ["-AJAKARTA_TRUE"]
+    }
 }
 
 dependencies {
     api 'eu.medsea.mimeutil:mime-util:2.1.3'
     api 'cn.featherfly.common:common-core:1.16.0'
     api 'cn.featherfly.common:common-storage:0.1.0'
+    api getServletApi()
+//    implementation 'jakarta.servlet:jakarta.servlet-api:6.0.0'
+//    implementation 'javax.servlet:javax.servlet-api:4.0.1'
     //api 'javax.servlet:javax.servlet-api:4.0.1'
-    api 'jakarta.servlet:jakarta.servlet-api:6.0.0'
+//    api 'jakarta.servlet:jakarta.servlet-api:6.0.0'
     //compile "javax.servlet.jsp:javax.servlet.jsp-api:2.3.1"
-    testImplementation 'org.testng:testng:7.1.0'
-    testImplementation 'org.slf4j:slf4j-log4j12:1.7.30'
-    testImplementation group: 'com.google.inject', name: 'guice', version: '4.2.3'
+
+    // annotation processor
+    annotationProcessor manifoldPreprocessor
+    testAnnotationProcessor manifoldPreprocessor
+    compileOnly manifoldPreprocessor
+    compileOnly javadocAgent
+
+    testImplementation 'org.testng:testng:7.5.1'
+    testImplementation 'com.google.inject:guice:4.2.3'
+//    testImplementation 'org.slf4j:slf4j-log4j12:1.7.30'
 }
+
