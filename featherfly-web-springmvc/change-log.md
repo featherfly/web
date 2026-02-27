@@ -1,5 +1,5 @@
 # 1.0.2 2025-03-28
-1. RequestHolderInterceptor清楚ThreadLocal资源
+1. RequestHolderInterceptor清除ThreadLocal资源
 
 # 1.0.1 2024-06-25
 1. ResponseBodyWrapFactoryBean加入getRequestPathPolicy(),getReturnObjectPolicy()用于设置策略

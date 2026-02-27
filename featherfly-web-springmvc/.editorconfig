@@ -1,0 +1,15 @@
+# 表示是最顶层的配置文件，发现设为true时，才会停止查找.editorconfig文件
+root = true
+
+# 对于所有的文件
+[*]
+charset = utf-8
+indent_style = space
+indent_size = 4
+end_of_line = lf
+insert_final_newline = true
+trim_trailing_whitespace = true
+
+# 对于特定文件类型的配置
+[*.md]
+trim_trailing_whitespace = false
