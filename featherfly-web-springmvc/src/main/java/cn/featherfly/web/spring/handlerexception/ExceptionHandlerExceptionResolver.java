@@ -15,8 +15,14 @@ import cn.featherfly.common.exception.ExceptionCodeException;
 import cn.featherfly.common.lang.LogUtils;
 import cn.featherfly.web.spring.servlet.view.Result;
 import cn.featherfly.web.spring.servlet.view.json.ObjectJacksonJsonView;
+
+#if JAVA_11_OR_LATER
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+#else
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+#endif
 
 /**
  * The Class ExceptionHandlerExceptionResolver.

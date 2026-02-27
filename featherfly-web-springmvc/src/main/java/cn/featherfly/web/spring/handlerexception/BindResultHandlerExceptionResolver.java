@@ -9,8 +9,14 @@ import org.springframework.web.servlet.ModelAndView;
 import cn.featherfly.common.api.Response;
 import cn.featherfly.web.spring.servlet.view.Result;
 import cn.featherfly.web.spring.servlet.view.json.ObjectJacksonJsonView;
+
+#if JAVA_11_OR_LATER
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+#else
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+#endif
 
 /**
  * The Class BindResultHandlerExceptionResolver.

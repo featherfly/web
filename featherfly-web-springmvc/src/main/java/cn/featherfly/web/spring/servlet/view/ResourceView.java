@@ -28,8 +28,14 @@ import cn.featherfly.common.io.file.FileWrapper;
 import cn.featherfly.common.lang.Lang;
 import cn.featherfly.common.lang.Strings;
 import cn.featherfly.web.WebException;
+
+#if JAVA_11_OR_LATER
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+#else
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+#endif
 
 /**
  * Resource View.

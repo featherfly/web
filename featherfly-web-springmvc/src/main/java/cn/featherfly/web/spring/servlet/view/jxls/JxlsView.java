@@ -14,9 +14,15 @@ import cn.featherfly.common.lang.ClassLoaderUtils;
 import cn.featherfly.common.lang.Lang;
 import cn.featherfly.web.WebException;
 import cn.featherfly.web.servlet.ServletUtils;
+#if JAVA_11_OR_LATER
 import jakarta.servlet.ServletContext;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+#else
+import javax.servlet.ServletContext;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+#endif
 
 /**
  * JxlsView.

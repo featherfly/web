@@ -14,7 +14,12 @@ import org.springframework.http.converter.HttpMessageNotWritableException;
 
 import cn.featherfly.common.lang.Lang;
 import cn.featherfly.web.spring.interceptor.RequestHolderInterceptor;
+
+#if JAVA_11_OR_LATER
 import jakarta.servlet.http.HttpServletRequest;
+#else
+import javax.servlet.http.HttpServletRequest;
+#endif
 
 /**
  * JxlsHttpMessageConverter.

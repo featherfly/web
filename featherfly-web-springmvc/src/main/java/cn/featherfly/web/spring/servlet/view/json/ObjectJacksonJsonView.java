@@ -19,8 +19,13 @@ import org.springframework.web.servlet.view.json.MappingJackson2JsonView;
 
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 
+#if JAVA_11_OR_LATER
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+#else
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+#endif
 
 /**
  * ObjectJacksonJsonView.

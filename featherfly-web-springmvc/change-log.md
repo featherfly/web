@@ -1,3 +1,6 @@
+# 0.5.0 2026-02
+1. 使用manifold的#if宏来处理javax和jakarta的导入
+
 # 1.0.2 2025-03-28
 1. RequestHolderInterceptor清楚ThreadLocal资源
 

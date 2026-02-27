@@ -15,7 +15,12 @@ import cn.featherfly.data.office.excel.ExcelDataMapper;
 import cn.featherfly.data.office.excel.ExcelDataSource;
 import cn.featherfly.data.office.excel.ExcelSwaggerModelMapper;
 import cn.featherfly.web.spring.interceptor.RequestHolderInterceptor;
+
+#if JAVA_11_OR_LATER
 import jakarta.servlet.http.HttpServletRequest;
+#else
+import javax.servlet.http.HttpServletRequest;
+#endif
 
 /**
  * ExcelHttpMessageConverter.

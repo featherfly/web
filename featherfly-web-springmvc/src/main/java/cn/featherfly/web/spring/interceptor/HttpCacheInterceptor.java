@@ -5,8 +5,14 @@ import org.springframework.web.servlet.AsyncHandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
 
 import cn.featherfly.web.spring.annotation.HttpCache;
+
+#if JAVA_11_OR_LATER
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+#else
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+#endif
 
 /**
  * HttpCacheInterceptor.
@@ -20,7 +26,7 @@ public class HttpCacheInterceptor implements AsyncHandlerInterceptor {
      */
     @Override
     public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler,
-        ModelAndView modelAndView) throws Exception {
+                           ModelAndView modelAndView) throws Exception {
 
         HandlerMethod invokedMethod = (HandlerMethod) handler;
         HttpCache httpCache = invokedMethod.getMethod().getAnnotation(HttpCache.class);

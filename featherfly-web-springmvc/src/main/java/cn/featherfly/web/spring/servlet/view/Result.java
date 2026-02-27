@@ -6,8 +6,8 @@ import cn.featherfly.common.api.Response;
 /**
  * Result.
  *
- * @author zhongj
  * @param <D> the generic type
+ * @author zhongj
  */
 public class Result<D> extends Response<D> {
 
@@ -25,6 +25,25 @@ public class Result<D> extends Response<D> {
      */
     public Result(boolean success) {
         setSuccess(success);
+    }
+
+
+    /**
+     * Success result.
+     *
+     * @return the result
+     */
+    public static Result success() {
+        return new Result(true);
+    }
+
+    /**
+     * error result.
+     *
+     * @return the result
+     */
+    public static Result error() {
+        return new Result(false);
     }
 
     /**

@@ -1,10 +1,11 @@
-apply plugin: 'java'
+apply plugin: 'java-library'
 apply plugin: 'maven-publish'
-apply plugin: 'signing'
+apply plugin: 'org.jreleaser'
+
+
 
 def isReleaseBuild() {
-    return System.getProperty("snapshot") == null && System.getProperty("SNAPSHOT") == null
-            && getProperties().get("snapshot") == null && getProperties().get("SNAPSHOT") == null 
+    return System.getProperty("snapshot") == null && System.getProperty("SNAPSHOT") == null && getProperties().get("snapshot") == null && getProperties().get("SNAPSHOT") == null
 }
 
 def getFinalVersion() {
@@ -14,13 +15,11 @@ def getFinalVersion() {
 def getSonatypeRepositoryUrl() {
     if (isReleaseBuild()) {
         println 'RELEASE BUILD'
-        return hasProperty('RELEASE_REPOSITORY_URL') ? RELEASE_REPOSITORY_URL
-                : "https://oss.sonatype.org/service/local/staging/deploy/maven2/"
+        return hasProperty('RELEASE_REPOSITORY_URL') ? RELEASE_REPOSITORY_URL : "https://central.sonatype.com"
     } else {
         println 'SNAPSHOT BUILD'
-        return hasProperty('SNAPSHOT_REPOSITORY_URL') ? SNAPSHOT_REPOSITORY_URL
-                : "https://oss.sonatype.org/content/repositories/snapshots/"
-    
+        return hasProperty('SNAPSHOT_REPOSITORY_URL') ? SNAPSHOT_REPOSITORY_URL : "https://central.sonatype.com"
+
     }
 }
 
@@ -40,25 +39,28 @@ def getRepositoryPassword() {
     }
 }
 
-task sourcesJar(type: Jar) {
+tasks.register('sourcesJar', Jar) {
+    archiveBaseName = getArtifact()
     archiveClassifier.set("sources")
     from sourceSets.main.java.srcDirs
 }
 
-task javadocJar(type: Jar, dependsOn:javadoc) {
+tasks.register('javadocJar', Jar) {
+    dependsOn javadoc
+    archiveBaseName = getArtifact()
     archiveClassifier.set("javadoc")
     from javadoc.destinationDir
 }
 
 publishing {
     publications {
-        release(MavenPublication) {
+        maven(MavenPublication) {
             from components.java
 
             artifact sourcesJar
             artifact javadocJar
             groupId = group
-            artifactId = archivesBaseName
+            artifactId = getArtifact()
             version = getFinalVersion()
             pom {
                 name = archivesBaseName
@@ -92,17 +94,48 @@ publishing {
     }
     repositories {
         maven {
-            url getSonatypeRepositoryUrl()
-            credentials {
-                username getRepositoryUsername()
-                password getRepositoryPassword()
-            }
+            url = layout.buildDirectory.dir('staging-deploy')
         }
     }
 }
 
-signing {
-    required { isReleaseBuild() && gradle.taskGraph.hasTask("uploadArchives") }
-    sign publishing.publications.release
+var publicKeyFile = project.getProperty('publicKeyFile')
+var privateKeyFile = project.getProperty('privateKeyFile')
+
+
+jreleaser {
+    signing {
+        active = 'ALWAYS'
+        armored = true
+        mode = 'FILE'
+        publicKey = publicKeyFile
+        secretKey = privateKeyFile
+    }
+    deploy {
+        maven {
+            mavenCentral {
+                sonatype {
+                    active = 'ALWAYS'
+                    url = 'https://central.sonatype.com/api/v1/publisher'
+                    stagingRepository('build/staging-deploy')
+                }
+            }
+            /* Legacy OSSRH
+            nexus2 {
+                'maven-central' {
+                    active = 'ALWAYS'
+                    url = 'https://s01.oss.sonatype.org/service/local'
+                    snapshotUrl = 'https://s01.oss.sonatype.org/content/repositories/snapshots/'
+                    closeRepository = true
+                    releaseRepository = true
+                    stagingRepository('build/staging-deploy')
+                }
+            }
+            */
+        }
+    }
 }
 
+tasks.findByName("jreleaserDeploy").doFirst {
+    project.name = getArtifact();
+}

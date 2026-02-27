@@ -17,8 +17,13 @@ import java.util.Map;
 
 import org.springframework.web.servlet.view.AbstractView;
 
+#if JAVA_11_OR_LATER
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+#else
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+#endif
 
 /**
  * NotFoundView.

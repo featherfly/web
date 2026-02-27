@@ -1,30 +1,98 @@
+plugins {
+    id 'org.jreleaser' version '1.22.0'
+}
+ext {
+
+    javadocAgent = "systems.manifold:manifold-javadoc-agent:2026.1.5"
+    manifoldPreprocessor = 'systems.manifold:manifold-preprocessor:2026.1.5'
+
+    getCompileVersion = {
+        if (getProperties().get("compileVersion") != null) {
+            return JavaVersion.getVersionForMajor(Integer.valueOf(getProperties().get("compileVersion")));
+        }
+        return JavaVersion.current()
+    }
+
+    isUseJakarta = {
+        // spring framework 6 support jakarta, use jdk17
+        return getCompileVersion().ordinal() >= JavaVersion.VERSION_17.ordinal()
+    }
+
+    getSpringVersion = {
+        // spring framework support jakarta since 6
+//        return isUseJakarta() ?  '7.0.3' : '5.3.39'
+        return isUseJakarta() ?  '6.2.15' : '5.3.39'
+    }
+
+    getArtifact = {
+        return isUseJakarta() ?  'web-springmvc-jakarta' : 'web-springmvc-javax'
+    }
+
+    findJavaAgentJar = {
+        String name = "manifold-javadoc-agent-2026.1.4.jar";
+        configurations.all.each { c ->
+            if (c.name.equals("compileOnly")) {
+                c.copy().resolvedConfiguration.resolvedArtifacts.each { a ->
+                    if (a.name.equals('manifold-javadoc-agent')) {
+                        name = a.getFile().getAbsolutePath()
+                    }
+                }
+            }
+        }
+        return name
+    }
+}
+
 apply from: './gradle/java_base.gradle'
 apply from: './gradle/maven_push.gradle'
 
-ext {
-    sv = '6.2.15'
+println 'artifact: ' + getArtifact()
+
+def getWebLib() {
+    var name = isUseJakarta() ? 'cn.featherfly.web:web-jakarta:1.4.0'
+        : 'cn.featherfly.web:web-javax:1.4.0'
+    println name
+    return name;
+}
+
+if (JavaVersion.current() != JavaVersion.VERSION_1_8 &&
+    sourceSets.main.allJava.files.any { it.name == "module-info.java" }) {
+    tasks.withType(JavaCompile) {
+        // if you DO define a module-info.java file:
+        options.compilerArgs += ['-Xplugin:Manifold', '--module-path', it.classpath.asPath]
+    }
+} else {
+    tasks.withType(JavaCompile) {
+        // If you DO NOT define a module-info.java file:
+        options.compilerArgs += ['-Xplugin:Manifold']
+    }
 }
 
 dependencies {
     //api 'cn.featherfly.common:common-api:0.5.1'
     api 'cn.featherfly.common:common-model-api:0.2.2'
     api 'cn.featherfly.common:common-core:1.16.0'
-    api 'cn.featherfly:featherfly-web:2.0.0'
-    api 'cn.featherfly:featherfly-conversion:1.4.3'
-    api 'cn.featherfly:featherfly-data-office:0.1.6'
-	api 'org.springframework:spring-web:' + sv    
-    api 'org.springframework:spring-webmvc:' + sv
-    //api 'org.springframework:spring-context-support:' + sv        
-    api 'jakarta.annotation:jakarta.annotation-api:3.0.0'
-    api group: 'org.jxls', name: 'jxls', version: '2.14.0'
-    api group: 'org.jxls', name: 'jxls-poi', version: '2.14.0'
-    api group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: '2.17.1'
-	testImplementation (
-    	'org.testng:testng:7.1.0'
-        ,'org.slf4j:slf4j-log4j12:1.7.30'
-    	,'org.springframework:spring-test:' + sv
-    	,'org.springframework:spring-tx:' + sv
-    	,'net.sf.ehcache:ehcache:2.10.6'
-    )
-    testImplementation group: 'com.google.inject', name: 'guice', version: '4.2.3'
+    api getWebLib()
+    api 'cn.featherfly.conversion:conversion-core:1.6.0'
+    api 'cn.featherfly:featherfly-data-office:0.2.0'
+	api 'org.springframework:spring-web:' + getSpringVersion()
+    api 'org.springframework:spring-webmvc:' + getSpringVersion()
+    //api 'org.springframework:spring-context-support:' + sv
+    if (isUseJakarta()) api 'jakarta.annotation:jakarta.annotation-api:3.0.0'
+    api 'org.jxls:jxls:2.14.0'
+    api 'org.jxls:jxls-poi:2.14.0'
+    implementation 'com.fasterxml.jackson.core:jackson-databind:2.21.0'
+
+    // annotation processor
+    annotationProcessor manifoldPreprocessor
+    testAnnotationProcessor manifoldPreprocessor
+    compileOnly manifoldPreprocessor
+    compileOnly javadocAgent
+
+	testImplementation 'org.testng:testng:7.5.1'
+    testImplementation 'org.slf4j:slf4j-log4j12:1.7.30'
+    testImplementation 'org.springframework:spring-test:' + getSpringVersion()
+    testImplementation 'org.springframework:spring-tx:' + getSpringVersion()
+    testImplementation 'net.sf.ehcache:ehcache:2.10.6'
+    testImplementation 'com.google.inject:guice:4.2.3'
 }

@@ -12,7 +12,12 @@ import org.springframework.web.servlet.mvc.method.annotation.RequestResponseBody
 
 import cn.featherfly.common.lang.ClassUtils;
 import cn.featherfly.common.policy.AllowDenyListPolicy;
+
+#if JAVA_11_OR_LATER
 import jakarta.annotation.Resource;
+#else
+import javax.annotation.Resource;
+#endif
 
 /**
  * The Class ResponseBodyWrapFactoryBean.

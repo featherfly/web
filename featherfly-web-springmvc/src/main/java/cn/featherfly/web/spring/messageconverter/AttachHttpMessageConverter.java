@@ -20,7 +20,12 @@ import cn.featherfly.common.lang.Strings;
 import cn.featherfly.common.lang.UriUtils;
 import cn.featherfly.web.WebException;
 import cn.featherfly.web.servlet.ServletUtils;
+
+#if JAVA_11_OR_LATER
 import jakarta.servlet.http.HttpServletRequest;
+#else
+import javax.servlet.http.HttpServletRequest;
+#endif
 
 /**
  * JxlsHttpMessageConverter.

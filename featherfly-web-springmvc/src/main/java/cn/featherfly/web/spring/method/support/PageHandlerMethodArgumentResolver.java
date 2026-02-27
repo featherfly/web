@@ -1,23 +1,30 @@
 
 package cn.featherfly.web.spring.method.support;
 
-import java.util.ArrayList;
-import java.util.List;
-
+import cn.featherfly.common.lang.AssertIllegalArgument;
+import cn.featherfly.common.lang.ClassUtils;
+import cn.featherfly.common.lang.Lang;
+import cn.featherfly.common.structure.page.Page;
+import cn.featherfly.web.WebException;
+import cn.featherfly.web.pagination.PageFactory;
 import org.springframework.core.MethodParameter;
 import org.springframework.http.MediaType;
-import org.springframework.web.accept.ContentNegotiationManager;
+import org.springframework.web.HttpMediaTypeNotAcceptableException;
+import org.springframework.web.accept.ContentNegotiationStrategy;
+import org.springframework.web.accept.HeaderContentNegotiationStrategy;
 import org.springframework.web.bind.support.WebDataBinderFactory;
 import org.springframework.web.context.request.NativeWebRequest;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 import org.springframework.web.method.support.ModelAndViewContainer;
 
-import cn.featherfly.common.lang.AssertIllegalArgument;
-import cn.featherfly.common.lang.ClassUtils;
-import cn.featherfly.common.lang.Lang;
-import cn.featherfly.common.structure.page.Page;
-import cn.featherfly.web.pagination.PageFactory;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.function.Function;
+#if JAVA_11_OR_LATER
 import jakarta.servlet.http.HttpServletRequest;
+#else
+import javax.servlet.http.HttpServletRequest;
+#endif
 
 /**
  * 分页参数.
@@ -25,6 +32,21 @@ import jakarta.servlet.http.HttpServletRequest;
  * @author zhongj
  */
 public class PageHandlerMethodArgumentResolver implements HandlerMethodArgumentResolver {
+
+    public PageHandlerMethodArgumentResolver() {
+        mediaTypesResolver = new Function<NativeWebRequest, List<MediaType>>() {
+            private ContentNegotiationStrategy contentNegotiationStrategy  = new HeaderContentNegotiationStrategy();
+
+            @Override
+            public List<MediaType> apply(NativeWebRequest webRequest) {
+                try {
+                    return contentNegotiationStrategy.resolveMediaTypes(webRequest);
+                } catch (HttpMediaTypeNotAcceptableException e) {
+                    throw new WebException(e);
+                }
+            }
+        };
+    }
 
     /**
      * {@inheritDoc}
@@ -41,13 +63,12 @@ public class PageHandlerMethodArgumentResolver implements HandlerMethodArgumentR
     public Object resolveArgument(MethodParameter parameter, ModelAndViewContainer mavContainer,
         NativeWebRequest webRequest, WebDataBinderFactory binderFactory) throws Exception {
         AssertIllegalArgument.isNotNull(pageFactory, "pageFacotry不能为空");
-        List<MediaType> mediaTypes = contentNegotiationManager.resolveMediaTypes(webRequest);
+        List<MediaType> mediaTypes = mediaTypesResolver.apply(webRequest);
         if (ignore(mediaTypes)) {
             return null;
         } else {
             return pageFactory.create(webRequest.getNativeRequest(HttpServletRequest.class));
         }
-
     }
 
     private boolean ignore(List<MediaType> mediaTypes) {
@@ -73,9 +94,10 @@ public class PageHandlerMethodArgumentResolver implements HandlerMethodArgumentR
 
     private PageFactory pageFactory;
 
-    private ContentNegotiationManager contentNegotiationManager;
-
     private List<MediaType> ignoreMediaTypes = new ArrayList<>();
+
+    private Function<NativeWebRequest, List<MediaType>> mediaTypesResolver = null;
+
 
     /**
      * 返回pageFacotry
@@ -109,13 +131,7 @@ public class PageHandlerMethodArgumentResolver implements HandlerMethodArgumentR
         }
     }
 
-    /**
-     * 设置contentNegotiationManager
-     *
-     * @param contentNegotiationManager contentNegotiationManager
-     */
-    public void setContentNegotiationManager(ContentNegotiationManager contentNegotiationManager) {
-        this.contentNegotiationManager = contentNegotiationManager;
+    public void setMediaTypesResolver(Function<NativeWebRequest, List<MediaType>> mediaTypesResolver) {
+        this.mediaTypesResolver = mediaTypesResolver;
     }
-
 }
