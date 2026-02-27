@@ -2,12 +2,18 @@ apply plugin: 'java-library'
 apply plugin: 'maven-publish'
 
 tasks.withType(JavaCompile) {
-    sourceCompatibility = sourceVersion  
+    sourceCompatibility = sourceVersion
     targetCompatibility = targetVersion
-    
+
     options.encoding = "UTF-8"
     //options.compilerArgs << "-parameters"
     //options.compilerArgs << "-verbose"
+
+    int runJdkVersion = Integer.valueOf(targetVersion)
+    if (runJdkVersion > 8) {
+        // feature since jdk9
+        options.release.set(runJdkVersion)
+    }
 }
 tasks.withType(Javadoc) {
     options.encoding = "UTF-8"

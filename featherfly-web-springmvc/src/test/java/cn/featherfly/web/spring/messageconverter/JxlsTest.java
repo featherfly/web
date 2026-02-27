@@ -10,17 +10,14 @@
  */
 package cn.featherfly.web.spring.messageconverter;
 
+import org.jxls.transform.poi.JxlsPoiTemplateFillerBuilder;
+import org.testng.annotations.Test;
+
 import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-
-import org.jxls.common.Context;
-import org.jxls.util.JxlsHelper;
-import org.testng.annotations.Test;
+import java.util.*;
 
 /**
  * JxlsTest.
@@ -48,9 +45,12 @@ public class JxlsTest {
         List<Employee> employees = generateSampleEmployeeData();
         try (InputStream is = this.getClass().getResourceAsStream("employee.xlsx")) {
             try (OutputStream os = new FileOutputStream("employee_out.xlsx")) {
-                Context context = new Context();
-                context.putVar("employees", employees);
-                JxlsHelper.getInstance().processTemplate(is, os, context);
+                Map<String, Object> context = new HashMap<>();
+                context.put("employees", employees);
+                JxlsPoiTemplateFillerBuilder.newInstance()
+                    .withTemplate(is)
+                    .build()
+                    .fill(context, () -> os);
             }
         }
     }

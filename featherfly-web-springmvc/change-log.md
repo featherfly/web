@@ -1,3 +1,7 @@
+# 1.0.3 2026-02-27
+1. 升级common-core-1.16.0,conversion-core-1.6.0,web-jakarta:1.4.0,featherfly-data-office-0.2.1
+2. 升级springframework to 6.2.16
+ 
 # 1.0.2 2025-03-28
 1. RequestHolderInterceptor清除ThreadLocal资源
 

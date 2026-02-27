@@ -2,8 +2,11 @@ dependencyResolutionManagement {
     repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
     repositories {
         mavenLocal()
+//        maven {
+//            url = "https://maven.aliyun.com/repository/public"
+//        }
         maven {
-            url = "https://maven.aliyun.com/repository/public"
+            url = "https://mirrors.cloud.tencent.com/nexus/repository/maven-public/"
         }
         mavenCentral()
     }

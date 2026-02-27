@@ -5,9 +5,10 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.lang.reflect.Type;
 import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
 
-import org.jxls.common.Context;
-import org.jxls.util.JxlsHelper;
+import org.jxls.transform.poi.JxlsPoiTemplateFillerBuilder;
 import org.springframework.http.HttpOutputMessage;
 import org.springframework.http.MediaType;
 import org.springframework.http.converter.HttpMessageNotWritableException;
@@ -24,6 +25,7 @@ import jakarta.servlet.http.HttpServletRequest;
 public class JxlsHttpMessageConverter extends AttachHttpMessageConverter {
 
     private boolean autoHeight = true;
+
 
     /**
      * Instantiates a new Jxls http message converter.
@@ -56,19 +58,20 @@ public class JxlsHttpMessageConverter extends AttachHttpMessageConverter {
         fileName = new String(fileName.getBytes(), "ISO-8859-1"); // 各浏览器基本都支持ISO编码
         outputMessage.getHeaders().set("Content-Disposition", "attachment;filename=" + fileName);
         outputMessage.getHeaders().setContentType(getDefaultContentType());
-        Context context = new Context();
+
+        Map<String, Object> data = new HashMap<>();
         String rp = getResolverPath();
         if (Lang.isNotEmpty(rp)) {
             Object source = getDataFromResult(result, request);
-            context.putVar(rp, source);
+            data.put(rp, source);
         } else {
-            context.putVar("result", result);
+            data.put("result", result);
         }
         InputStream is = getTemplate(request);
-        JxlsHelper.getInstance().processTemplate(is, outputMessage.getBody(), context);
-        // Transformer transformer = TransformerFactory.createTransformer(is,
-        // outputMessage.getBody());
-        // transformer.write();
+        JxlsPoiTemplateFillerBuilder.newInstance()
+            .withTemplate(is)
+            .build()
+            .fill(data, outputMessage::getBody);
     }
 
     /**

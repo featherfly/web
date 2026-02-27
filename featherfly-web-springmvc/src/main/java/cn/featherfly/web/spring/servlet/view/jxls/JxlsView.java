@@ -1,15 +1,6 @@
 
 package cn.featherfly.web.spring.servlet.view.jxls;
 
-import java.io.InputStream;
-import java.util.Map;
-
-import org.apache.commons.lang3.StringUtils;
-import org.apache.poi.ss.usermodel.Workbook;
-import org.jxls.transform.Transformer;
-import org.jxls.util.TransformerFactory;
-import org.springframework.web.servlet.view.document.AbstractXlsxView;
-
 import cn.featherfly.common.lang.ClassLoaderUtils;
 import cn.featherfly.common.lang.Lang;
 import cn.featherfly.web.WebException;
@@ -17,6 +8,23 @@ import cn.featherfly.web.servlet.ServletUtils;
 import jakarta.servlet.ServletContext;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import org.apache.commons.lang3.StringUtils;
+import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.CellStyle;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.usermodel.Workbook;
+import org.jxls.builder.JxlsStreaming;
+import org.jxls.common.PoiExceptionLogger;
+import org.jxls.common.PoiExceptionThrower;
+import org.jxls.logging.JxlsLogger;
+import org.jxls.transform.Transformer;
+import org.jxls.transform.poi.JxlsPoiTemplateFillerBuilder;
+import org.jxls.transform.poi.PoiTransformer;
+import org.jxls.transform.poi.PoiTransformerFactory;
+import org.springframework.web.servlet.view.document.AbstractXlsxView;
+
+import java.io.InputStream;
+import java.util.Map;
 
 /**
  * JxlsView.
@@ -24,6 +32,8 @@ import jakarta.servlet.http.HttpServletResponse;
  * @author zhongj
  */
 public class JxlsView extends AbstractXlsxView {
+
+    private JxlsLogger jxlsLogger = new PoiExceptionThrower();
 
     private boolean autoHeight = true;
 
@@ -40,27 +50,37 @@ public class JxlsView extends AbstractXlsxView {
             path = path + "." + suffix;
         }
         String name = StringUtils.substringAfterLast(path, "/");
-        try (InputStream in = getTemplate(path, name, request.getServletContext())) {
-            Transformer transformer = TransformerFactory.createTransformer(in, response.getOutputStream());
-            //            if (autoHeight) {
-            //                transformer.registerCellProcessor(new CellProcessor() {
-            //                    @SuppressWarnings("rawtypes")
-            //                    @Override
-            //                    public void processCell(Cell cell, Map namedCells) {
-            //                        CellStyle cellStyle = cell.getPoiCell().getCellStyle();
-            //                        cellStyle.setWrapText(true);
-            //                    }
-            //                });
-            //                transformer.registerRowProcessor(new RowProcessor() {
-            //                    @SuppressWarnings("rawtypes")
-            //                    @Override
-            //                    public void processRow(Row row, Map namedCells) {
-            //                        short h = -1;
-            //                        row.getPoiRow().setHeight(h);
-            //                    }
-            //                });
-            //            }
-            transformer.write();
+        try (InputStream is = getTemplate(path, name, request.getServletContext())) {
+            JxlsPoiTemplateFillerBuilder.newInstance()
+                .withTemplate(is)
+                .build()
+                .fill(model, response::getOutputStream);
+
+//            String[] names = new String[workbook.getNumberOfSheets()];
+//            Lang.each(workbook, (sheet, index) -> names[index] = sheet.getSheetName());
+//            Transformer transformer = JxlsPoiTemplateFillerBuilder.newInstance()
+//                .getTransformerFactory().create(is,
+//                response.getOutputStream(),
+//                JxlsStreaming.streamingWithGivenSheets(names), new PoiExceptionLogger());
+//            if (autoHeight) {
+//                transformer.registerCellProcessor(new CellProcessor() {
+//                    @SuppressWarnings("rawtypes")
+//                    @Override
+//                    public void processCell(Cell cell, Map namedCells) {
+//                        CellStyle cellStyle = cell.getCellStyle();
+//                        cellStyle.setWrapText(true);
+//                    }
+//                });
+//                transformer.registerRowProcessor(new RowProcessor() {
+//                    @SuppressWarnings("rawtypes")
+//                    @Override
+//                    public void processRow(Row row, Map namedCells) {
+//                        short h = -1;
+//                        row.getPoiRow().setHeight(h);
+//                    }
+//                });
+//            }
+//            transformer.write();
         } catch (Exception e) {
             throw new WebException(e);
         }
