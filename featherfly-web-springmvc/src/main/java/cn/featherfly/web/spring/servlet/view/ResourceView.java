@@ -24,9 +24,10 @@ import java.util.Map;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.web.servlet.view.AbstractView;
 
+import cn.featherfly.common.io.FileUtils;
 import cn.featherfly.common.io.file.FileWrapper;
 import cn.featherfly.common.lang.Lang;
-import cn.featherfly.common.lang.Strings;
+import cn.featherfly.common.lang.Str;
 import cn.featherfly.web.WebException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -49,18 +50,16 @@ public class ResourceView extends AbstractView {
         InputStream is = null;
         String name = null;
         try {
-            if (result instanceof File) {
-                File file = (File) result;
+            if (result instanceof File file) {
                 name = file.getName();
                 is = new FileInputStream(file);
-            } else if (result instanceof FileWrapper) {
-                FileWrapper file = (FileWrapper) result;
+            } else if (result instanceof FileWrapper file) {
                 name = file.getFileName();
                 is = new FileInputStream(file.getFile());
-            } else if (result instanceof InputStream) {
-                is = (InputStream) result;
-            } else if (result instanceof byte[]) {
-                is = new ByteArrayInputStream((byte[]) result);
+            } else if (result instanceof InputStream input) {
+                is = input;
+            } else if (result instanceof byte[] bs) {
+                is = new ByteArrayInputStream(bs);
             }
         } catch (FileNotFoundException e) {
             throw new WebException("文件不存在或路径不对", e);
@@ -86,7 +85,7 @@ public class ResourceView extends AbstractView {
         if (StringUtils.isBlank(getContentType())) {
             setContentType("application/octet-stream;charset=" + encodeCharset);
         }
-        if (Strings.isNotBlank(fileName)) {
+        if (Str.isNotBlank(fileName)) {
             name = fileName;
         }
         if (StringUtils.isBlank(name)) {
@@ -127,33 +126,25 @@ public class ResourceView extends AbstractView {
     }
 
     /**
-     * <p>
-     * 下载完成删除文件
-     * </p>
-     * .
+     * 下载完成删除文件.
      *
      * @param obj obj
      * @return 删除成功与否
      */
     protected boolean delete(Object obj) {
-        if (delete && obj != null) {
-            if (obj instanceof File) {
-                File file = (File) obj;
-                return file.delete();
-            } else if (obj instanceof FileWrapper) {
-                FileWrapper file = (FileWrapper) obj;
-                return file.getFile().delete();
-            }
-            throw new WebException("文件的对象不是File,FileWapper类型，不能自动删除！");
+        if (!delete || obj == null) {
+            return false;
         }
-        return false;
+        if (obj instanceof File file) {
+            return FileUtils.delete(file);
+        } else if (obj instanceof FileWrapper file) {
+            return FileUtils.delete(file.getFile());
+        }
+        throw new WebException("文件的对象不是File,FileWapper类型，不能自动删除！");
     }
 
     /**
-     * <p>
-     * 返回编码后的名称
-     * </p>
-     * .
+     * 返回编码后的名称.
      *
      * @param name the name
      * @return 编码后的名称

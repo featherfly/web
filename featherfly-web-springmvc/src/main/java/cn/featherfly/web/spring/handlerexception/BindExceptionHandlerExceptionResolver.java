@@ -15,8 +15,7 @@ public class BindExceptionHandlerExceptionResolver extends BindResultHandlerExce
      */
     @Override
     protected BindingResult getBindingResult(Exception ex) {
-        if (ex instanceof BindException) {
-            BindException bindException = (BindException) ex;
+        if (ex instanceof BindException bindException) {
             return bindException;
         }
         return null;

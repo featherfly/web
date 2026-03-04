@@ -1,14 +1,14 @@
 
 package cn.featherfly.web.spring.servlet.view.json;
 
-import cn.featherfly.web.spring.servlet.view.Result;
+import cn.featherfly.common.api.Response;
 
 /**
  * MappingJackson2JsonViewFactory.
  *
  * @author zhongj
  */
-public class ResultJsonViewFactory {
+public class ResponseJsonViewFactory {
 
     private ObjectMapperConfiguration configuration;
 
@@ -35,8 +35,8 @@ public class ResultJsonViewFactory {
      *
      * @return the result json view
      */
-    public ResultJsonView create() {
-        ResultJsonView view = new ResultJsonView();
+    public ResponseJsonView create() {
+        ResponseJsonView view = new ResponseJsonView();
         configuration.configure(view.getObjectMapper());
         return view;
     }
@@ -48,9 +48,8 @@ public class ResultJsonViewFactory {
      * @param resultObject the result object
      * @return the result json view
      */
-    @SuppressWarnings("rawtypes")
-    public <R extends Result> ResultJsonView create(R resultObject) {
-        ResultJsonView view = new ResultJsonView(resultObject);
+    public <R extends Response<?>> ResponseJsonView create(R resultObject) {
+        ResponseJsonView view = new ResponseJsonView(resultObject);
         configuration.configure(view.getObjectMapper());
         return view;
     }

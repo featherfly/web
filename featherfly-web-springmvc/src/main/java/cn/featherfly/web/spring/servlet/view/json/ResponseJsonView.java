@@ -3,20 +3,20 @@ package cn.featherfly.web.spring.servlet.view.json;
 
 import java.util.Map;
 
+import cn.featherfly.common.api.Response;
 import cn.featherfly.common.lang.Lang;
-import cn.featherfly.web.spring.servlet.view.Result;
 
 /**
  * Result Json View.
  *
  * @author zhongj
  */
-public class ResultJsonView extends ObjectJacksonJsonView {
+public class ResponseJsonView extends ObjectJacksonJsonView {
 
     /**
      * Instantiates a new result json view.
      */
-    public ResultJsonView() {
+    public ResponseJsonView() {
     }
 
     /**
@@ -24,30 +24,28 @@ public class ResultJsonView extends ObjectJacksonJsonView {
      *
      * @param message message
      */
-    public ResultJsonView(String message) {
+    public ResponseJsonView(String message) {
         this(null, message);
     }
 
     /**
      * Instantiates a new result json view.
      *
-     * @param <R>          the generic type
+     * @param <R> the generic type
      * @param resultObject resultObject
      */
-    @SuppressWarnings("rawtypes")
-    public <R extends Result> ResultJsonView(R resultObject) {
+    public <R extends Response<?>> ResponseJsonView(R resultObject) {
         this(resultObject, null);
     }
 
     /**
      * Instantiates a new result json view.
      *
-     * @param <R>          the generic type
+     * @param <R> the generic type
      * @param resultObject resultObject
-     * @param message      message
+     * @param message message
      */
-    @SuppressWarnings("rawtypes")
-    public <R extends Result> ResultJsonView(R resultObject, String message) {
+    public <R extends Response<?>> ResponseJsonView(R resultObject, String message) {
         super(resultObject);
         this.message = message;
     }
@@ -58,20 +56,16 @@ public class ResultJsonView extends ObjectJacksonJsonView {
      * @param model the model, as passed on to {@link #renderMergedOutputModel}
      * @return the value to be rendered -&gt; resultObject
      */
-    @SuppressWarnings("rawtypes")
     @Override
     protected Object filterModel(Map<String, Object> model) {
-        Result result = (Result) getResult();
-        if (result == null) {
-            result = new Result();
+        Response<?> res = (Response<?>) getResult();
+        if (res == null) {
+            res = new Response<>();
         }
         if (Lang.isNotEmpty(message)) {
-            result.setMessage(message);
+            res.setMessage(message);
         }
-        //		if (Lang.isEmpty(result.getMessage())) {
-        //		    result.setMessage("调用成功");
-        //		}
-        return result;
+        return res;
     }
 
     private String message;

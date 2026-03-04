@@ -8,7 +8,6 @@ import org.springframework.web.method.support.ModelAndViewContainer;
 
 import cn.featherfly.common.api.Response;
 import cn.featherfly.common.policy.AllowPolicy;
-import cn.featherfly.web.spring.servlet.view.Result;
 
 /**
  * ResponseBodyWrapHandler with Result.
@@ -50,7 +49,7 @@ public class ResponseBodyWrapHandler implements HandlerMethodReturnValueHandler 
             || requestPathPolicy != null && !requestPathPolicy.isAllow(webRequest)) {
             delegate.handleReturnValue(returnValue, returnType, mavContainer, webRequest);
         } else {
-            Result<Object> result = new Result<>();
+            Response<Object> result = new Response<>();
             result.setData(returnValue);
             result.setCode(Response.SUCCESS_CODE);
             delegate.handleReturnValue(result, returnType, mavContainer, webRequest);

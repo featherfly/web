@@ -10,8 +10,7 @@ public class MethodArgumentNotValidExceptionHandlerExceptionResolver extends Bin
 
     @Override
     protected BindingResult getBindingResult(Exception ex) {
-        if (ex instanceof MethodArgumentNotValidException) {
-            MethodArgumentNotValidException exception = (MethodArgumentNotValidException) ex;
+        if (ex instanceof MethodArgumentNotValidException exception) {
             return exception.getBindingResult();
         }
         return null;

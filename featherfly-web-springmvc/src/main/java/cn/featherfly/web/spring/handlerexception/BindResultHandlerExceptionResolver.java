@@ -7,7 +7,6 @@ import org.springframework.web.servlet.HandlerExceptionResolver;
 import org.springframework.web.servlet.ModelAndView;
 
 import cn.featherfly.common.api.Response;
-import cn.featherfly.web.spring.servlet.view.Result;
 import cn.featherfly.web.spring.servlet.view.json.ObjectJacksonJsonView;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -31,10 +30,10 @@ public abstract class BindResultHandlerExceptionResolver implements HandlerExcep
         Exception ex) {
         BindingResult bindingResult = getBindingResult(ex);
         if (bindingResult != null) {
-            Result<?> result = new Result<>();
+            Response<?> res = new Response<>();
             StringBuilder messages = new StringBuilder();
             if (bindingResult.hasErrors()) {
-                result.setCode(Response.DEFAULT_ERROR_CODE);
+                res.setCode(Response.DEFAULT_ERROR_CODE);
             }
             if (bindingResult.hasGlobalErrors()) {
                 for (ObjectError oe : bindingResult.getGlobalErrors()) {
@@ -46,12 +45,12 @@ public abstract class BindResultHandlerExceptionResolver implements HandlerExcep
                     messages.append(fr.getDefaultMessage()).append("，");
                 }
             }
-            if (messages.length() > 0) {
+            if (!messages.isEmpty()) {
                 messages.deleteCharAt(messages.length() - 1);
             }
-            result.setMessage(messages.toString());
+            res.setMessage(messages.toString());
             response.setStatus(httpStatus);
-            return new ModelAndView(new ObjectJacksonJsonView(result));
+            return new ModelAndView(new ObjectJacksonJsonView(res));
         }
         return null;
     }

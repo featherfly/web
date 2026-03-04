@@ -13,7 +13,6 @@ import cn.featherfly.common.api.Response;
 import cn.featherfly.common.exception.ExceptionCode;
 import cn.featherfly.common.exception.ExceptionCodeException;
 import cn.featherfly.common.lang.LogUtils;
-import cn.featherfly.web.spring.servlet.view.Result;
 import cn.featherfly.web.spring.servlet.view.json.ObjectJacksonJsonView;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -40,14 +39,14 @@ public class ExceptionHandlerExceptionResolver implements HandlerExceptionResolv
     public ModelAndView resolveException(HttpServletRequest request, HttpServletResponse response, Object handler,
         Exception ex) {
         LogUtils.error(ex, LOG);
-        Result<?> result = new Result<>();
+        Response<?> result = new Response<>();
         result.setCode(Response.DEFAULT_ERROR_CODE);
 
         response.setStatus(httpStatus);
 
         String code = null;
-        if (ex instanceof ExceptionCodeException) {
-            ExceptionCode exceptionCode = ((ExceptionCodeException) ex).getExceptionCode();
+        if (ex instanceof ExceptionCodeException ece) {
+            ExceptionCode exceptionCode = ece.getExceptionCode();
             if (exceptionCode != null) {
                 code = exceptionCode.getCode();
                 result.setCode(exceptionCode.getCode());

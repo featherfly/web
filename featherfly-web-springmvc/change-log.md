@@ -1,3 +1,6 @@
+# 1.1.0 2026-03-04
+1. 删除Result类
+
 # 1.0.3 2026-02-27
 1. 升级common-core-1.16.0,conversion-core-1.6.0,web-jakarta:1.4.0,featherfly-data-office-0.2.1
 2. 升级springframework to 6.2.16
