@@ -1,3 +1,6 @@
+# 1.1.1 2026-03-17
+1. ResponseBodyWrapHandler支持ResponseEntityReturnValueHandler (Controller返回ReponseEntity)
+
 # 1.1.0 2026-03-04
 1. 删除Result类
 

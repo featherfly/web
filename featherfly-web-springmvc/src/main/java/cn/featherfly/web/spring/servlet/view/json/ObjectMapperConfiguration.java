@@ -40,10 +40,10 @@ public class ObjectMapperConfiguration {
 
         // JsonReadFeature
         configure(mapperBuilder, JsonReadFeature.ALLOW_BACKSLASH_ESCAPING_ANY_CHARACTER,
-                allowBackslashEscapingAnyCharacter);
+            allowBackslashEscapingAnyCharacter);
         configure(mapperBuilder, JsonReadFeature.ALLOW_JAVA_COMMENTS, allowJavaComments);
         configure(mapperBuilder, JsonReadFeature.ALLOW_LEADING_DECIMAL_POINT_FOR_NUMBERS,
-                allowLeadingDecimalPointForNumbers);
+            allowLeadingDecimalPointForNumbers);
         configure(mapperBuilder, JsonReadFeature.ALLOW_LEADING_ZEROS_FOR_NUMBERS, allowLeadingZerosForNumbers);
         configure(mapperBuilder, JsonReadFeature.ALLOW_MISSING_VALUES, allowMissingValues);
         configure(mapperBuilder, JsonReadFeature.ALLOW_NON_NUMERIC_NUMBERS, allowNonNumericNumbers);
@@ -64,7 +64,7 @@ public class ObjectMapperConfiguration {
         configure(mapperBuilder, MapperFeature.CAN_OVERRIDE_ACCESS_MODIFIERS, canOverrideAccessModifiers);
         configure(mapperBuilder, MapperFeature.DEFAULT_VIEW_INCLUSION, defaultViewInclusion);
         configure(mapperBuilder, MapperFeature.IGNORE_DUPLICATE_MODULE_REGISTRATIONS,
-                ignoreDuplicateModuleRegistrations);
+            ignoreDuplicateModuleRegistrations);
         configure(mapperBuilder, MapperFeature.INFER_PROPERTY_MUTATORS, inferPropertyMutators);
         configure(mapperBuilder, MapperFeature.REQUIRE_SETTERS_FOR_GETTERS, requireSettersForGetters);
         configure(mapperBuilder, MapperFeature.SORT_PROPERTIES_ALPHABETICALLY, sortPropertiesAlphabetically);
@@ -94,7 +94,7 @@ public class ObjectMapperConfiguration {
             mapper.setDateFormat(new SimpleDateFormat(dateFormat));
         }
         if (include != null) {
-            mapper.setSerializationInclusion(include);
+            mapper.setDefaultPropertyInclusion(include);
         }
 
         // SerializationFeature
@@ -209,7 +209,7 @@ public class ObjectMapperConfiguration {
 
     private Boolean writeNanAsStrings;
 
-    private Boolean quoteFieldNames/* = true*/;
+    private Boolean quoteFieldNames/* = true */;
 
     // JsonWriteFeature
 
@@ -248,21 +248,21 @@ public class ObjectMapperConfiguration {
 
     private Boolean indentOutput;
 
-    private Boolean wrapExceptions/* = true*/;
+    private Boolean wrapExceptions/* = true */;
 
-    private Boolean failOnEmptyBeans/* = true*/;
+    private Boolean failOnEmptyBeans/* = true */;
 
-    private Boolean failOnSelfReferences/* = true*/;
+    private Boolean failOnSelfReferences/* = true */;
 
-    private Boolean failOnUnwrappedTypeIdentifiers/* = true*/;
+    private Boolean failOnUnwrappedTypeIdentifiers/* = true */;
 
     private Boolean closeCloseable;
 
-    private Boolean flushAfterWriteValue/* = true*/;
+    private Boolean flushAfterWriteValue/* = true */;
 
-    private Boolean writeDatesAsTimestamps/* = true*/;
+    private Boolean writeDatesAsTimestamps/* = true */;
 
-    private Boolean writeDurationsAsTimestamps/* = true*/;
+    private Boolean writeDurationsAsTimestamps/* = true */;
 
     private Boolean writeDateKeysAsTimestamps;
 
@@ -278,9 +278,9 @@ public class ObjectMapperConfiguration {
     //
     //    private Boolean writeEmptyJsonArrays/* = true*/;
 
-    private Boolean writeDateTimestampsAsNanoseconds/* = true*/;
+    private Boolean writeDateTimestampsAsNanoseconds/* = true */;
 
-    private Boolean eagerserializerfetch/* = true*/;
+    private Boolean eagerserializerfetch/* = true */;
 
     // SerializationFeature
 
@@ -293,18 +293,18 @@ public class ObjectMapperConfiguration {
     private Boolean useWrapperNameAsPropertyName;
     private Boolean useStdBeanNaming;
 
-    private Boolean useAnnotations/* = true*/;
-    private Boolean autoDetectCreators/* = true*/;
-    private Boolean autoDetectFields/* = true*/;
-    private Boolean autoDetectGetters/* = true*/;
-    private Boolean autoDetectIsGetters/* = true*/;
-    private Boolean autoDetectSetters/* = true*/;
-    private Boolean useGettersAsSetters/* = true*/;
-    private Boolean canOverrideAccessModifiers/* = true*/;
-    private Boolean inferPropertyMutators/* = true*/;
-    private Boolean allowFinalFieldsAsMutators/* = true*/;
-    private Boolean defaultViewInclusion/* = true*/;
-    private Boolean ignoreDuplicateModuleRegistrations/* = true*/;
+    private Boolean useAnnotations/* = true */;
+    private Boolean autoDetectCreators/* = true */;
+    private Boolean autoDetectFields/* = true */;
+    private Boolean autoDetectGetters/* = true */;
+    private Boolean autoDetectIsGetters/* = true */;
+    private Boolean autoDetectSetters/* = true */;
+    private Boolean useGettersAsSetters/* = true */;
+    private Boolean canOverrideAccessModifiers/* = true */;
+    private Boolean inferPropertyMutators/* = true */;
+    private Boolean allowFinalFieldsAsMutators/* = true */;
+    private Boolean defaultViewInclusion/* = true */;
+    private Boolean ignoreDuplicateModuleRegistrations/* = true */;
 
     // mapperfeature
 
@@ -314,10 +314,10 @@ public class ObjectMapperConfiguration {
     private Boolean strictDuplicateDetection;
     private Boolean ignoreUnknown;
 
-    private Boolean autoCloseTarget/* = true*/;
-    private Boolean autoCloseJsonContent/* = true*/;
+    private Boolean autoCloseTarget/* = true */;
+    private Boolean autoCloseJsonContent/* = true */;
 
-    private Boolean flushPassedToStream/* = true*/;
+    private Boolean flushPassedToStream/* = true */;
 
     // JsonGenerator.Feature
 
