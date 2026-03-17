@@ -1,13 +1,14 @@
 package cn.featherfly.web.spring.returnvaluehandler;
 
+import cn.featherfly.common.api.Response;
+import cn.featherfly.common.policy.AllowPolicy;
 import org.springframework.core.MethodParameter;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.context.request.NativeWebRequest;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.method.support.HandlerMethodReturnValueHandler;
 import org.springframework.web.method.support.ModelAndViewContainer;
-
-import cn.featherfly.common.api.Response;
-import cn.featherfly.common.policy.AllowPolicy;
+import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityReturnValueHandler;
 
 /**
  * ResponseBodyWrapHandler with Result.
@@ -50,9 +51,16 @@ public class ResponseBodyWrapHandler implements HandlerMethodReturnValueHandler 
             delegate.handleReturnValue(returnValue, returnType, mavContainer, webRequest);
         } else {
             Response<Object> result = new Response<>();
-            result.setData(returnValue);
             result.setCode(Response.SUCCESS_CODE);
-            delegate.handleReturnValue(result, returnType, mavContainer, webRequest);
+            if (delegate instanceof ResponseEntityReturnValueHandler && returnValue instanceof ResponseEntity) {
+                ResponseEntity<?> res = (ResponseEntity<?>) returnValue;
+                result.setData(res.getBody());
+                delegate.handleReturnValue(new ResponseEntity<>(result, res.getHeaders(), res.getStatusCode()),
+                    returnType, mavContainer, webRequest);
+            } else {
+                result.setData(returnValue);
+                delegate.handleReturnValue(result, returnType, mavContainer, webRequest);
+            }
         }
     }
 
