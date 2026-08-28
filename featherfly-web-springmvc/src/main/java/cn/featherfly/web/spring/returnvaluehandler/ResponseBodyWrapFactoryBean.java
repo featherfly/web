@@ -5,7 +5,7 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.springframework.beans.factory.InitializingBean;
-import org.springframework.web.context.request.WebRequest;
+import org.springframework.web.context.request.NativeWebRequest;
 import org.springframework.web.method.support.HandlerMethodReturnValueHandler;
 import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter;
 import org.springframework.web.servlet.mvc.method.annotation.RequestResponseBodyMethodProcessor;
@@ -27,7 +27,7 @@ public class ResponseBodyWrapFactoryBean implements InitializingBean {
 
     private final AllowDenyListPolicy<Object> returnObjectPolicy;
 
-    private final AllowDenyListPolicy<WebRequest> requestPathPolicy;
+    private final AllowDenyListPolicy<NativeWebRequest> requestPathPolicy;
 
     /**
      * Instantiates a new response body wrap factory bean.
@@ -44,7 +44,7 @@ public class ResponseBodyWrapFactoryBean implements InitializingBean {
      * @param requestPathPolicy the request path policy
      */
     public ResponseBodyWrapFactoryBean(AllowDenyListPolicy<Object> returnObjectPolicy,
-        AllowDenyListPolicy<WebRequest> requestPathPolicy) {
+        AllowDenyListPolicy<NativeWebRequest> requestPathPolicy) {
         this.returnObjectPolicy = returnObjectPolicy;
         this.requestPathPolicy = requestPathPolicy;
     }
@@ -92,7 +92,7 @@ public class ResponseBodyWrapFactoryBean implements InitializingBean {
      *
      * @return the request path policy
      */
-    public AllowDenyListPolicy<WebRequest> getRequestPathPolicy() {
+    public AllowDenyListPolicy<NativeWebRequest> getRequestPathPolicy() {
         return requestPathPolicy;
     }
 

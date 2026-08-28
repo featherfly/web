@@ -1,14 +1,14 @@
 package cn.featherfly.web.spring.returnvaluehandler;
 
-import cn.featherfly.common.api.Response;
-import cn.featherfly.common.policy.AllowPolicy;
 import org.springframework.core.MethodParameter;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.context.request.NativeWebRequest;
-import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.method.support.HandlerMethodReturnValueHandler;
 import org.springframework.web.method.support.ModelAndViewContainer;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityReturnValueHandler;
+
+import cn.featherfly.common.api.Response;
+import cn.featherfly.common.policy.AllowPolicy;
 
 /**
  * ResponseBodyWrapHandler with Result.
@@ -21,7 +21,7 @@ public class ResponseBodyWrapHandler implements HandlerMethodReturnValueHandler 
 
     private AllowPolicy<Object> returnObjectPolicy;
 
-    private AllowPolicy<WebRequest> requestPathPolicy;
+    private AllowPolicy<NativeWebRequest> requestPathPolicy;
 
     /**
      * Instantiates a new response body wrap handler.
@@ -87,7 +87,7 @@ public class ResponseBodyWrapHandler implements HandlerMethodReturnValueHandler 
      *
      * @return the request path policy
      */
-    public AllowPolicy<WebRequest> getRequestPathPolicy() {
+    public AllowPolicy<NativeWebRequest> getRequestPathPolicy() {
         return requestPathPolicy;
     }
 
@@ -96,7 +96,7 @@ public class ResponseBodyWrapHandler implements HandlerMethodReturnValueHandler 
      *
      * @param requestPathPolicy the new request path policy
      */
-    public void setRequestPathPolicy(AllowPolicy<WebRequest> requestPathPolicy) {
+    public void setRequestPathPolicy(AllowPolicy<NativeWebRequest> requestPathPolicy) {
         this.requestPathPolicy = requestPathPolicy;
     }
 }

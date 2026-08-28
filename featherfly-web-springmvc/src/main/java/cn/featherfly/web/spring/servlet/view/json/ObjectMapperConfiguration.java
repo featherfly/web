@@ -33,10 +33,10 @@ public class ObjectMapperConfiguration {
         JsonMapper.Builder mapperBuilder = JsonMapper.builder();
 
         // JsonWriteFeature
-        configure(mapperBuilder, JsonWriteFeature.WRITE_NUMBERS_AS_STRINGS, writeNumbersAsStrings);
+        configure(mapperBuilder, JsonWriteFeature.WRITE_NUMBERS_AS_STRINGS, writeNumbersAsStr);
         configure(mapperBuilder, JsonWriteFeature.ESCAPE_NON_ASCII, escapeNonAscii);
         configure(mapperBuilder, JsonWriteFeature.QUOTE_FIELD_NAMES, quoteFieldNames);
-        configure(mapperBuilder, JsonWriteFeature.WRITE_NAN_AS_STRINGS, writeNanAsStrings);
+        configure(mapperBuilder, JsonWriteFeature.WRITE_NAN_AS_STRINGS, writeNanAsStr);
 
         // JsonReadFeature
         configure(mapperBuilder, JsonReadFeature.ALLOW_BACKSLASH_ESCAPING_ANY_CHARACTER,
@@ -121,7 +121,7 @@ public class ObjectMapperConfiguration {
         configure(mapper, SerializationFeature.EAGER_SERIALIZER_FETCH, eagerserializerfetch);
 
         // Feature
-        //        configure(mapper, Feature.WRITE_NUMBERS_AS_STRINGS, writeNumbersAsStrings);
+        //        configure(mapper, Feature.WRITE_NUMBERS_AS_STRINGS, writeNumbersAsStr);
         configure(mapper, Feature.WRITE_BIGDECIMAL_AS_PLAIN, writeBigdecimalAsPlain);
         //        configure(mapper, Feature.ESCAPE_NON_ASCII, escapeNonAscii);
         configure(mapper, Feature.STRICT_DUPLICATE_DETECTION, strictDuplicateDetection);
@@ -203,11 +203,11 @@ public class ObjectMapperConfiguration {
 
     // JsonWriteFeature
 
-    private Boolean writeNumbersAsStrings;
+    private Boolean writeNumbersAsStr;
 
     private Boolean escapeNonAscii;
 
-    private Boolean writeNanAsStrings;
+    private Boolean writeNanAsStr;
 
     private Boolean quoteFieldNames/* = true */;
 
@@ -1031,21 +1031,21 @@ public class ObjectMapperConfiguration {
     }
 
     /**
-     * 返回writeNumbersAsStrings
+     * 返回writeNumbersAsStr
      *
-     * @return writeNumbersAsStrings
+     * @return writeNumbersAsStr
      */
-    public Boolean getWriteNumbersAsStrings() {
-        return writeNumbersAsStrings;
+    public Boolean getWriteNumbersAsStr() {
+        return writeNumbersAsStr;
     }
 
     /**
-     * 设置writeNumbersAsStrings
+     * 设置writeNumbersAsStr
      *
-     * @param writeNumbersAsStrings writeNumbersAsStrings
+     * @param writeNumbersAsStr writeNumbersAsStr
      */
-    public void setWriteNumbersAsStrings(Boolean writeNumbersAsStrings) {
-        this.writeNumbersAsStrings = writeNumbersAsStrings;
+    public void setWriteNumbersAsStr(Boolean writeNumbersAsStr) {
+        this.writeNumbersAsStr = writeNumbersAsStr;
     }
 
     /**
@@ -1175,21 +1175,21 @@ public class ObjectMapperConfiguration {
     }
 
     /**
-     * get writeNanAsStrings value
+     * get writeNanAsStr value
      *
-     * @return writeNanAsStrings
+     * @return writeNanAsStr
      */
-    public Boolean getWriteNanAsStrings() {
-        return writeNanAsStrings;
+    public Boolean getWriteNanAsStr() {
+        return writeNanAsStr;
     }
 
     /**
-     * set writeNanAsStrings value
+     * set writeNanAsStr value
      *
-     * @param writeNanAsStrings writeNanAsStrings
+     * @param writeNanAsStr writeNanAsStr
      */
-    public void setWriteNanAsStrings(Boolean writeNanAsStrings) {
-        this.writeNanAsStrings = writeNanAsStrings;
+    public void setWriteNanAsStr(Boolean writeNanAsStr) {
+        this.writeNanAsStr = writeNanAsStr;
     }
 
     /**
@@ -1214,22 +1214,22 @@ public class ObjectMapperConfiguration {
      * 返回quoteNonNumericNumbers
      *
      * @return quoteNonNumericNumbers
-     * @deprecated {@link #getWriteNanAsStrings()}
+     * @deprecated {@link #getWriteNanAsStr()}
      */
     @Deprecated
     public Boolean getQuoteNonNumericNumbers() {
-        return getWriteNanAsStrings();
+        return getWriteNanAsStr();
     }
 
     /**
      * 设置quoteNonNumericNumbers
      *
      * @param quoteNonNumericNumbers quoteNonNumericNumbers
-     * @deprecated {@link #setWriteNanAsStrings(Boolean)}
+     * @deprecated {@link #setWriteNanAsStr(Boolean)}
      */
     @Deprecated
     public void setQuoteNonNumericNumbers(Boolean quoteNonNumericNumbers) {
-        setWriteNanAsStrings(quoteNonNumericNumbers);
+        setWriteNanAsStr(quoteNonNumericNumbers);
     }
 
     /**

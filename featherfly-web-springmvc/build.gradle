@@ -6,23 +6,23 @@ apply from: './gradle/java_base.gradle'
 apply from: './gradle/maven_push.gradle'
 
 ext {
-    sv = '6.2.16'
+    sv = '7.0.9'
 }
 
 dependencies {
     //api 'cn.featherfly.common:common-api:0.5.1'
     api 'cn.featherfly.common:common-model-api:0.2.2'
-    api 'cn.featherfly.common:common-core:1.16.0'
+    api 'cn.featherfly.common:common-core:1.16.1'
     api 'cn.featherfly.conversion:conversion-core:1.6.0'
     api 'cn.featherfly.web:web-jakarta:1.4.0'
     api 'cn.featherfly:featherfly-data-office:0.2.1'
-    api 'org.springframework:spring-web:' + sv
-    api 'org.springframework:spring-webmvc:' + sv
+    api "org.springframework:spring-web:${sv}"
+    api "org.springframework:spring-webmvc:${sv}"
     //api 'org.springframework:spring-context-support:' + sv
     api 'jakarta.annotation:jakarta.annotation-api:3.0.0'
-    api 'org.jxls:jxls:3.0.0'
-    api 'org.jxls:jxls-poi:3.0.0'
-    api 'com.fasterxml.jackson.core:jackson-databind:2.21.1'
+    api 'org.jxls:jxls:3.2.0'
+    api 'org.jxls:jxls-poi:3.2.0'
+    implementation 'com.fasterxml.jackson.core:jackson-databind:2.22.2'
 
     testImplementation(
         'org.testng:testng:7.1.0'

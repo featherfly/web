@@ -1,3 +1,7 @@
+# 1.2.0 2026-08-28
+1. ResponseBodyWrapFactoryBean和ResponseBodyWrapHandler的requestPathPolicy泛型参数改为NativeWebRequest
+2. 升级springframework到7.0.9
+
 # 1.1.1 2026-03-17
 1. ResponseBodyWrapHandler支持ResponseEntityReturnValueHandler (Controller返回ReponseEntity)
 

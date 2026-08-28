@@ -16,7 +16,7 @@ import org.springframework.http.converter.HttpMessageNotReadableException;
 
 import cn.featherfly.common.bean.BeanUtils;
 import cn.featherfly.common.lang.Lang;
-import cn.featherfly.common.lang.Strings;
+import cn.featherfly.common.lang.Str;
 import cn.featherfly.common.lang.UriUtils;
 import cn.featherfly.web.WebException;
 import cn.featherfly.web.servlet.ServletUtils;
@@ -221,7 +221,7 @@ public abstract class AttachHttpMessageConverter extends AbstractGenericHttpMess
     protected Object getDataFromResult(Object result, HttpServletRequest request) {
         String rp = getResolverPath(request);
         if (result != null) {
-            if (Strings.isNotBlank(rp)) {
+            if (Str.isNotBlank(rp)) {
                 return BeanUtils.getProperty(result, rp);
             } else {
                 return result;
